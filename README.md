@@ -6,3 +6,4 @@
 
 - **IOS youtube API 사용 :** https://github.com/ydj515/record-study/tree/master/ios_youtube_api
 
+- **Django & Flask :** https://github.com/ydj515/record-study/tree/master/Django_and_Flask

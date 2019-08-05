@@ -2,8 +2,7 @@
 
 공부한거 기록
 
-Android youtube API 사용 예제
-https://github.com/ydj515/record-study/tree/master/android_youtube_api
+- **Android youtube API 사용 :** https://github.com/ydj515/record-study/tree/master/android_youtube_api
 
-IOS youtube API 사용 
-https://github.com/ydj515/record-study/tree/master/ios_youtube_api
+- **IOS youtube API 사용 :** https://github.com/ydj515/record-study/tree/master/ios_youtube_api
+

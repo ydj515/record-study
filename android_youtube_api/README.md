@@ -6,7 +6,7 @@ overview에 download로 들어가기
 YouTubeAndroidPlayerApi-1.2.2.zip 다운로드
 압축 해제 후 File - Project Structure - Dependencies에서 +를 누르고 Jar Dependecy에 압축을 푼 폴더에 libs 밑의 YouTubeAndroidPlayerApi.jar의 경로를 추가후 apply
 이와 같이 나오면 ok를 
-![1](https://user-images.githubusercontent.com/32935365/62461459-d7e11600-b7bf-11e9-8838-37eb37a80a67.PNG)
+![1](https://user-images.githubusercontent.com/32935365/62464897-b2a4d580-b7c8-11e9-8f9e-32cd4fe63be0.PNG)
 
 밑의 사이트에 들어가서
 프로젝트 생성 후 사용자 인증정보 만들기 - api키

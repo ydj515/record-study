@@ -8,4 +8,6 @@
 
 - **Django & Flask :** https://github.com/ydj515/record-study/tree/master/Django_and_Flask
 
-- **Spring & Spring Boot :** https://github.com/ydj515/record-study/tree/master/Spring_and_SpringBoot
+- **Spring :** https://github.com/ydj515/record-study/tree/master/Spring
+
+- **Spring Boot :** https://github.com/ydj515/record-study/tree/master/SpringBoot

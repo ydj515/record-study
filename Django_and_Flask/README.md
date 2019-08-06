@@ -163,7 +163,81 @@
    ```
    
 #### SqlAlchemy
--
+- **설치**
+  - **pip install**  
+  ```
+  pip install flask_sqlalchemy
+  ```
+  - **import**
+  ```python
+  from flask_sqlahcmey import SQLAlchemy
+  ```
+- **app객체 설정**  
+  -__init__.py에서 설정  
+  ```python
+  app = Flask(__name__)
+
+  app.config['SECRET_KEY'] = 'this is secret' # secret key 추가
+  app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db' # 
+  app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # 
+
+  db = SQLAlchemy(app) # SQLAlchemy객체 생성
+  ```
+- **config 파일 생성**  
+  -config.py에서 설정  
+  ```python
+  SQLALCHEMY_DATABASE_URI = 'mysql://<mysqluser>:<password>@<mysqlhostname>/<databasename>?charset=utf8'
+  ```
+- **DB 생성**
+
+```python
+from werkzeug.security import generate_password_hash, check_password_hash
+
+class User(db.Model):
+  __table_name__ = 'user'
+ 
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
+    profile_image = db.Column(db.String(100), default='default.png')
+ 
+  def __init__(self, username, email, password, **kwargs):
+      self.username = username
+      self.email = email
+ 
+      self.set_password(password)
+ 
+  def __repr__(self):
+        return f"<User('{self.id}', '{self.username}', '{self.email}')>"
+ 
+  def set_password(self, password):
+    self.password = generate_password_hash(password) # 비밀번호 암호화
+    print(self.password)
+ 
+  def check_password(self, password):
+    return check_password_hash(self.password, password) # 맞으면 True, 틀리면 False를 return
+```  
+
+- **Create**  
+```python
+from app import app, db, User
+db.create_all()
+```
+
+- **Update**  
+```python
+from app import app, db, User, Post
+user1 = User(id=1, username='dongjin', email='ydj515@naver.com', password='ehdwls515' )
+user2 = User(id=2, username='yoodong', email='ydj515@google.com', password='elwpdl515' )
+db.session.add(user1)
+db.session.add(user2)
+db.session.commit() # commit을 해주어야 db 반영
+```
+
+- **Delete**  
+```python
+```
 
 ### Form vs. flask-wtf
 #### Form

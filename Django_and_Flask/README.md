@@ -25,8 +25,6 @@
 - **높은 자유도**  
  처음부터 주어진 기능이 없기에 내가 원하는 설계 방향대로 framework를 구축해 나갈 수 있다는 장점
 - 템플릿 엔진 **Jinja2** 사용
-
- 
 - 실제 사용 예 : **Linked-in**
 
 
@@ -166,7 +164,7 @@
 - **설치**
   - **pip install**  
   ```
-  pip install flask_sqlalchemy
+  $ pip install flask_sqlalchemy
   ```
   - **import**
   ```python
@@ -240,10 +238,16 @@ db.session.commit() # commit을 해주어야 db 반영
 ```
 
 ### Form vs. flask-wtf
-#### Form
+#### Form  
+- Django에서 form을 처리하는 방식
+![form](https://user-images.githubusercontent.com/32935365/62533995-f2c88e80-b882-11e9-86f4-0ea7d4eadccf.PNG)
 -
 #### flask-wtf
--
+- **설치**
+  - **pip install**  
+  ```
+  $ pip install flask-wtf
+  ```
 
 ### Template Engine vs. Jinja2
 #### Template Engine
@@ -297,4 +301,6 @@ db.session.commit() # commit을 해주어야 db 반영
 [이미지 출처]  
 https://ehclub.co.kr/3446  
 https://speakerdeck.com/nerogit/django-vs-flask-ggabobsida?slide=37  
-https://brownbears.tistory.com/63
+https://brownbears.tistory.com/63  
+https://developer.mozilla.org/ko/docs/Learn/Server-side/Django/Forms  
+https://cozy-ho.github.io/flask/2017/10/19/flask-day04.html  

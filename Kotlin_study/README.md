@@ -81,9 +81,9 @@
 
 ### Mainactivity
 
-- Java  
+- **Java**  
 ![java](https://user-images.githubusercontent.com/32935365/62598107-35da3e80-b923-11e9-8f4c-b28bd8044933.PNG)
-- Kotlin  
+- **Kotlin**  
 ![kotlin](https://user-images.githubusercontent.com/32935365/62598116-3d014c80-b923-11e9-879a-8d503076b64b.PNG)
 
 [이미지 출처]  

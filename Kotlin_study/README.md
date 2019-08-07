@@ -52,29 +52,44 @@
 - **Effectively handle Nullpointerexception**
 -String에 NULL을 집어 넣을 수 없으므로 Nullpointerexception을 Java보다 디버깅이 용이
 - 상속 받지 않고도 클래스 확장이 가능
+  ```kotlin
+  fun Context.showToast(text: CharSequence, duration: Int = Toast.LENGTH_SHORT) { // Toast메시지 확장
+     Toast.makeText(this, text, duration).show()
+  }
+  
+  fun Context.startCallActivity(myName: String) { // startActivity 확장
+     val intent = Intent(Intent.ACTION_DIAL)
+     val uri = "tel:$myName"
+     intent.data = Uri.parse(uri)
+     startActivity(intent)
+  }
+  
+  showToast("호로록")
+  startCallActivity("유동진이야")
+  ```
 - 객체지향 언어지만 함수형 언어의 장점인 **람다식 표현을 차용**  
   사용되지 않는 view마저도 없애버릴 수 있음 => 코드가 간결해짐
   - **Java**
-  ```java
-  button.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View view) {
-      // TODO
-      }
-  });
+   ```java
+   button.setOnClickListener(new View.OnClickListener() {
+       @Override public void onClick(View view) {
+       // TODO
+       }
+   });
 
-  ```
+   ```
   - **java의 람다식 표현**
-  ```java
-  button.setOnClickListener(view -> {
-      // TODO
-  });
-  ```
+   ```java
+   button.setOnClickListener(view -> {
+       // TODO
+   });
+   ```
   - **Kotlin**
-  ```kotlin
-  button.setOnClickListener {
-      // TODO
-  }
-  ```
+   ```kotlin
+   button.setOnClickListener {
+       // TODO
+   }
+   ```
 - **사용방식**  
 ![111](https://user-images.githubusercontent.com/32935365/62598179-7a65da00-b923-11e9-8069-a723c185ba32.png)
 ## Android에서 Kotlin 사용

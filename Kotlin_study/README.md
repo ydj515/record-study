@@ -1,11 +1,11 @@
 # Kotlin Study
 
 ## What is Kotlin?
-- 자바 가상머신에 돌아가는 JVM 언어의 하나
-- 2017년 구글 I/O에서 코틀린은 공식언어로 지정
+- 자바 가상머신에 돌아가는 **JVM 언어의 하나**
+- 2017년 구글 I/O에서 코틀린은 **공식언어로 지정**
 
 ## Why Kotlin?
-- More simpler than JAVA  
+- **More simpler** than JAVA  
   -코드의 간결성은 가독성을 높힌다.
   ```java
   class Person {
@@ -49,11 +49,12 @@
     var grade: Int=0
   }
   ```
-- Effectively handle Nullpointerexception
+- **Effectively handle Nullpointerexception**
 -String에 NULL을 집어 넣을 수 없으므로 Nullpointerexception을 Java보다 디버깅이 용이
 - 상속 받지 않고도 클래스 확장이 가능
-- 객체지향 언어지만 함수형 언어의 장점인 람다식 표현을 차용  
+- 객체지향 언어지만 함수형 언어의 장점인 **람다식 표현을 차용**  
   사용되지 않는 view마저도 없애버릴 수 있음 => 코드가 간결해짐
+  - **Java**
   ```java
   button.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View view) {
@@ -62,19 +63,19 @@
   });
 
   ```
-  java의 람다식 표현은 밑의 코드와 같다.
+  - **java의 람다식 표현**
   ```java
   button.setOnClickListener(view -> {
       // TODO
   });
   ```
-  Kotlin
+  - **Kotlin**
   ```kotlin
   button.setOnClickListener {
       // TODO
   }
   ```
-- 사용방식  
+- **사용방식**  
 ![111](https://user-images.githubusercontent.com/32935365/62598179-7a65da00-b923-11e9-8069-a723c185ba32.png)
 ## Android에서 Kotlin 사용
 

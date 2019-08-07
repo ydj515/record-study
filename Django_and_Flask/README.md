@@ -26,6 +26,7 @@
  처음부터 주어진 기능이 없기에 내가 원하는 설계 방향대로 framework를 구축해 나갈 수 있다는 장점
 - 템플릿 엔진 **Jinja2** 사용
 - 실제 사용 예 : **Linked-in**
+- **Python 3.6 버전부터 지원**
 
 
 ## 차이점
@@ -248,12 +249,81 @@ db.session.commit() # commit을 해주어야 db 반영
   ```
   $ pip install flask-wtf
   ```
+- **문법**  
+  - **WTForms HTML Field**  
+  ![11](https://user-images.githubusercontent.com/32935365/62620963-997d5f80-b955-11e9-9108-d1c2d0d0122e.PNG)  
+
+  - **WTForms Validator**  
+  ![22](https://user-images.githubusercontent.com/32935365/62620994-adc15c80-b955-11e9-9b7f-0023d395f3dd.PNG)
+  - **예시**  
+-myFlask/app.py
+  ```python
+
+  @app.route('/', methods=['GET', 'POST'])
+  def index():
+    name = None
+    form = ProgramForm()
+
+    if form.validate_on_submit() == True:
+        name = form.name.data
+        form.name.data =''
+
+    return render_template('index.html', form=form, name=name)
+  ```
+  -myFlask/templates/index.html
+  ```jinja
+  {% block content %}
+    <div class="container">
+      <div class="page-header">
+        <h1>Input Your Value is : {% if name %} {{ name }} {% else %} None {% endif %} !</h1>
+
+        <form method="POST">
+          {{ form.csrf_token }}
+          {{ form.name.label }} {{ form.name() }}
+          {{ form.submit() }}
+        </form>
+      </div>
+      {{ wtf.quick_form(form) }}
+    </div>
+   {% endblock %}
+  ```
+  
 
 ### Template Engine vs. Jinja2
 #### Template Engine
--
+-Flask의 Jinja2와 흡사
+- **예시**
+```django
+{% if count > 0 %}
+    Data Count = {{ count }}
+{% else %}
+    No Data
+{% endif %}
+ 
+{% for item in dataList %}
+  <li>{{ item.name }}</li>
+{% endfor %}
+ 
+{% csrf_token %}
+```  
+
 #### Jinja2
--
+-Django의 Template Engine과 거의 흡사  
+-Jinja의 표현방식이 좀 더 python 문법에 가까움
+- **설치**
+  - **pip install**  
+  ```
+  $ pip install jinja2
+  ```
+- **예시**  
+-아래와 같이 python과 비슷하다.
+```jinja2
+{% for item in myItems %}
+<li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+{% endfor %}
+```
+-여러 문법의 사용은 https://github.com/ydj515/FlaskWeb 여기에 있다.
+
 
 ### Admin Page vs. flask-admin
 #### Admin Page
@@ -263,10 +333,115 @@ db.session.commit() # commit을 해주어야 db 반영
 
 ### Middleware vs. before_request, after_request
 #### Middleware
--
-#### before_request, after_request
--
+- **Middle ware란?**  
+-Middleware is a framework of hooks into Django’s request/response processing. It’s a light, low-level “plugin” system for globally altering Django’s input or output.  
+-즉, 장고는 http 요청이 들어오면 미들웨어를 거쳐서 해당 URL 에 등록되어 있는 뷰로 연결해주고, http 응답 역시 미들웨어를 거쳐서 내보낸다.  
+-**HTTP Request, HTTP Response에 대한 전처리를 한다.**  
+![33](https://user-images.githubusercontent.com/32935365/62621669-75bb1900-b957-11e9-843f-b48f5db5454c.PNG)
 
+- **예시**
+ ```python
+  import re # 정규식을 위한 
+  from rest_framework.status import is_client_error, is_success
+
+
+   class ResponseFormattingMiddleware:
+       
+       # Rest Framework 을 위한 전용 커스텀 미들웨어에 대해 response format 을 자동으로 세팅
+       
+       METHOD = ('GET', 'POST', 'PUT', 'PATCH', 'DELETE')
+
+       def __init__(self, get_response):
+           self.get_response = get_response
+           self.API_URLS = [
+               re.compile(r'^(.*)/api'),
+               re.compile(r'^api'),
+           ]
+
+       def __call__(self, request):
+       
+           response = None
+           
+           if not response:
+               response = self.get_response(request)
+           if hasattr(self, 'process_response'):
+               response = self.process_response(request, response)
+               
+           return response
+
+       def process_response(self, request, response):
+           
+           # API_URLS 와 method 가 확인이 되면 response 로 들어온 data 형식에 맞추어
+           # response_format 에 넣어준 후 response 반환
+           
+           path = request.path_info.lstrip('/')
+           valid_urls = (url.match(path) for url in self.API_URLS)
+
+           if request.method in self.METHOD and any(valid_urls):
+               response_format = {
+                   'success': is_success(response.status_code),
+                   'result': {},
+                   'message': None
+               }
+
+               if hasattr(response, 'data') and \
+                       getattr(response, 'data') is not None:
+                   data = response.data
+                   try:
+                       response_format['message'] = data.pop('message')
+                   except (KeyError, TypeError):
+                       response_format.update({
+                           'result': data
+                       })
+                   finally:
+                       if is_client_error(response.status_code):
+                           response_format['result'] = None
+                           response_format['message'] = data
+                       else:
+                           response_format['result'] = data
+
+                       response.data = response_format
+                       response.content = response.render().rendered_content
+               else:
+                   response.data = response_format
+   
+           return response
+ ```
+#### before_request, after_request
+-Middle ware와 비슷하게 request의 전처리 후처리를 해주는 역할을 한다.
+- **예시**
+  ```python
+  @app.before_first_request
+  def before_first_request(): # request 요청 처음에만
+      pass
+
+  @app.before_request
+  def before_request():
+      # 매 번의 request시 호출
+      # app.route()의 경로가 어디든 before_request()는 호출됨
+      # 1. filter 역할도 해줄 수 있다는 것임
+      # 2. DB connection 열기
+      print("before request!!")
+      g.str = "한글" # g : application context(모든 유저가 사용 가능)
+
+   @app.after_request
+   def after_request():
+      # 매번 request가 종료되는 시점
+      # response가 끈나고 불림
+      # 1. DB connection 닫기
+      pass
+
+  @app.teardown_request
+  def teardown_request(Exception):
+      # after_reqeust 후에 실행
+      # 오류처리
+      pass
+
+  @app.teardown_appcontext
+  def teardown_appcontext(Exception):
+      # app context 끝나고 불림
+      pass
+  ```
 ### manage.py vs manage.py vs. flask-scripts
 #### manage.py
 -
@@ -304,3 +479,5 @@ https://speakerdeck.com/nerogit/django-vs-flask-ggabobsida?slide=37
 https://brownbears.tistory.com/63  
 https://developer.mozilla.org/ko/docs/Learn/Server-side/Django/Forms  
 https://cozy-ho.github.io/flask/2017/10/19/flask-day04.html  
+https://has3ong.tistory.com/m/443?category=831354  
+https://gyukebox.github.io/blog/django-%EC%BB%A4%EC%8A%A4%ED%85%80-%EB%AF%B8%EB%93%A4%EC%9B%A8%EC%96%B4-%EB%A7%8C%EB%93%A4%EA%B8%B0---rest-framework-%EB%A5%BC-%EC%9C%84%ED%95%9C-http-response-formatting/  

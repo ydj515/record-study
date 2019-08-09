@@ -57,12 +57,130 @@
 
 ## Required Configuration
 - **Maven Configuration**  
-  -POM.xml
+  -pom.xml
 - **Web deployment descriptor**  
   -web.xml
-- **Spring MVC Configuration
-  -root-context.xml
-  -servlet-context.xml
+- **Spring MVC Configuration**  
+  -root-context.xml  
+  -servlet-context.xml  
+  
+### Maven Configuration  
+- **pom.xml**
+```xml
+ <!-- application 식별자 역활-->
+<groupId>kr.ac.hansung</groupId>
+<artifactId>helloSpringMVC</artifactId>
+<name>helloSpringMVC</name>
+<packaging>war</packaging>
+<version>1.0.0-BUILD-SNAPSHOT</version>
+```
+
+```xml
+<!-- Spring -->
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-context</artifactId>
+  <version>${org.springframework-version}</version>
+  <exclusions>
+    <!-- Exclude Commons Logging in favor of SLF4j -->
+    <exclusion>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </exclusion>
+  </exclusions>
+</dependency>
+```
+
+```xml
+<!-- Spring MVC -->
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-webmvc</artifactId>
+  <version>${org.springframework-version}</version>
+</dependency>
+```
+
+```xml
+<!-- spring jdbc -->
+<dependency>
+  <groupId>org.springframework</groupId>
+  <artifactId>spring-jdbc</artifactId>
+  <version>${org.springframework-version}</version>
+</dependency>
+
+<!-- commons-dbcp2 -->
+<dependency>
+  <groupId>org.apache.commons</groupId>
+  <artifactId>commons-dbcp2</artifactId>
+  <version>2.1.1</version>
+</dependency>
+
+<!-- mysql-connector-java -->
+<dependency>
+  <groupId>mysql</groupId>
+  <artifactId>mysql-connector-java</artifactId>
+  <version>8.0.11</version>
+</dependency>
+```
+
+### Web deployment descriptor
+- **web.xml**
+
+```xml
+<!-- 공유되는 bean... contextloadlistener가 읽어서 container를 구성 -->
+<context-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value> <!-- 각 xml 설정파일을 등록해야지만 사용 가능-->
+  /WEB-INF/spring/appServlet/dao-context.xml
+  /WEB-INF/spring/appServlet/service-context.xml
+  /WEB-INF/spring/appServlet/security-context.xml
+  </param-value>
+</context-param>
+
+<listener>
+  <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
+
+<servlet>
+  <servlet-name>appServlet</servlet-name>
+  <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> <!-- 1. DispatcherServlet 동작-->
+  <init-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value> <!-- 2. servlet-context.xml이라는 설정파일 읽음-->
+  </init-param>
+  <load-on-startup>1</load-on-startup>
+</servlet>
+
+<servlet-mapping>
+  <servlet-name>appServlet</servlet-name>
+  <url-pattern>/</url-pattern>
+</servlet-mapping>
+```
+
+### **Spring MVC Configuration**
+- **root-context.xml**
+- **servlet-context.xml**
+-Dispatcher Servlet이 읽어들이는 설정파일
+```xml
+<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+
+<!-- annotation 기능 활성화 -->
+<annotation-driven />
+
+<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
+<resources mapping="/resources/**" location="/resources/" /> <!-- 정적인page정의 어차피 controller가 관여안하니깐 중요하지않다 -->
+
+<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+<!-- View Resolver-->
+<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+  <beans:property name="prefix" value="/WEB-INF/views/" />
+  <beans:property name="suffix" value=".jsp" />
+</beans:bean>
+
+<!-- 패키지를 scan 해서 controller, component와 같은 것을 자동으로 bean으로 등록해줌-->
+<context:component-scan base-package="kr.ac.hansung.controller" />
+```
+
 
 [이미지 출처]  
 https://namu.wiki/w/Spring(%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC)  

@@ -38,6 +38,31 @@
 - AOP : 스프링 프레임워크에서 제공하는 AOP 패키지를 제공
 - Web : Spring Web MVC, Struts, WebWork 등 웹 어플리케이션 구현에 도움되는 기능을 제공
 
+## Spring MVC Framework
+- **Model** : POJO
+- **View** : HTML output
+- **Controller** : 모델을 다루고 적절한 View를 rendering 해줌  
+![1](https://user-images.githubusercontent.com/32935365/62798081-5c14ff80-bb18-11e9-832e-3fed980b3fcd.PNG)
+
+- **Dispatcher servlet**  
+  -front controller의 역활로써 "/"이하의 모든 request를 처음 받는 주체
+- **Handler Mapping**  
+  -request URL과 controller class를 XML 설정과 annotation을 보고 mapping 시켜줌
+- **Controller**  
+  -request를 받아서 다른 business/service class를 호출하며 model object를 view로 보내줌
+- **View Resolver**  
+  -view의 logical name을 토대로 physical view file을 찾음
+- **View**  
+  -physical view file
+
+## Required Configuration
+- **Maven Configuration**  
+  -POM.xml
+- **Web deployment descriptor**  
+  -web.xml
+- **Spring MVC Configuration
+  -root-context.xml
+  -servlet-context.xml
 
 [이미지 출처]  
 https://namu.wiki/w/Spring(%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC)  

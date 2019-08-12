@@ -1,7 +1,7 @@
 # Spring
 ![111](https://user-images.githubusercontent.com/32935365/62720125-4fbf7280-ba44-11e9-9c40-de7974831d59.PNG)  
 -https://github.com/ydj515/WebFrameWork2_Report1  
--https://github.com/ydj515/WebFrameWork2_Report2
+-https://github.com/ydj515/WebFrameWork2_Report2  
 -https://github.com/ydj515/helloSpringMVC
 
 ## What is Spring
@@ -374,3 +374,26 @@ ex) id, password
 [이미지 출처]  
 https://namu.wiki/w/Spring(%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC)  
 https://postitforhooney.tistory.com/entry/SpringCSRF-CSRF란-무엇인가
+
+## Spring Web Form
+- https://github.com/ydj515/helloSpringMVC
+
+### sf 활성화
+-JSP 상단에 넣어야함
+```jsp
+<%@ taglib prefix="sf" uri="http://www.springframework.org/tags/form"%>
+```
+- form
+```jsp
+<sf:form method="post" action="${pageContext.request.contextPath}/docreate"	modelAttribute="offer">
+  <!-- offer라는 객체에 path값을 매칭 -->
+  <table class="formtable">
+    <tr><td class="label">Name:</td><td><sf:input class="control" type="text" path="name" /> <br/>
+    <tr><td class="label">Email :</td><td><sf:input class="control" type="text" path="email" /><br/>
+      <sf:errors path="email" class="error" /></td></tr>
+    <tr><td class="label">Offer :</td>	<td><sf:textarea class="control" path="text" rows="10" cols="10"/><br/>
+      <sf:errors path="text" class="error" /></td></tr>
+    <tr><td class="label"></td>	<td><input class="control" type="submit" value="새 제안" /></td></tr>
+  </table>
+</sf:form>
+```

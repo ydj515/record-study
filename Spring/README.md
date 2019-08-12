@@ -57,7 +57,7 @@
 - **View**  
   -physical view file
 
-## Required Configuration
+### Required Configuration
 - **Maven Configuration**  
   -pom.xml
 - **Web deployment descriptor**  
@@ -333,7 +333,43 @@ ex) id, password
 </security:http>
 ```
 
+## Logging with SLF4J & Logback
+- 코드는 밑에 있엉
+-https://github.com/ydj515/helloSpringMVC/blob/master/src/main/java/kr/ac/hansung/controller/HomeController.java
+- debugging과 recording user interation  
 
+사진
+
+
+
+### Logging vs. debugger
+- logging은 사용자 개입이 필요 x -> 오로지 기록만
+- debugger는 사용자의 개입이 필요 o -> ex) break
+
+### Logging Configuration
+#### pom.xml
+
+```xml
+<!-- Logging -->
+<dependency>
+  <groupId>org.slf4j</groupId>
+  <artifactId>slf4j-api</artifactId>
+  <version>${org.slf4j-version}</version>
+</dependency>
+<dependency>
+  <groupId>org.slf4j</groupId>
+  <artifactId>jcl-over-slf4j</artifactId>
+  <version>${org.slf4j-version}</version>
+  <scope>runtime</scope>
+</dependency>
+
+<dependency>
+  <groupId>ch.qos.logback</groupId>
+  <artifactId>logback-classic</artifactId>
+  <version>1.2.3</version>
+  <scope>compile</scope>
+</dependency>
+```
 
 [이미지 출처]  
 https://namu.wiki/w/Spring(%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC)  

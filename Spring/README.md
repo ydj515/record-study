@@ -2,6 +2,7 @@
 ![111](https://user-images.githubusercontent.com/32935365/62720125-4fbf7280-ba44-11e9-9c40-de7974831d59.PNG)  
 -https://github.com/ydj515/WebFrameWork2_Report1  
 -https://github.com/ydj515/WebFrameWork2_Report2
+-https://github.com/ydj515/helloSpringMVC
 
 ## What is Spring
 - Java/JSP 기반의 웹 프레임워크
@@ -182,6 +183,158 @@
 <context:component-scan base-package="kr.ac.hansung.controller" />
 ```
 
+## Spring Security
+-https://github.com/ydj515/helloSpringMVC
+- Authentication(인증)
+- Authorization(권한)
+- CSRF
+- Filter(DelegatingFilterProxy)
+
+### Authentication
+-자신이 누구라고 주장하는 사람을 확인하는 절차  
+ex) admin, user ...
+
+### Authorization
+-가고 싶은 곳으로 가도록 혹은 원하는 정보를 얻도록 허용하는 과정  
+ex) id, password
+
+### CSRF
+**CSRF(Cross site request forgery, 사이트간 요청 위조)** 란 웹 사이트의 취약점을 이용하여 사용자가 의도하지 않는 요청을 송신하도록 하는 공격의 의미합니다. 이는 http프로토콜의 상태없음(stateless) 특성에 기인한 특정 웹 어플리케이션에 대한 일련의 요청들의 상관관계를 특정할 수 없기 때문에 세션 유지등에 일반적으로 사용되는 쿠키 정보 등이 조건만 만족한다면 자동적으로 송신되기 때문에 가능합니다. 여기서 상관관계를 특정할 수 없다는 의미는 예를 들어 카트화면 -> 주문정보 입력 -> 주문완료로 이어지는 주문 프로세스를 가진 웹 어플리케이션에서 각각의 페이지에대한 요청이 연속적으로 이어지는지에 대한 제어를 할 수 없다는 것을 의미합니다. 이 공격수법은 결과적으로 피해자가 의도한 요청과 동일한 과정으로 진행되므로 공격자에 대한 추적이 어려울 수 있으며 피해자에게 인가된 범위안에서만 공격이 이루어진다는 특징이 있습니다.(피해자가 특정 웹 어플리케이션의 관리자 계정으로 인증&인가된 상태라면 피해범위가 커질 수 있습니다.)
+
+#### 대략적인 공격 시나리오
+공격자가 공격코드를 가진 웹페이지를 제작하여 공개하거나 특정 웹 사이트에 공격용 코드를 삽입
+피해자가 공격자가 준비해둔 페이지에 접속
+피해자(피해자의 브라우저)는 공격자가 준비해둔 요청을 서버로 송신
+
+#### 공격방법
+-CSRF공격방법에는 정형화된 수법이 있다기 보다는 웹에 요청을 보낼수 있는 모든 방법이 공격방법이 된다고 할 수 있다. javascript와 ajax를 이용한 방법, **전통적인 form방법**, img태그를 이용한 방법 등등 요청을 보낼수 있는 방법이라면 그 어떤 것이라도 가능하다.
+
+#### 대책
+일반적으로 가장 널리 이용되는 방법에는 Synchronizer token pattern(동기화된 토큰 패턴)이 있다. 이 패턴은 서버 사이드(세션 스코프 등)에 보관된 토큰을 CSRF방어가 필요한 요청마다 포함(**요청할 form에 hidden필드를 이용하여 토큰을 추가**)시켜서 요청하고 서버에서 비교하는 방식으로 CSRF를 방어하는 방법이다. 가장 간단한 방식으로 사용자 경험에 영향을 주지 않는 방식으로 방어할 수 있으므로 널리 사용된다. 이 경우 토큰은 세션ID와 동일한 수준의 보호 수단이 필요하다.(SSL이용, URL노출 금지, 출력대상 페이지 캐시 컨트롤, xss취약점 방어 등등) 토큰의 유출이 염려스러운 경우 토큰 갱신 혹은 세션 파기 등등 즉각적인 조치가 필요하다.
+
+#### pom.xml
+```xml
+<!-- spring-security-config -->
+<dependency>
+  <groupId>org.springframework.security</groupId>
+  <artifactId>spring-security-config</artifactId>
+  <version>${spring-security-version}</version>
+</dependency>
+
+<dependency>
+  <groupId>org.springframework.security</groupId>
+  <artifactId>spring-security-web</artifactId>
+  <version>${spring-security-version}</version>
+</dependency>
+
+<dependency>
+  <groupId>org.springframework.security</groupId>
+  <artifactId>spring-security-core</artifactId>
+  <version>${spring-security-version}</version>
+</dependency>
+```
+
+#### loginFormExample.jsp
+```jsp
+<form name='f' action="<c:url value="/login"/>" method='POST'>
+  <!-- error message 출력-->
+  <c:if test="${not empty errorMsg }">
+    <div style="color: #ff0000">
+      <h3>${errorMsg }</h3>
+    </div>
+  </c:if>
+
+  <table>
+    <tr>
+      <td>User:</td>
+      <td><input type='text' name='username' value=''></td>
+    </tr>
+
+    <tr>
+      <td>Password:</td>
+      <td><input type='password' name='password' value=''></td>
+    </tr>
+
+    <tr>
+      <td colspan='2'><input name="submit" type="submit" value="Login"></td>
+      <td><input type='text' name='username' value=''></td>
+    </tr>
+  </table>
+  
+  <!-- csrf token -->
+  <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+
+</form>
+```
+
+### Filter(DelegatingFilterProxy)
+
+
+그림  
+
+
+
+
+#### web.xml
+```xml
+<!-- 공유되는 bean... contextloadlistener가 읽어서 container를 구성 -->
+<context-param>
+  <param-name>contextConfigLocation</param-name>
+  <param-value>
+  /WEB-INF/spring/appServlet/dao-context.xml
+  /WEB-INF/spring/appServlet/service-context.xml
+  /WEB-INF/spring/appServlet/security-context.xml <!-- sercurity-context.xml이 security config xml file -->
+  </param-value>
+</context-param>
+```
+
+```xml
+<filter>
+  <filter-name>springSecurityFilterChain</filter-name>
+  <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class> <!-- spring에서 제공하는 filter 이름-->
+</filter>
+
+<filter-mapping>
+  <filter-name>springSecurityFilterChain</filter-name>
+  <url-pattern>/*</url-pattern>
+</filter-mapping>
+```
+
+#### security-context.xml
+```xml
+<security:authentication-manager>
+  <!-- 메모리 -->
+  <!-- <security:authentication-provider>
+    <security:user-service>
+      <security:user name="nykim" authorities="ROLE_USER" password="letmein" />
+    </security:user-service>
+  </security:authentication-provider> -->
+
+  <!-- DB에서 권한을 읽어 들인다. -->
+  <security:authentication-provider>
+    <security:jdbc-user-service data-source-ref="dataSource"
+      users-by-username-query="select username, password, enabled from users where username=?"
+      authorities-by-username-query="select username, authority from authorities where username=?" />
+  </security:authentication-provider>
+</security:authentication-manager>
+
+<security:http auto-config="true" jaas-api-provision="true" use-expressions="true"> <!-- auto-config="true"라고 하면 spring이 로그인절차, 인증절차(DB에 있는지 없는지), 로그아웃 절차를 알아서 해줌-->
+  <security:intercept-url pattern="/" access="permitAll" /> <!-- "/" 경로는 모두 접근 가능 -->
+  <security:intercept-url pattern="/login" access="permitAll" /> <!-- "/login" 경로는 모두 접근 가능 -->
+  <security:intercept-url pattern="/logout" access="permitAll" /> <!-- "/logout" 경로는 모두 접근 가능 -->
+  <security:intercept-url pattern="/offers" access="permitAll" /> <!-- "/offers" 경로는 모두 접근 가능 -->
+  <security:intercept-url pattern="/createoffer" access="isAuthenticated()" /> <!-- "/createoffer" 경로는 인증된 사용자만 접근 가능 -->
+  <security:intercept-url pattern="/resources/**" access="permitAll" /> <!-- "/resources/**" 경로는 모두 접근 가능 -->
+
+  <!-- 그외의 나머지 -->
+  <security:intercept-url pattern="**" access="denyAll" />
+  <security:form-login login-page="/login" /> <!-- security에서 제공하는 basic login form 대신해서 내가 custom한 login page를 -->
+  <security:logout /> <!-- security에서 제공하는 basic logout form -->
+</security:http>
+```
+
+
 
 [이미지 출처]  
 https://namu.wiki/w/Spring(%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC)  
+https://postitforhooney.tistory.com/entry/SpringCSRF-CSRF란-무엇인가

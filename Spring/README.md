@@ -397,3 +397,7 @@ https://postitforhooney.tistory.com/entry/SpringCSRF-CSRF란-무엇인가
   </table>
 </sf:form>
 ```
+- 다음 페이지 에선 이렇게 볼 수 있다
+```jsp
+${offer.name}가 새로운 제안을 하였습니다. 감사합니다.<br/>
+```

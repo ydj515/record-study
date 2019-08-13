@@ -185,10 +185,14 @@
 
 ## Spring Security
 -https://github.com/ydj515/helloSpringMVC
+- Use Case
 - Authentication(인증)
 - Authorization(권한)
 - CSRF
 - Filter(DelegatingFilterProxy)
+
+### Use Case
+![11](https://user-images.githubusercontent.com/32935365/62962415-da83e100-be39-11e9-9bcf-b4aa1485291d.PNG)  
 
 ### Authentication
 -자신이 누구라고 주장하는 사람을 확인하는 절차  
@@ -269,11 +273,7 @@ ex) id, password
 
 ### Filter(DelegatingFilterProxy)
 
-
-그림  
-
-
-
+![1](https://user-images.githubusercontent.com/32935365/62962244-811bb200-be39-11e9-8033-457f6115e3eb.PNG)  
 
 #### web.xml
 ```xml
@@ -371,9 +371,6 @@ ex) id, password
 </dependency>
 ```
 
-[이미지 출처]  
-https://namu.wiki/w/Spring(%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC)  
-https://postitforhooney.tistory.com/entry/SpringCSRF-CSRF란-무엇인가
 
 ## Spring Web Form
 - https://github.com/ydj515/helloSpringMVC
@@ -401,3 +398,8 @@ https://postitforhooney.tistory.com/entry/SpringCSRF-CSRF란-무엇인가
 ```jsp
 ${offer.name}가 새로운 제안을 하였습니다. 감사합니다.<br/>
 ```
+
+
+[이미지 출처]  
+https://namu.wiki/w/Spring(%ED%94%84%EB%A0%88%EC%9E%84%EC%9B%8C%ED%81%AC)  
+https://postitforhooney.tistory.com/entry/SpringCSRF-CSRF란-무엇인가

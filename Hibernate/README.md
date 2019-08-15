@@ -73,3 +73,97 @@ session.save(category1);
 tx.commit();
 session.close();
 ```
+
+## Entity Relationships
+- @Entity 키워드르 붙혀서 DB 개체로 만든다
+
+### Types of relationship multiplicities
+- @OneToOne
+- @OneToMany, @ManyToOne
+- @ManyToMany
+
+### Direction of a relationship
+- bidirectional
+- unidirectional
+
+#### @OneToOne & unidirectional
+-Person.java
+```java
+@Entity
+public class Person {
+  @Id
+  @GeneratedValue
+  @Column(name="person_id")
+  private long id;
+
+  private String firstName;
+  private String lastName;
+
+}
+```
+
+-License.java
+```java
+@Entity
+public class License {
+
+  @Id
+  @GeneratedValue
+  @Column(name=“license_id")
+  private long id;
+
+  private String license_number;
+  private Date issue_date;
+
+  @OneToOne(optional=false, cascade=CascadeType.ALL)
+  @JoinColumn(unique=true, name="person_id")  
+  private Person person;
+
+}
+```
+**=> optional=false => 연관된 엔티티가 항상 있어야함을 의미**  
+**=> unique=true => FK도 유일한 값을 가진다. OneToOne이기 때문**  
+**=> cascade=CascadeType.ALL는 부모쪽에서 update, delete를 할 예정이라서 여기에 지정. Person이 저장될 때 license도 자동 저장**
+
+#### @OneToOne & bidirectional
+-Person.java
+```java
+@Entity
+public class Person {
+  @Id
+  @GeneratedValue
+  @Column(name="person_id")
+  private long id;
+
+  private String firstName;
+  private String lastName;
+
+  @OneToOne(mappedBy="person", cascade=CascadeType.ALL)
+  private License license;
+}
+```
+**=> mappedBy 키워드**  
+
+-License.java
+```java
+@Entity
+public class License {
+
+  @Id
+  @GeneratedValue
+  @Column(name=“license_id")
+  private long id;
+
+  private String license_number;
+  private Date issue_date;
+
+  @OneToOne(optional=false, cascade=CascadeType.ALL)
+  @JoinColumn(unique=true, name="person_id")  
+  private Person person;
+
+}
+```
+
+
+
+

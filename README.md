@@ -16,4 +16,4 @@
 
 - **Apache Tiles :** https://github.com/ydj515/record-study/tree/master/ApacheTiles
 
-- **Apache Tiles :** https://github.com/ydj515/record-study/tree/master/Hibernate
+- **Hibernate :** https://github.com/ydj515/record-study/tree/master/Hibernate

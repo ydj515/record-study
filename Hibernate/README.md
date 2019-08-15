@@ -23,8 +23,9 @@
 ## Hibernate
 ![11](https://user-images.githubusercontent.com/32935365/63075569-23888200-bf6d-11e9-84c5-8ea763b6a70d.PNG)  
 
-### Configuration - pom.xml
+### Configuration
 
+#### pom.xml
 ```xml
 <!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
 <dependency>
@@ -34,25 +35,41 @@
 </dependency>
 ```
 
-### Configuration - pom.xml
+#### hibernate.cfg.xml
 ```xml
 <hibernate-configuration>
 <session-factory>
- <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
- <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
- <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/testDB</property>
- <property name="hibernate.connection.username">root</property>
- <property name="hibernate.connection.password">yourDBPassword</property>
+  <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
+  <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+  <property name="hibernate.connection.username">root</property>
+  <property name="hibernate.connection.password">csedbadmin</property>
+  <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/testdb?serverTimezone=UTC</property>
 
- <!-- show mysql queries output in console -->
- <property name="hibernate.show_sql">true</property>
+  <!-- console에 sql문을 찍어준다 -->
+  <property name="show_sql">true</property>
+  <property name="format_sql">false</property>
+  <!-- db table을 만드는 것을 hibernate에게 위임한다. 수행될 때마다 table 생성-->
+  <property name="hibernate.hbm2ddl.auto"> create </property>
 
- <!-- manage automatic database creation -->
- <property name="hibernate.hbm2ddl.auto">create</property>
+  <mapping class="testHibernate.Product"/>
+  <mapping class="testHibernate.Category"/>
+  <mapping class="testHibernate.Person"/>
+  <mapping class="testHibernate.License"/>
 
- <!-- mappings for annotated classes -->
- <mapping class="testHibernate.Category"/>
- <mapping class="testHibernate.Product"/>
 </session-factory>
 </hibernate-configuration>
+```
+
+### Main
+```java
+private static SessionFactory sessionFactory; // application에서 하나만 만든다. => 다수의 session 만들 수 있다.
+
+sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+
+Session session = sessionFactory.openSession(); // 세션을 만든다.
+Transaction tx = session.beginTransaction();
+
+session.save(category1);
+tx.commit();
+session.close();
 ```

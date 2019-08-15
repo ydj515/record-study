@@ -60,6 +60,52 @@
 </hibernate-configuration>
 ```
 
+#### dao-context.xml
+- DataSource Bean
+```xml
+<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+  <property name="driverClassName" value="${jdbc.driverClassName}" />
+  <property name="url" value="${jdbc.url}" />
+  <property name="username" value="${jdbc.username}" />
+  <property name="password" value="${jdbc.password}" />
+</bean>
+```
+
+- SessionFactory Bean
+```xml
+<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+  <property name="dataSource" ref="dataSource"></property>
+  
+  <!-- @Entity를 찾아 bean으로 등록-->
+  <property name="packagesToScan">
+    <list>
+      <value>kr.ac.hansung.model</value>
+    </list>
+  </property>
+
+  <property name="hibernateProperties">
+    <props>
+      <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+      <prop key="hibernate.hbm2ddl.auto">create</prop> <!-- app 실행때마다 재생성. update는 계속 갱신.(재생성x) -->
+      <prop key="hibernate.show_sql">true</prop>
+      <prop key="hibernate.format_sql">false</prop>
+    </props>
+  </property>
+</bean>
+```
+
+- TransactionManager Bean
+```xml
+<tx:annotation-driven transaction-manager="transactionManager" />
+
+<!-- @Transactional 사용(자동 commit) -->
+<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+  <property name="sessionFactory" ref="sessionFactory"></property>
+</bean>
+```
+
+
+
 ### Main
 ```java
 private static SessionFactory sessionFactory; // application에서 하나만 만든다. => 다수의 session 만들 수 있다.

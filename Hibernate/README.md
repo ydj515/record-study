@@ -210,6 +210,124 @@ public class License {
 }
 ```
 
+#### @OneToMany & unidirectional
+-Product.java
+```java
+@Entity
+@Table(name = "Product") // table 이름 지정. 만약 안해주면 class 이름으로 table 생성
+public class Product {
+
+	@Id // record의 PK
+	@GeneratedValue // 자동 생성
+	@Column(name = "product_id") // column 이름 지정. 지정 안해줄 시 변수 이름과 동일하게 column 이름 생성
+	private int id;
+
+	private String name;
+	private int price;
+	private String description;
+
+	@ManyToOne
+	@JoinColumn(name = "category_id") // FK
+	private Category category;
+}
+```
+
+-category.java
+```java
+@Entity
+public class Category {
+
+	@Id
+	@GeneratedValue
+	private int id;
+	
+	private String name;
+}
+```
 
 
+#### @OneToMany & bidirectional
+**=> Many 에서 One 쪽으로 가리키는게 좋다.**  
+**Many에서 가리키게 하면 1개의 참조만 있으면 대지만 One 쪽에서 가리키면 여러개의 참조 pointer를 사용해아한다.**  
+**실제로 DB상의 양방향은 아니다. 객체 사이(Java 코드)에서만 양방향으로 되는 것**
 
+-Product.java
+```java
+@Entity
+@Table(name = "Product") // table 이름 지정. 만약 안해주면 class 이름으로 table 생성
+public class Product {
+
+	@Id // record의 PK
+	@GeneratedValue // 자동 생성
+	@Column(name = "product_id") // column 이름 지정. 지정 안해줄 시 변수 이름과 동일하게 column 이름 생성
+	private int id;
+
+	private String name;
+	private int price;
+	private String description;
+
+	@ManyToOne
+	@JoinColumn(name = "category_id") // FK
+	private Category category;
+
+}
+```
+
+-category.java
+```java
+@Entity
+public class Category {
+
+	@Id
+	@GeneratedValue
+	private int id;
+	
+	private String name;
+	
+	// cascade=CascadeType.ALL : 연관된 객체까지 지우든 업데이트하든 같이 저장됨(persist, delete) -> product가 저장되면 연관된 Category도 자동 저장됨
+	// mappedBy="category" : 필드 이름과 동일하게 넣으면 된다. 양방향 관계 설정시 관계의 주체가 되는 쪽에서 정의
+	// fetch=FetchType.LAZY : Category 정보를 읽을 때 products의 모든 정보를 읽을 필요가 없다. 필요할 때만 읽는다. OneToMany, ManyToMany에선 default
+	// fetch=FetchType.EAGER : Category 정보를 읽을 때 모든 product들의 정보를 읽는다. OneToOne, ManyToOne에선 default
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<Product> products = new HashSet<Product>();
+	
+}
+```
+
+#### @ManyToMany & bidirectional
+-Author.java
+```java
+@Entity
+public class Author {
+
+	@Id // record의 PK
+	@GeneratedValue // 자동 생성
+	@Column(name = "author_id") // column 이름 지정. 지정 안해줄 시 변수 이름과 동일하게 column 이름 생성
+	private int id;
+
+  @Column(name = "author_name")
+	private String name;
+}
+```
+
+-Book.java
+```java
+@Entity
+public class Book {
+
+	@Id // record의 PK
+	@GeneratedValue // 자동 생성
+	@Column(name = "book_id") // column 이름 지정. 지정 안해줄 시 변수 이름과 동일하게 column 이름 생성
+	private int id;
+
+  @Column(name = "book_name")
+	private String title;
+  
+  @ManyToMany(casecade = CascadeType.ALL)
+  @JoinTable(name = "author_book", // Book -> Author, author_book이라는 table 생성
+             joinColumns = { @JoinColumn(name = "book_id") }, //FK
+             inverseJoinColumns = { @JoinColumn(name = "author_id") } //FK
+  private set<Author> authors;
+}
+```
+**=> JoinTable 키워드 : 해당 이름으로 테이블을 생성**  

@@ -8,13 +8,22 @@
 ## Table 내용
 ![2](https://user-images.githubusercontent.com/32935365/64315628-8a89db80-cfed-11e9-920f-5ba5c08808aa.PNG)
 
+<hr>
 
-### DAY 1
+### DAY 1-1
 
 #### 문제
 ![1](https://user-images.githubusercontent.com/32935365/64316314-6b8c4900-cfef-11e9-969b-e17d1c35db4e.PNG)
-
 #### 답
 ```SQL
 SELECT * FROM ANIMAL_INS ORDER BY ANIMAL_ID
+```
+
+### DAY 1-2
+
+#### 문제
+![2](https://user-images.githubusercontent.com/32935365/64316484-ed7c7200-cfef-11e9-8010-bfd69b168847.PNG)
+#### 답
+```SQL
+SELECT NAME, DATETIME FROM ANIMAL_INS ORDER BY ANIMAL_ID DESC
 ```

@@ -63,3 +63,21 @@ SELECT MIN(DATETIME) FROM ANIMAL_INS
 ```SQL
 SELECT ANIMAL_ID FROM ANIMAL_INS WHERE NAME is NULL
 ```
+
+### DAY 4-1
+
+#### 문제
+![7](https://user-images.githubusercontent.com/32935365/64316914-2701ad00-cff1-11e9-9039-bebb2772e464.PNG)
+#### 답
+```SQL
+SELECT ANIMAL_TYPE, count(*) from ANIMAL_INS GROUP BY ANIMAL_TYPE
+```
+
+### DAY 4-2
+
+#### 문제
+![8](https://user-images.githubusercontent.com/32935365/64316921-3123ab80-cff1-11e9-9653-ab9d155c9213.PNG)
+#### 답
+```SQL
+SELECT NAME, count(*) FROM ANIMAL_INS Where NAME is NOT NULL GROUP BY NAME HAVING COUNT(*)>=2 ORDER BY NAME
+```

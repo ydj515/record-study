@@ -45,3 +45,21 @@ SELECT ANIMAL_ID, NAME FROM ANIMAL_INS WHERE INTAKE_CONDITION="Sick" ORDER BY AN
 ```SQL
 SELECT ANIMAL_ID, NAME FROM ANIMAL_INS WHERE NOT INTAKE_CONDITION="Aged" ORDER BY ANIMAL_ID
 ```
+
+### DAY 3-1
+
+#### 문제
+![5](https://user-images.githubusercontent.com/32935365/64316774-cbcfba80-cff0-11e9-8881-d5d2b82fea73.PNG)
+#### 답
+```SQL
+SELECT MIN(DATETIME) FROM ANIMAL_INS
+```
+
+### DAY 3-2
+
+#### 문제
+![6](https://user-images.githubusercontent.com/32935365/64316782-d2f6c880-cff0-11e9-9d41-8ed4353e89a8.PNG)
+#### 답
+```SQL
+SELECT ANIMAL_ID FROM ANIMAL_INS WHERE NAME is NULL
+```

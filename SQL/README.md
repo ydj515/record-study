@@ -176,7 +176,6 @@ ORDER BY ANIMAL_ID;
 #### 문제
 ![14](https://user-images.githubusercontent.com/32935365/64477354-8f10e880-d1d5-11e9-9278-e1d54bd126ec.PNG)
 #### 답
-- Spayed 와 Neutered이 중성화를 의미한다!!
 ```SQL
 SELECT ANIMAL_ID, NAME
 FROM ANIMAL_INS

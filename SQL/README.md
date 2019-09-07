@@ -158,3 +158,28 @@ WHERE B.SEX_UPON_INTAKE LIKE 'Intact%'
 AND (A.SEX_UPON_OUTCOME LIKE 'Spayed%' OR A.SEX_UPON_OUTCOME LIKE 'Neutered%') 
 ORDER BY A.ANIMAL_ID;
 ```
+
+### DAY 7-1
+
+#### 문제
+![13](https://user-images.githubusercontent.com/32935365/64477360-ad76e400-d1d5-11e9-98d0-4309baef4b25.PNG)
+#### 답
+```SQL
+SELECT DISTINCT ANIMAL_ID,NAME,SEX_UPON_INTAKE 
+FROM ANIMAL_INS 
+WHERE NAME='Lucy' or NAME='Ella' or NAME='Pickle' or NAME='Rogan' or NAME='Sabrina' or NAME='Mitty'
+ORDER BY ANIMAL_ID;
+```
+
+### DAY 7-2
+
+#### 문제
+![14](https://user-images.githubusercontent.com/32935365/64477354-8f10e880-d1d5-11e9-9278-e1d54bd126ec.PNG)
+#### 답
+- Spayed 와 Neutered이 중성화를 의미한다!!
+```SQL
+SELECT ANIMAL_ID, NAME
+FROM ANIMAL_INS
+WHERE ANIMAL_TYPE="Dog" and UPPER(NAME) like UPPER("%el%")
+ORDER BY NAME ASC
+```

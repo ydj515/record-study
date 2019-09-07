@@ -1,9 +1,11 @@
 # SQL
 
-- <a href="https://github.com/ydj515/Algorithm_study/blob/master/Java/src/num15953/Main.java">7daySQL 챌린지</a>
+- <a href="https://programmers.co.kr/events/7day-sql?utm_source=programmers&utm_medium=learn_7daySQL&utm_campaign=7daySQL">7daySQL 챌린지</a>
 
 ## Table 설명
-![1](https://user-images.githubusercontent.com/32935365/64315607-7cd45600-cfed-11e9-83ee-f78d1c0c8aba.PNG)
+![ins](https://user-images.githubusercontent.com/32935365/64474671-04b78d00-d1b3-11e9-87a6-4384461710dd.PNG)
+![outs](https://user-images.githubusercontent.com/32935365/64474678-15680300-d1b3-11e9-8c7e-2bbd9a08b42b.PNG)
+
 
 ## Table 내용
 ![2](https://user-images.githubusercontent.com/32935365/64315628-8a89db80-cfed-11e9-920f-5ba5c08808aa.PNG)
@@ -104,23 +106,55 @@ HAVING COUNT(*)>=2 ORDER BY NAME
 ### DAY 5-1
 
 #### 문제
-![9](https://user-images.githubusercontent.com/32935365/64366382-108b3e00-d051-11e9-82fa-ad8c7d3fb8c0.PNG)
+![9](https://user-images.githubusercontent.com/32935365/64474686-27e23c80-d1b3-11e9-984a-5260ea0b22f0.PNG)
 #### 답
 ```SQL
-SELECT b.ANIMAL_ID, b.NAME
-from ANIMAL_OUTS b
-WHERE NOT b.ANIMAL_ID IN (SELECT ANIMAL_ID FROM ANIMAL_INS)
+SELECT B.ANIMAL_ID, B.NAME
+FROM ANIMAL_OUTS AS B
+WHERE NOT B.ANIMAL_ID IN (SELECT ANIMAL_ID FROM ANIMAL_INS)
 ```
 
 ### DAY 5-2
 
 #### 문제
-![10](https://user-images.githubusercontent.com/32935365/64366401-1a14a600-d051-11e9-80bc-b7a8f5b80874.PNG)
+![10](https://user-images.githubusercontent.com/32935365/64474688-30d30e00-d1b3-11e9-9c10-06babfc49d60.PNG)
 #### 답
 ```SQL
 SELECT B.ANIMAL_ID, B.NAME
 FROM ANIMAL_INS AS A
 JOIN ANIMAL_OUTS AS B
-ON A.ANIMAL_ID=B.ANIMAL_ID WHERE B.DATETIME < A.DATETIME
-order by A.DATETIME ASC
+ON A.ANIMAL_ID=B.ANIMAL_ID
+WHERE B.DATETIME < A.DATETIME
+ORDER BY A.DATETIME ASC
+```
+
+### DAY 6-1
+
+#### 문제
+![11](https://user-images.githubusercontent.com/32935365/64474699-45afa180-d1b3-11e9-9ab5-c804c59aea2a.PNG)
+#### 답
+```SQL
+SELECT A.NAME, A.DATETIME
+FROM ANIMAL_INS AS A
+LEFT JOIN ANIMAL_OUTS AS B
+ON A.ANIMAL_ID = B.ANIMAL_ID
+WHERE B.DATETIME is NULL
+ORDER BY A.DATETIME ASC
+LIMIT 3
+```
+
+### DAY 6-2
+
+#### 문제
+![12](https://user-images.githubusercontent.com/32935365/64474703-4b0cec00-d1b3-11e9-88bb-2b4b91f5380b.PNG)
+#### 답
+- Spayed 와 Neutered이 중성화를 의미한다!!
+```SQL
+SELECT A.ANIMAL_ID, A.ANIMAL_TYPE, A.NAME 
+FROM ANIMAL_OUTS AS A
+JOIN ANIMAL_INS AS B
+ON A.ANIMAL_ID = B.ANIMAL_ID 
+WHERE B.SEX_UPON_INTAKE LIKE 'Intact%' 
+AND (A.SEX_UPON_OUTCOME LIKE 'Spayed%' OR A.SEX_UPON_OUTCOME LIKE 'Neutered%') 
+ORDER BY A.ANIMAL_ID;
 ```

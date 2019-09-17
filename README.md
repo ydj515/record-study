@@ -26,4 +26,4 @@
 
 - **Design Patter Python3 :** https://github.com/ydj515/DesignPattern-Python3
 
-- **Web Crawling Python :** https://github.com/ydj515/WebCrawling-Python
+- **Web Crawling Python :** https://github.com/ydj515/record-study/tree/master/WebCrawling_Python3

@@ -21,3 +21,9 @@
 - **Linux Command :** https://github.com/ydj515/record-study/tree/master/Linux_Command
 
 - **SQL :** https://github.com/ydj515/record-study/tree/master/SQL
+
+- **Design Pattern Java :** https://github.com/ydj515/DesignPattern-java
+
+- **Design Patter Python3 :** https://github.com/ydj515/DesignPattern-Python3
+
+- **Web Crawling Python :** https://github.com/ydj515/WebCrawling-Python

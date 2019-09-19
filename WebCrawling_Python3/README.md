@@ -71,3 +71,6 @@ with open("example.html") as fp:
         # .text를 붙히면 안의 값만 나옴
         print(span.text)
 ```
+
+[출처]  
+https://www.youtube.com/playlist?list=PLAdQRRy4vtQRzdg7D9n1rkDp9DIeWpBQ9

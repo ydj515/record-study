@@ -1,6 +1,6 @@
 # Google Global Cache
 
-## Google Global Cache (GCC)
+## Google Global Cache (GGC)
 - 구글이 각국의 통신사에 설치하여 운영하는 캐시 서버
 
 ### 탄생 배경
@@ -41,7 +41,7 @@
 ### 읽어볼 거리
 <a href="https://byline.network/2018/07/24-18/">유튜브 캐시 서버와 역차별</a>  
 <a href="https://byline.network/2018/07/24-18/">YouTube를 위한 GGC 동작 원리 (1편: KT)</a>  
-<a href="https://byline.network/2018/07/24-18/">YouTube를 위한 GCC 동작 원리 (2편: LG U+)</a>  
+<a href="https://byline.network/2018/07/24-18/">YouTube를 위한 GGC 동작 원리 (2편: LG U+)</a>  
 
 [이미지 출처]  
 http://whiteafrican.com/

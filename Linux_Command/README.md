@@ -1,4 +1,4 @@
-# Linux-command
+# Linux command
 
 ### bash version 확인
 ```

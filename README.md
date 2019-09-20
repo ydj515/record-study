@@ -26,6 +26,8 @@
 
 - **Design Patter Python3 :** https://github.com/ydj515/DesignPattern-Python3
 
-- **Web Crawling Python3 :** https://github.com/ydj515/record-study/tree/master/WebCrawling_Python3
+- **Web Crawling Python3 :** https://github.com/ydj515/record-study/tree/master/Web_Crawling_Python3
+
+- **Web Crawling Java :** https://github.com/ydj515/record-study/tree/master/Web_Crawling_Java
 
 - **Google Global Cache :** https://github.com/ydj515/record-study/tree/master/Google_Global_Cache

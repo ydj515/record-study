@@ -77,11 +77,11 @@ with open("example.html") as fp:
 - tree 구조
 - key : value
 - 자바스크립트에서 데이터 객체를 표현하는 방법
-- Example
-| name        | age       | math  | english  |
-|:-----------:|:---------:|:-----:|:--------:|
-| dongjin     | 20        | 50    | 99       |
-| yoo         | 25        | 75    | 99       |
+ 
+| <center>name</center> | <center>age</center> | <center>math</center> | <center>english</center> |
+|:--------|:--------:|:--------:|:--------:|
+|**dongjin** | <center>20</center> | <center>50</center> | <center>99</center> |
+|**yoo**     | <center>25</center> | <center>75</center> | <center>99</center> |
 
 ```json
 [
@@ -93,11 +93,11 @@ with open("example.html") as fp:
 ### Tag & Property 
 #### Tag
 - 태그
-- <ul> <li> <div> ...
+- ul태그, li태그, div태그...
 
 #### property
 - 속성
-- class, id, href, title, src ...
+- class, id, href, title, src...
 
 #### property value
 - 속성값
@@ -107,7 +107,7 @@ with open("example.html") as fp:
 ```html
 <a href="www.naver.com">
 ```
-여기 위의 코드에서 tag : a, property : href, property value : www.naver.com
+여기 위의 코드에서 **tag** : a, **property** : href, **property value** : www.naver.com
 
 [출처]  
 https://www.youtube.com/playlist?list=PLAdQRRy4vtQRzdg7D9n1rkDp9DIeWpBQ9

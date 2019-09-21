@@ -72,5 +72,42 @@ with open("example.html") as fp:
         print(span.text)
 ```
 
+### JSON
+- Javascript Object Notation
+- tree 구조
+- key : value
+- 자바스크립트에서 데이터 객체를 표현하는 방법
+- Example
+| name        | age       | math  | english  |
+|:-----------:|:---------:|:-----:|:--------:|
+| dongjin     | 20        | 50    | 99       |
+| yoo         | 25        | 75    | 99       |
+
+```json
+[
+  {"name":"dongjin", "age":"20", "math":"50", "english":"99"},
+  {"name":"yoo", "age":"25", "math":"75", "english":"99"}
+]
+```
+
+### Tag & Property 
+#### Tag
+- 태그
+- <ul> <li> <div> ...
+
+#### property
+- 속성
+- class, id, href, title, src ...
+
+#### property value
+- 속성값
+- class="greet">에서 greet이 속성값
+
+#### Example
+```html
+<a href="www.naver.com">
+```
+여기 위의 코드에서 tag : a, property : href, property value : www.naver.com
+
 [출처]  
 https://www.youtube.com/playlist?list=PLAdQRRy4vtQRzdg7D9n1rkDp9DIeWpBQ9

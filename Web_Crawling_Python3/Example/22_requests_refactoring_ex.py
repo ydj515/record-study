@@ -19,7 +19,11 @@ def get_price(company_code):
 
     return blind.text
 
-url = "https://www.naver.com"
+def main():
+    url = "https://www.naver.com"
 
-price_samsung = get_price("005930")
-print(price_samsung)
+    price_samsung = get_price("005930")
+    print(price_samsung)
+    
+if __name__ == "__main__":
+    main()

@@ -40,8 +40,10 @@ r.text
 print(r.text) # html tag 출력
 ```
 
-### 함수
-#### find()
+
+## 함수
+
+### find()
 - 조건에 해당하는 태그를 가져온다
 - 중복이면 가정 첫번째 태그를 가져온다
 ```
@@ -53,7 +55,7 @@ with open("example.html") as fp:
     # <ul class="an_l">의 ul 태그만 뽑는다
     ul = soup.find("ul",{"class":"an_l"})
 ```
-#### findAll()
+### findAll()
 - 조건에 해당하는 태그들을 리스트에 담는다.
 ```python
 with open("example.html") as fp:
@@ -72,7 +74,8 @@ with open("example.html") as fp:
         print(span.text)
 ```
 
-### JSON
+
+## JSON
 - Javascript Object Notation
 - tree 구조
 - key : value
@@ -90,28 +93,61 @@ with open("example.html") as fp:
 ]
 ```
 
-#### JSON tree
+### JSON tree
 - json의 형식의 데이터를 뷰어로 보여준다.
 - http://jsonviewer.stack.hu/
 
-### Tag & Property 
-#### Tag
+## Tag & Property 
+### Tag
 - 태그
 - ul태그, li태그, div태그...
 
-#### property
+### property
 - 속성
 - class, id, href, title, src...
 
-#### property value
+### property value
 - 속성값
 - class="greet">에서 greet이 속성값
 
-#### Example
+### Example
 ```html
 <a href="www.naver.com">
 ```
 여기 위의 코드에서 **tag** : a, **property** : href, **property value** : www.naver.com
+
+
+## encoding
+- 한국어 페이지의 경우 EUC-KR이 많기 때문에 이를 크롤링 할 떄 원하는 값을 못 가져올 수 있음
+- 따라서 UTF-8로 변환해 주는 작업이 필요하다
+```python
+def get_bs_obj():
+    url = "https://finance.naver.com/item/main.nhn?code=005930"
+    result = requests.get(url)
+
+    # 현재 페이지가 EUC-KR로 되어 있기 때문에 utf-8로 변환을 먼저 해준다.
+    print(result.encoding)
+    result.encoding = 'utf-8'
+    
+    bs_obj = BeautifulSoup(result.content, "html.parser")
+
+    return bs_obj
+```
+
+- 간혹 가다가 console에서 UTF-8로 안될 경우 밑의 코드를 추가한다
+```python
+# -*- encoding: utf-8 -*-
+import sys
+import io
+sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding = 'utf-8')
+sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
+```
+
+- visual code에서 밑의 처럼 되어있는지 확인  
+![1](https://user-images.githubusercontent.com/32935365/65445744-dbaf2180-de6d-11e9-8f03-a291aef3f3c3.PNG)  
+
+
+
 
 [출처]  
 https://www.youtube.com/playlist?list=PLAdQRRy4vtQRzdg7D9n1rkDp9DIeWpBQ9

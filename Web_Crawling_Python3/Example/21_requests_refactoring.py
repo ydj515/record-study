@@ -9,12 +9,16 @@ def get_bs_obj(url):
 
     return bs_obj
 
-url = "https://www.naver.com"
-bs_obj = get_bs_obj(url)
-print(bs_obj)
+def main():
+    url = "https://www.naver.com"
+    bs_obj = get_bs_obj(url)
+    print(bs_obj)
 
-# url = "https://www.naver.com"
-# result = requests.get(url)
-# bs_obj = BeautifulSoup(result.content, "html.parser")
-# bs_obj = get_bs_obj(url)
-# print(bs_obj)
+    # url = "https://www.naver.com"
+    # result = requests.get(url)
+    # bs_obj = BeautifulSoup(result.content, "html.parser")
+    # bs_obj = get_bs_obj(url)
+    # print(bs_obj)
+    
+if __name__ == "__main__":
+    main()

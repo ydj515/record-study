@@ -10,30 +10,35 @@ import bs4
 # html = "<html>" \
 #           <body></body> \
 #         </html>
-html = """
-<html>
-    <body>
-        <ul class="greet">
-            <li>hello</li>
-            <li>bye</li>
-            <li>welcome</li>
-        </ul>
 
-        <ul class="reply">
-            <li>ok</li>
-            <li>no</li>
-            <li>sure</li>
-        </ul>
-    </body>
-</html>
-"""
+def main():
+    html = """
+    <html>
+        <body>
+            <ul class="greet">
+                <li>hello</li>
+                <li>bye</li>
+                <li>welcome</li>
+            </ul>
 
-bs_obj = bs4.BeautifulSoup(html, "html.parser")
+            <ul class="reply">
+                <li>ok</li>
+                <li>no</li>
+                <li>sure</li>
+            </ul>
+        </body>
+    </html>
+    """
 
-ul_reply = bs_obj.find("ul", {"class":"reply"})
-print(ul_reply)
+    bs_obj = bs4.BeautifulSoup(html, "html.parser")
 
-lis = ul_reply.findAll("li")
+    ul_reply = bs_obj.find("ul", {"class":"reply"})
+    print(ul_reply)
 
-for li in lis:
-    print(li.text)
+    lis = ul_reply.findAll("li")
+
+    for li in lis:
+        print(li.text)
+    
+if __name__ == "__main__":
+    main()

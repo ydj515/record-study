@@ -5,42 +5,48 @@ import bs4
 # html = "<html>" \
 #           <body></body> \
 #         </html>
-html = """
-<html>
-    <body>
-        <ul class="greet">
-            <li>hello</li>
-            <li>bye</li>
-            <li>welcome</li>
-        </ul>
 
-        <ul class="replay">
-            <li>ok</li>
-            <li>no</li>
-            <li>sure</li>
-        </ul>
-    </body>
-</html>
-"""
+def main():
 
-bs_obj = bs4.BeautifulSoup(html, "html.parser")
+    html = """
+    <html>
+        <body>
+            <ul class="greet">
+                <li>hello</li>
+                <li>bye</li>
+                <li>welcome</li>
+            </ul>
 
-# ul이 여러개지만 find로 찾을 경우는 첫번째 ul만 나옴
-ul = bs_obj.find("ul")
+            <ul class="replay">
+                <li>ok</li>
+                <li>no</li>
+                <li>sure</li>
+            </ul>
+        </body>
+    </html>
+    """
 
-print(ul)
-print(ul.text)
+    bs_obj = bs4.BeautifulSoup(html, "html.parser")
 
-lis = bs_obj.findAll("li")
-print(lis)
-print(type(lis)) # <class 'bs4.element.ResultSet'>
-print(type(lis[0])) # <class 'bs4.element.Tag'>
-print(lis[1].text)
+    # ul이 여러개지만 find로 찾을 경우는 첫번째 ul만 나옴
+    ul = bs_obj.find("ul")
 
-for li in lis:
-    print(li)
+    print(ul)
+    print(ul.text)
 
-print("=====================")
+    lis = bs_obj.findAll("li")
+    print(lis)
+    print(type(lis)) # <class 'bs4.element.ResultSet'>
+    print(type(lis[0])) # <class 'bs4.element.Tag'>
+    print(lis[1].text)
 
-for li in lis[1:2]: # for(int i=1; i<2; i++)
-    print(li) # <li>bye</li>
+    for li in lis:
+        print(li)
+
+    print("=====================")
+
+    for li in lis[1:2]: # for(int i=1; i<2; i++)
+        print(li) # <li>bye</li>
+    
+if __name__ == "__main__":
+    main()

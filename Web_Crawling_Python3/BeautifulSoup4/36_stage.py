@@ -12,7 +12,7 @@ def main():
 
     a = json.dumps(list) # 리스트를 json형식으로 만들어줌
 
-    file = open("./gangnam.json")
+    file = open("./gangnam.json",'w')
     file.write(a)
 
     print(len(list))

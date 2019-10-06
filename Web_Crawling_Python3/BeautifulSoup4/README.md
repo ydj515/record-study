@@ -244,6 +244,26 @@ sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding = 'utf-8')
 ![1](https://user-images.githubusercontent.com/32935365/65445744-dbaf2180-de6d-11e9-8f03-a291aef3f3c3.PNG)  
 
 
+## pandas
+- Pandas에서는 기본적으로 정의되는 자료구조인 **Series**와 **Data Frame**을 사용
+- 이 자료구조들은 **빅 데이터 분석에 있어서 높은 수준의 성능**을 보여줌
+
+### import
+```python
+import pandas as pd
+```
+
+### ...으로 생략되는 것 풀어주기
+- 아래처럼 링크주소와 같이 길다면 ...으로 생략이 된다.  
+![1](https://user-images.githubusercontent.com/32935365/66267154-bc9a9180-e868-11e9-8c1f-99e99d030a10.PNG)
+
+- 위의 그림과 같은 ...을 없애려면 밑의 코드를 import 밑에 추가해준다.
+```python
+import pandas as pd
+pd.set_option('display.max_colwidth', -1)
+```
+![2](https://user-images.githubusercontent.com/32935365/66267167-d6d46f80-e868-11e9-9e97-f5dd543d7bf4.PNG)  
+
 
 
 [출처]  

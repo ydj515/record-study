@@ -1,7 +1,8 @@
 from selenium import webdriver
 from time import sleep
 
-rootPath = "C:/dev"
+rootPath = "C:/chromedriver_win32"
+
 driver = webdriver.Chrome(
     executable_path="{}/chromedriver.exe".format(rootPath)
 )
@@ -28,4 +29,4 @@ print(page_string)
 sleep(5)
 print("==== 5sec end ====")
 
-driver.close()
+driver.quit()

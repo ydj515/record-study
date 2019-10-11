@@ -11,7 +11,8 @@ url = "https://www.instagram.com/?hl=ko"
 page_string = crawl(url)
 print(page_string)
 
-rootPath = "C:/dev"
+rootPath = "C:/chromedriver_win32"
+
 driver = webdriver.Chrome(
     executable_path="{}/chromedriver.exe".format(rootPath)
 )
@@ -27,4 +28,4 @@ print(page_string)
 
 # 인스타 내용 <div class="Nnq7Caaa"
 
-driver.close()
+driver.quit()

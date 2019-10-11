@@ -1,6 +1,6 @@
 from selenium import webdriver
 
-rootPath = "C:/dev"
+rootPath = "C:/chromedriver_win32"
 
 driver = webdriver.Chrome(
     executable_path="{}/chromedriver.exe".format(rootPath)
@@ -14,4 +14,4 @@ page_string = driver.page_source
 
 print(page_string)
 
-driver.close()
+driver.quit()

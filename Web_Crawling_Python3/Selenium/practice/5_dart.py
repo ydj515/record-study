@@ -12,7 +12,7 @@ url = "http://dart.fss.or.kr/"
 driver.get(url)
 
 driver.find_element_by_id("textCrpNm").send_keys("셀트리온")
-driver.find_element_by_xpath("//*[@id='searchFrom']/fieldset/b[4]/input").click()
+driver.find_element_by_xpath("//*[@id='searchForm']/fieldset/p[4]/input").click()
 
 sleep(5)
 print("==== 5sec end ====")

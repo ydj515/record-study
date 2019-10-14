@@ -6,6 +6,9 @@
 ## Selenium 이용
 - https://github.com/ydj515/record-study/tree/master/Web_Crawling_Python3/Selenium
 
+## request_html 이용
+- https://github.com/ydj515/record-study/tree/master/Web_Crawling_Python3/request_html
+
 ## 정규식
 ### https://regexr.com/
 - 셀트리온. : 셀트리온과 문자(숫자 포함) 하나

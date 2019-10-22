@@ -1,3 +1,5 @@
+package dish;
+
 public class Dish {
 	private final String name;
 	private final boolean vegetarian;

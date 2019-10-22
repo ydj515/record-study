@@ -84,6 +84,7 @@ Stream<String> parallelStream = list.parallelStream(); // 병렬 처리 스트�
 
 #### filter
 - 조건에 맞게 걸러줌
+- **boolean 결과를 리턴하는 람다표현식이 필요!!**
 ```java
 // list의 요소중에서 10보다 큰것만 누적
 list.stream().filter(i -> i > 10).mapToInt(i -> i).sum();
@@ -96,6 +97,7 @@ Stream<String> stream = names.stream().filter(name -> name.contains("a")); // [E
 
 #### map
 - 각 요소를 연산하는데 쓰임
+- 입력 컬렉션을 mapping 하거나 변경
 ```java
 // 각 문자열마다 뒤에 !를 붙힘
 // 병렬 스트림도 사용
@@ -232,6 +234,7 @@ while(iter.hasNext()) {
 ```
 
 #### noneMatch, anyMatch, allMatch
+- boolean을 표현하는 람다식 필요
 ```java
 List<Integer> ages = new ArrayList<Integer>();
 ages.add(1);
@@ -263,6 +266,8 @@ Stream<String> a = names.stream().filter(x -> x.contains("o")).map(x-> x.concat(
 a.forEach(x -> System.out.println(x));
 ```
 
+### filter와 map의 차이
+- filter는 boolean을 처리하는 람다식이 필요, map은 입력 컬렉션을 mapping 하거나 변경
 
 [출처]
 https://jeong-pro.tistory.com/165  

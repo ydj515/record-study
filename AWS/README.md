@@ -45,6 +45,7 @@ source /etc/profile
 exit
 ```
 
+
 ## tomcat 설치_tomcat 7
 ### 1. tomcat 설치
 ```
@@ -59,11 +60,47 @@ sudo yum list | grep tomcat
 ```
 systemctl emable tomcat
 systemctl start tomcat
-curl http://본인IP:8080/
+curl http://{AWS_public_IP}:8080/
 ```
 
 - 아래와 같이 뜨면 성공한거!  
 ![22](https://user-images.githubusercontent.com/32935365/67461693-e92c1700-f678-11e9-8501-6c166adc8018.PNG)
+
+
+## FileZilla 연동
+### 1. FileZilla 사이트 접속
+- <a href="https://www.acmicpc.net/category/detail/1897">사이트 접속</a>
+- 사이트에 접속해서 client로 다운
+
+### 2. 환경설정
+- [편집]-[설정]-[연결-SFTP]-[파일추가]-[PPK파일 추가]  
+![1](https://user-images.githubusercontent.com/32935365/67474335-3d41f600-f68f-11e9-8ab4-d01bd28d3090.PNG)
+
+- [파일]-[사이트관리자]-[새사이트]-[확인]  
+![2](https://user-images.githubusercontent.com/32935365/67474372-4df26c00-f68f-11e9-8e3d-703265e6e631.PNG)
+
+### 3. 연결
+- 연결 버튼을 누르면 연결이 된 모습을 볼 수 있음  
+![3](https://user-images.githubusercontent.com/32935365/67474406-5d71b500-f68f-11e9-9181-98857ce46e62.PNG)
+
+
+## war파일 넣기
+### 1. war파일 이동
+```
+sudo mv Test.war /user/share/tomcat/webapps/
+```
+
+### 2. project hosting
+```
+sudo systemctl restart tomcat
+```
+
+### 3. 접속
+```
+http://{AWS_public_IP}/{프로젝트명}/
+```
+
+
 
 
 

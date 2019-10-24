@@ -60,7 +60,7 @@ systemctl start tomcat
 curl http://본인IP:8080/
 ```
 
-- 아래와 같이 뜨면 성공한거!
+- 아래와 같이 뜨면 성공한거!  
 ![22](https://user-images.githubusercontent.com/32935365/67461693-e92c1700-f678-11e9-8501-6c166adc8018.PNG)
 
 

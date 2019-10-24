@@ -5,10 +5,12 @@
 https://github.com/ydj515/record-study/tree/master/AWS/Term
 
 ## AWS 시작하기_centos 7
-1. http://aws.amazone.com 사이트 접속
-2. 회원가입
-3. 세팅
+### 1. http://aws.amazone.com 사이트 접속
+### 2. 회원가입
+### 3. 세팅  
+- 우측 상단에 지역을 서울로 바꾼다.  
 ![1우측 상단](https://user-images.githubusercontent.com/32935365/66216797-184a0b00-e701-11e9-8b91-29d1898abc7c.PNG)  
+- ECT 인스턴스 실행  
 ![2 ec2를 사용하여 가상머신 시작](https://user-images.githubusercontent.com/32935365/66216815-1f711900-e701-11e9-937c-1636743fabe0.PNG)  
 ![3 select centos](https://user-images.githubusercontent.com/32935365/66216831-2730bd80-e701-11e9-914c-639a74606a26.PNG)  
 ![4](https://user-images.githubusercontent.com/32935365/66216847-2ef06200-e701-11e9-8237-f3bfed2e3859.PNG)  

@@ -269,6 +269,9 @@ a.forEach(x -> System.out.println(x));
 ### filter와 map의 차이
 - filter는 boolean을 처리하는 람다식이 필요, map은 입력 컬렉션을 mapping 하거나 변경
 
-[출처]
+## 실전연습
+### <a href="https://github.com/ydj515/record-study/blob/master/Java_study/Stream/src/traderAndTransaction/Main.java">문제풀이</a>
+
+[출처]  
 https://jeong-pro.tistory.com/165  
 https://futurecreator.github.io/2018/08/26/java-8-streams/

@@ -1,6 +1,8 @@
 package multiThreadEX;
 
-public class UserThread2 extends Thread{
+import java.util.stream.IntStream;
+
+public class UserThread2 extends Thread {
 
 	private Calculator calculator;
 
@@ -10,6 +12,14 @@ public class UserThread2 extends Thread{
 	}
 
 	public void run() {
-		calculator.setMemory(50);
+		IntStream.range(0, 100).forEach(i -> {
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			calculator.setMemory(-1);
+		});
 	}
 }

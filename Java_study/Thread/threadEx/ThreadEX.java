@@ -1,6 +1,6 @@
 package threadEx;
 
-public class ThreadEX1 {
+public class ThreadEX {
 
 	public static void main(String args[]) {
 

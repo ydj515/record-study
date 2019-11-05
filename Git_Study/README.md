@@ -24,7 +24,6 @@ git config --global user.name "ydj515"
 git config --global user.email ydj515@hanmail.net
 ```
 
-
 ### 설정 정보 확인
 ```
 git config --list

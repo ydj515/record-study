@@ -242,6 +242,10 @@ git merge origin/master
 git push origin master
 ```
 
+## Reset
+```
+git reset --hard {commit 번호}
+
 ## 실습 1
 ![git conflict practice](https://user-images.githubusercontent.com/32935365/68195534-600ecb80-fffa-11e9-8af9-466014bce3f0.PNG)
 

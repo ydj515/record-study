@@ -143,11 +143,110 @@ python -V
 ![333](https://user-images.githubusercontent.com/32935365/67476280-ae36dd00-f692-11e9-9dbe-d12aa83c4279.PNG)
 
 
-## Elasticsearch
-https://victorydntmd.tistory.com/308
+## Elasticsearch 6.6.2
+- **java를 선행**으로 설치해주어야한다!!
+
+### 1. yum으로 설치
+- repo 파일을 생성해야 yum으로 설치 가능
+```
+sudo su
+vi /etc/yum.repos.d/elasticsearch.repo
+```
+
+- 파일 내용
+```
+[elasticsearch-6.x]
+name=Elasticsearch repository for 6.x packages
+baseurl=https://artifacts.elastic.co/packages/6.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+```
+
+- install
+```
+yum install -y elasticsearch
+```
+
+### 2. 서비스 등록
+```
+systemctl enable elasticsearch
+systemctl start elasticsearch
+curl -X GET 'localhost:9200'
+```
+![111](https://user-images.githubusercontent.com/32935365/68369764-6e85f000-017e-11ea-8598-251331b96020.PNG)  
+
+
+### 3. Directory Description
+- **/usr/share/elasticsearch** : 홈디렉토리
+    - **bin** : 실행 파일 디렉토리
+    - **plugins** : 플러그인
+- **/etc/elasticsearch** : 설정 파일 디렉토리
+    - **elasticsearch.yml** : 주 설정 파일
+    - **jvm.options** : java 설정 파일
+    - **log4j2.properties** : 로그 설정 파일
+- **/var/lib/elasticsearch** : 데이터 저장 디렉토리
+- **/var/log/elasticsearch** : 로그 저장 디렉토리
+
+
+### 4. python ES API install
+- python import 확인
+```
+python
+>>> import elasticsearch
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+ImportError: No module named elasticsearch
+>>> exit()
+```
+
+- pip install
+```
+pip install elasticsearch
+```
+
+- 만약 권한이 없다거나 permission deny가 나오면 다음과 같이 --user 옵션을 넣어준다.
+```
+pip install --user elasticsearch
+```
+
+### 5. python3 실행 오류
+![1 yum 오류](https://user-images.githubusercontent.com/32935365/68369695-49917d00-017e-11ea-93b9-281723961dbe.PNG)  
+
+- python237에서 python3.6으로 수정하면서 오류가 발생하면 아래와 같이 조치한다.
+    - /usr/bin/yum 파일 수정
+    ```
+    vi /usr/bin/yum 
+    ```
+    - 맨 윗라인에 #!/usr/bin/python을 #!/usr/bin/python2.7로 수정
+
+    - /usr/libexec/urlgrabber-ext-down 파일 수정
+    ```
+    vi /usr/libexec/urlgrabber-ext-down
+    ```
+    - 맨 윗라인에 #!/usr/bin/python을 #!/usr/bin/python2.7로 수정
+ 
+### 간단도르
+- index -> db 이름
+- doc_type -> type이름
+- body -> 내용
+```python3
+es_client.index(index='test_index', doc_type=folder, body=r)
+
+```
 
 ## Elasticsearch와 python 연동
-http://jason-heo.github.io/elasticsearch/2016/07/16/elasticsearch-with-python.html
+https://blog.nerdfactory.ai/2019/04/29/django-elasticsearch-restframework.html  
+https://victorydntmd.tistory.com/308  
+https://github.com/elastic/elasticsearch-py  
+http://jason-heo.github.io/elasticsearch/2016/07/16/elasticsearch-with-python.html  
+https://blog.nerdfactory.ai/2019/04/29/django-elasticsearch-restframework.html  
+https://victorydntmd.tistory.com/310  
+https://github.com/wikibook/elasticsearch  
+
+
 
 [출처]  
 http://mixedcode.com/Article/Index?aidx=1113

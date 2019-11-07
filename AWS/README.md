@@ -216,13 +216,13 @@ pip install --user elasticsearch
 ![1 yum 오류](https://user-images.githubusercontent.com/32935365/68369695-49917d00-017e-11ea-93b9-281723961dbe.PNG)  
 
 - python237에서 python3.6으로 수정하면서 오류가 발생하면 아래와 같이 조치한다.
-    - /usr/bin/yum 파일 수정
+    - **1. /usr/bin/yum 파일 수정**
     ```
     vi /usr/bin/yum 
     ```
     - 맨 윗라인에 #!/usr/bin/python을 #!/usr/bin/python2.7로 수정
 
-    - /usr/libexec/urlgrabber-ext-down 파일 수정
+    - **2. /usr/libexec/urlgrabber-ext-down 파일 수정**
     ```
     vi /usr/libexec/urlgrabber-ext-down
     ```

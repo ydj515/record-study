@@ -237,6 +237,82 @@ es_client.index(index='test_index', doc_type=folder, body=r)
 
 ```
 
+## selenium
+### install
+```
+sudo apt-get install python-pip
+sudo pip install selenium
+```
+
+### confirm
+```
+python
+>>> import selenium
+```
+
+## chrome
+### yum 저장소 생성
+```
+sudo vi /etc/yum.repos.d/google-chrome.repo
+```
+- 파일 내용은 아래와 같이 작성
+```
+[google-chrome]
+name=google-chrome
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
+```
+
+### install
+```
+sudo yum install google-chrome-stable
+```
+
+### confirm
+```
+google-chrome --version
+```
+
+### chrome driver 설치
+- chrome 버전에 따라 **78.0.3904.70** 이부분은 수정해야한다!
+```
+wget -N http://chromedriver.storage.googleapis.com/78.0.3904.70/chromedriver_linux64.zip -P ~/Downloads
+unzip ~/Downloads/chromedriver_linux64.zip
+sudo mv /usr/local/bin/chromedriver
+```
+
+### unzip 설치
+```
+rpm -qa | grep unzip
+yum list unzip
+sudo yum install unzip
+```
+
+### pyvirtualdisplay 설치
+```
+sudo pip install xlrd
+sudo yum install xorg-x11-server-Xvfb
+sudo pip install pyvirtualdisplay
+```
+
+### sample code
+``` python
+# -*- coding:utf-8 -*-
+from selenium import webdriver
+from pyvirtualdisplay import Display
+
+display = Display(visible=0, size=(800,600))
+display.start()
+driver = webdriver.Chrome('/usr/local/bin/chromedriver')
+driver.get("http://www.naver.com")
+print(driver.page_source)
+
+driver.quit()
+display.stop()
+```
+
 ## Elasticsearch와 python 연동
 https://blog.nerdfactory.ai/2019/04/29/django-elasticsearch-restframework.html  
 https://victorydntmd.tistory.com/308  
@@ -249,4 +325,7 @@ https://github.com/wikibook/elasticsearch
 
 
 [출처]  
-http://mixedcode.com/Article/Index?aidx=1113
+http://mixedcode.com/Article/Index?aidx=1113  
+https://dvpzeekke.tistory.com/1  
+https://synkc.tistory.com/entry/Chromedriver-DevToolsActivePort-file-doesnt-exist-%EC%97%90%EB%9F%AC-%ED%95%B4%EA%B2%B0%EB%B2%95  
+https://iskra.sarang.net/176  

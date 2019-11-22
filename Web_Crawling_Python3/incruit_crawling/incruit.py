@@ -1,7 +1,8 @@
 #-*- coding:utf-8 -*-
 import urllib.request
 import bs4
-import openpyxl
+import openpyxl # pip install openpyxl
+import pymysql # pip install pymysql
 
 def get_bsobj(url):
     """
@@ -42,6 +43,99 @@ def save_excel(my_dict):
 
     # excel save
     workbook.save(filename="호로록.xlsx")
+
+def make_connection(db_name):
+    """
+    DB GET CONNECTION
+    """
+    conn = pymysql.connect(host='localhost', user='root', password='root', db=db_name, charset='utf8')
+    
+    return conn
+
+def create_database():
+    """
+    CREATE DATABASE
+    """
+    conn = pymysql.connect(host='localhost', user='root', password='root', charset='utf8')
+
+    try:
+        with conn.cursor() as cursor:
+            sql = 'create database test'
+            cursor.execute(sql)
+        
+        conn.commit()
+    finally:
+        conn.close()
+
+def create_table(conn):
+    """
+    CREATE TABLE
+    """
+    try:
+        with conn.cursor() as cursor:
+            sql = """
+                CREATE TABLE hoho (
+                    .....
+                    ....
+                    ...
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+            """
+            cursor.execute(sql)
+        conn.commit()
+    finally:
+        conn.close()
+
+def select_query(conn):
+    """
+    DB SELECT
+    """
+    try:
+        with conn.cursor() as cursor:
+            sql = "select * from hoho;" # hoho 여기엔 테이블 이름
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            print(result)
+    finally:
+        conn.close()
+
+def insert_query(conn):
+    """
+    DB INSERT
+    """
+    try:
+        with conn.cursor() as cursor:
+            sql = "insert into hoho (aa,bb,cc) values(%s, %s, %s)"
+            cursor.execute(sql, ("히히히", "하하하","후후후"))
+        conn.commit()
+        print(cursor.lastrowid)
+    finally:
+        conn.close()
+
+def update_query(conn):
+    """
+    DB UPDATE
+    """
+    try:
+        with conn.cursor() as cursor:
+            sql = "update hoho set aa=%s where bb=%s"
+            cursor.execute(sql, ("hihihi", "하하하"))
+        conn.commit()
+        print(cursor.rowcount) # affected rows
+    finally:
+        conn.close()
+
+def delete_query(conn):
+    """
+    DB DELETE
+    """
+    try:
+        with conn.cursor() as cursor:
+            sql = "delete from hoho where aa=%s"
+            cursor.execute(sql, ("히히히"))
+        conn.commit()
+        print(cursor.rowcount) # affected rows
+    finally:
+        conn.close()
 
 def main():
 

@@ -60,9 +60,9 @@ def main():
     for section in range(100,105):
         # bs_obj = get_bsobj(url + query.format(section))
         
-        uri = url + query.format(section)
+        uri = url + query.format(section) # 각 탭의 url
 
-        if(section==100):
+        if(section==100): # 정치 section
             main_uri = driver.get(uri)
 
             more_news_click(driver)
@@ -100,12 +100,21 @@ def main():
                         print(news_date)
 
                         news = get_bsobj(news_url)
-                        news_hour = news.find("span",{"class":"t11"}).text
 
+                        news_hour = news.find("span",{"class":"t11"}).text
                         print(news_hour)
 
                         news_content = news.find("div",{"class":"_article_body_contents"}).text
                         print(news_content)
+
+                        # 뉴스 댓글 갯수를 셀레니움으로 새창으로 켜서 확인할 수 는 있음
+                        # time.sleep(2)
+                        # driver.get(news_url)
+                        # news_reply_num = driver.find_element_by_class_name("lo_txt")
+                        # print(news_reply_num.text)
+                        # driver.close()
+                        # time.sleep(2)
+                        
 
                     except: # 뉴스 이미지 없는 것들은 catch문에서 크롤링
                         news_url = dts[0].find("a")["href"] # 1은 고정
@@ -133,7 +142,7 @@ def main():
 
             driver.quit()
 
-        else:
+        else: # 경제, 사회, 생활/문화, 세계 IT/과학
             driver = webdriver.Chrome("./chromedriver.exe")
             main_uri = driver.get(uri)
 

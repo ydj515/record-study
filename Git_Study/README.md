@@ -50,6 +50,11 @@ git clone https://github.com/ydj515/record-study.git
 ![git clone](https://user-images.githubusercontent.com/32935365/68192818-49b24100-fff5-11e9-863e-7fb601f43772.PNG)  
 ![git clone2](https://user-images.githubusercontent.com/32935365/68192833-50d94f00-fff5-11e9-9716-c041894ca9f8.PNG)
 
+- 특정 branch하나만 clone
+```
+git clone -b {branch명} --singlie-branch {URL}
+git clone -b ydj515 --singlie-branch https://github.com/ydj515/record-study.git
+```
 
 ## Commit
 ### working directory -> stage area
@@ -123,16 +128,39 @@ git branch like_feature
 ```
 
 ### branch 확인
+- 로컬 영영의 branch 확인
 ```
 git branch
 ```
 ![git branch](https://user-images.githubusercontent.com/32935365/68193020-a9105100-fff5-11e9-8541-0e6609c9c468.PNG)
 
+- 원격 저장소 branch 확인
+```
+git branch -r
+```
+![git branch -r](https://user-images.githubusercontent.com/32935365/69517244-7bd11600-0f97-11ea-8ac4-d3d5ab406c56.PNG)
+
+- 로컬/원격 저장소의 모든 branch 확인
+```
+git branch -a
+```
+![git branch -a](https://user-images.githubusercontent.com/32935365/69517270-8e4b4f80-0f97-11ea-81af-75aecc51d19b.PNG)
+
+
 ### branch switch
+- 해당 브랜치로 checkout
 ```
 git checkout like_feature
 ```
 ![git checkout](https://user-images.githubusercontent.com/32935365/68193066-baf1f400-fff5-11e9-8ca8-923ef3cfc786.PNG)
+
+- 원격 저장소와 같은 이름의 branch를 로컬 저장소에 생성
+```
+git checkout -t like_feature
+```
+
+- 로컬 저장소에 branch를 생성 하지 않고 git chekcout으로 변경하고 파일을 업로드 하여도 변경 내용 저장 x
+- 따라서 **git checkout -t {브랜치명}** 를 한 다음 **checkout {브랜치명}**으로 작업 한 후 **commit & push**를 해주어야 한다.
 
 ## Merge
 - master branch에서 지속적으로 가져와서 충돌나는 부분을 계속 없애주는 것이 중요!!

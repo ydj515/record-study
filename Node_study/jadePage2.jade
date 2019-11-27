@@ -1,0 +1,22 @@
+doctype html
+html
+    head
+        title index page
+        style.
+            * { margin:0px; padding:0px;}
+            h1 {
+                color:red;
+            }
+            h2 {
+                text-decoration: underline;
+            }
+    body
+        // JADE STRING
+        h1 #{name}
+        h2=description
+        hr
+        - for(var i = 0; i < 10; i++) {
+            p
+                a(href="http://www.naver.com") Go To Naver #{i}
+        - }
+        

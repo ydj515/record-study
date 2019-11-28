@@ -49,7 +49,7 @@ const jade = require('jade');
 // jadePage2.jade
 const server = http.createServer((req, res) => {
     fs.readFile('jadePage2.jade','utf8',(error, data) => {
-        // jade 모듈을 사용
+        // use jade module
         var fn = jade.compile(data);
 
         res.writeHead(200,{'Content-Type':'text/html'});

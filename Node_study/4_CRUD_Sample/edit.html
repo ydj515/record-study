@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Page</title>
+</head>
+<body>
+    <h1>Edit Page</h1>
+    <hr/>
+    <form method="post">
+        <fieldset>
+            <legend>Edit Data</legend>
+            <table>
+                <tr>
+                    <td><label>Id</label></td>
+                    <td><input type="text" name="id" value="<%= data.id %>" disabled/></td>
+                </tr>
+                <tr>
+                    <td><label>Name</label></td>
+                    <td><input type="text" name="name" value="<%= data.id %>" /></td>
+                </tr>
+                <tr>
+                    <td><label>Model Number</label></td>
+                    <td><input type="text" name="modelnumber" value="<%= data.modelnumber %>" disabled/></td>
+                </tr>
+                <tr>
+                    <td><label>Series</label></td>
+                    <td><input type="text" name="series" value="<%= data.series %>" disabled/></td>
+                </tr>
+            </table>
+
+            <input type="submit"/>
+
+        </fieldset>
+    </form>
+</body>
+</html>

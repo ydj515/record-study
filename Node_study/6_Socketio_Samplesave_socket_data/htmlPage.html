@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>hororok</title>
+    <!-- /socket.io/socket.io.js이 없어도 socket.io 모듈을 사용하면 파일이 자동으로 등록 -->
+    <!-- http://127.0.0.1:3000/socket.io/socket.io.js 접속!! -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        window.onload = function() {
+            // 소켓을 생성
+            var socket = io.connect();
+            
+            var name = prompt('이름을 입력해주세요.', '이름');
+
+            // 데이터를 전송
+            socket.emit('setname', name);
+
+            // 소켓 이벤트를 연결
+            socket.on('responsename', (data) => {
+                alert(data);
+            });
+
+            // 문서 객체 이벤트를 연결
+            document.getElementById('button').onclick = () => {
+                socket.emit('getname');
+            };
+        };
+    </script>
+</head>
+<body>
+    <input type="text" id="text" />
+    <input type="button" id="button" value="echo" />
+    
+</body>
+</html>

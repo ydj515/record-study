@@ -1,0 +1,7 @@
+extends layout
+
+block content
+  p 이곳은 에러 페이지입니다
+  h1= message
+  h2= error.status
+  pre #{error.stack}

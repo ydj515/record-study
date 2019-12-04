@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>호로록</title>
+
+    <style>
+        .line { overflow: hidden; }
+        .seat {
+            margin: 2px; float: left;
+            width: 30px; height: 30px;
+            border-radius: 3px;
+        }
+
+        .enable { background: grey; }
+        .enable:hover { background: black; }
+        .disable { background: red; }
+    </style>
+
+    <!-- /socket.io/socket.io.js이 없어도 socket.io 모듈을 사용하면 파일이 자동으로 등록 -->
+    <!-- http://127.0.0.1:3000/socket.io/socket.io.js 접속!! -->
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script>
+        var socket = io.connect();
+
+        socket.on('reserve', (data) => {
+            var $target = $('div[data-x = ' + data.x + '][data-y = ' + data.y + ']');
+            $target.removeClass('enable');
+            $target.addClass('disable');
+        });
+    </script>
+    
+    <!-- 초기 좌석 생성-->
+    <script>
+        $(document).ready(() => {
+            var onClickSeat = ()=> {
+                var x = $(this).attr('data-x');
+                var y = $(this).attr('data-y');
+
+                if(confirm('좌석을 예약하실래용?')) {
+                    $(this).off('click');
+                    socket.emit('reserve', {
+                        x: x,
+                        y: y
+                    });
+                } else {
+                    alert('취소햇어 왜 ㅡㅡ');
+                }
+            };
+
+            // Ajax
+            $.getJSON('/seats', { dummy: new Date().getTime() }, (data) => {
+
+                // 좌석 생성
+                // each 메소드(데이터, callback function)
+                // 반복 함수
+                // callback function에서 indexY는 데이터의 index 나 object의 key를 의미
+                // line은 해당 index나 key 가 가진 값을 의미
+                $.each(data, (indexY, line) => {
+                    // 문서 객체를 생성하고, 변수 $line에 추가
+                    var $line = $('<div></div>').addClass('line');
+
+                    $.each(line, (indexX, seat) => { // 위의 each 문에서 (indexY, line) 여기서 line을 가져와서 사용하는 것
+                        var $output = $('<div></div>', {
+                        'class': 'seat',
+                        'data-x': indexX,
+                        'data-y': indexY
+                        }).appendTo($line);
+
+                        if(seat == 1) { // 좌석이 비어 있으면 enable 클래스와 click 리스너 추가
+                            $output.addClass('enable').on('click',onClickSeat);
+                        } else if(seat == 2) { // 좌석이 사용 불가능하면 disable 클래스를 추가
+                            $output.addClass('disable');
+                        }
+                    });
+
+                    // 문서 객체를 추가
+                    $line.appendTo('body');
+                });
+            });
+        })
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

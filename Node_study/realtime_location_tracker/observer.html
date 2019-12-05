@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <style>
+        * { margin:0px; padding:0px; }
+        html, body, #map { height:100%; }
+    </style>
+
+    <title>observer</title>
+    
+    <script>
+        $(document).ready( () => {
+
+            function setMarker(latitude, longitude) {
+                var marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(latitude, longitude),
+                    mpa: map
+                });
+            }
+
+            var name = prompt('이름을 입력하세요.', '이름');
+            var socket = io.connect();
+            socket.emit('join', name);
+
+            // 지도 생성
+            var temp = document.getElementById('map');
+            var map = new google.maps.Map(temp, {
+                zoom: 6,
+                center: new google.maps.LatLng(37, 126),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            // 초기 위치 생성
+            $.getJSON('/showdata', { name: name }, (data) => {
+                $.each(data, (index, item) {
+                    setMarker(item.latitude, item.longitude);
+                });
+            });
+
+            // connect socket event
+            socket.on('receive', (data) => {
+                setMarker(data.latitude, data.longitude);
+            });
+        });
+    </script>
+    
+</head>
+<body>
+    <div id="map">
+
+    </div>
+</body>
+</html>

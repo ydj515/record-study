@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="/farbtastic.css" />
+    <link rel="stylesheet" href="/css/ui-lightness/jquery-ui-1.10.2.custom.css" />
+    
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    
+    <script src="/socket.io/socket.io.js"></script>
+
+    <title>lobby</title>
+
+    <script>
+        // Point 생성자 함수 생성
+        function Point(event, target) {
+            this.x = event.pageX - $(target).position().left;
+            this.y = event.pageY - $(target).position().top;
+        }
+    </script>
+    <script>
+        $(document).ready( () => {
+            // Canvas 객체 추출
+            var canvas = document.getElementById('canvas');
+            var context = canvas.getContext('2d');
+
+            var width = 5;
+            var color = '#000000';
+            var isDown = false;
+            var newPoint, oldPoint;
+
+            // connect event
+            canvas.onmouseup = () => {
+                isDown = false;
+            };
+
+            canvas.onmousemove = (event) => {
+                if(isDown) {
+                    newPoint = new Point(event, this);
+
+                    socket.emit('draw', {
+                        width: width,
+                        color: color,
+                        x1: oldPoint.x,
+                        y1: oldPoint.y,
+                        x2: newPoint.x,
+                        y2: newPoint.y,
+                    });
+
+                    oldPoint = newPoint;
+                }
+            };
+
+            var socket = io.connect();
+            socket.emit('join', '<%= room %>');
+            socket.on('line', (data) => {
+                context.lineWidth = data.width;
+                context.strokeStyle = data.color;
+                context.beginPath();
+                context.moveTo(data.x1, data.y1);
+                context.lineTo(data.x2, data.y2);
+                context.stroke();
+            });
+
+            // composite UI
+            $('#colorpicker').farbtastic( (data) => {
+                color = data;
+            });
+
+            $('#slider').slider({
+                max: 20, min: 1,
+                value: 5,
+                change: (event, ui) => {
+                    width = ui.value;
+                }
+            });
+        });
+    </script>
+    
+</head>
+<body>
+    <table border="10">
+        <tr>
+            <td rowspan="3">
+                <!-- canvas -->
+                <canvas id="canvas" width="600" height="400"></canvas>
+            </td>
+            <td height="200">
+                <!-- color picker -->
+                <div id="colorpicker"></div>
+            </td>
+        </tr>
+        <tr>
+            <td height="25">
+                <!-- 슬라이더: 두께 선택 -->
+                <div id="slider"></div>
+            </td>
+        </tr>
+        <tr>
+            <td style="background: orange;"></td>
+        </tr>
+    </table>
+
+</body>
+</html>

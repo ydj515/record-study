@@ -271,6 +271,7 @@ a.forEach(x -> System.out.println(x));
 
 ## 실전연습
 ### <a href="https://github.com/ydj515/record-study/blob/master/Java_study/Stream/src/traderAndTransaction/Main.java">문제풀이</a>
+###  <a href="https://github.com/ydj515/record-study/blob/master/Java_study/Stream/src/stringcalculator/StringAddCalculator.java">예제</a>
 
 [출처]  
 https://jeong-pro.tistory.com/165  

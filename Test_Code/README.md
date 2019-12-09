@@ -27,36 +27,36 @@
 - Compile Dependencies가 있는 JUnit은 hamcrest를 같이 추가해 주어야함
 
 ### Annotation
-- @BeforeClass
+- @BeforeClass  
 Test Class가 처음 시작 할 때 한 번 실행 ex) network connection, DB connection
 
-- @Before
+- @Before  
 @Test가 있는 test method가 실행 되기 전에 실행
 
-- @AfterClass
+- @AfterClass  
 @Test Class가 최종 끝날 때 한 번 실행 ex) network connection close, DB connection close
 
-- @After
+- @After  
 @Test가 있는 test method가 실행 된 후에 실행
 
-- @Test
+- @Test  
 test를 진행하고 싶은 내용 작성
 
-- @Ignore
+- @Ignore  
 test case를 무시할 수 있음
 
 ### Assert Method
-- assertArrayEquals(a,b)
+- assertArrayEquals(a,b)  
 **배열** a와b가 일치함을 확인한다.
-- assertEquals(a,b)
+- assertEquals(a,b)  
 객체 a와b의 **값이 같은지** 확인한다.
-- assertSame(a,b)
+- assertSame(a,b)  
 객체 a와b가 **같은 객체**임을 확인한다.
-- assertTrue(a)
+- assertTrue(a)  
 a가 **참인지** 확인한다.
-- assertFalse(a)
+- assertFalse(a)  
 a가 거짓인기 확인한다.
-- assertNotNull(a)
+- assertNotNull(a)  
 a객체가 **Null이 아님**을 확인한다.
 
 ![flow](https://user-images.githubusercontent.com/32935365/70370382-158ab280-190a-11ea-8158-368a3bdf7956.PNG)
@@ -105,7 +105,6 @@ public class CalculatorTest {
 	public void setUp() {
 		System.out.println("setup : @Test가 돌기 전에 한번씩 돌림판");
 		calculator = new Calculator();
-
 	}
 
 	@Test

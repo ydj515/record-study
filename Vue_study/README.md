@@ -234,6 +234,53 @@ new Vue({
 })
 ```
 
+- Example  
+![123](https://user-images.githubusercontent.com/32935365/70597304-5f85d800-1c2b-11ea-84a2-85dd24a1f830.PNG)  
+
+```html
+<div id="root">
+    <input type="text" v-model="input" @keydown.enter="addTodo" />
+    <button @click="addTodo">Add TODO</button>
+    <ul>
+        <li v-for="todo in todos" v-text="todo.text" :style="{ textDecoration: todo.isDone ? 'line-through' : 'none' }" @click="toggleTodo(todo)"></li>
+    </ul>
+    <p>Total: {{ todosCount }}</p>
+    <p>Active: {{ todosCount - doneTodosCount }}</p>
+    <p>Done: {{ doneTodosCount }}</p>
+</div>
+```
+
+```js
+new Vue({
+    el: '#root',
+    data: {
+        input: '',
+        todos: []
+    },
+    computed: {
+        todosCount() {
+            return this.todos.length.toString();
+        },
+        doneTodosCount() {
+            return this.todos.filter(e => e.isDone).length;
+        }
+    },
+    methods: {
+        addTodo() {
+            this.todos.push({
+                text: this.input,
+                isDone: false
+            });
+            this.input = '';
+        },
+        toggleTodo(todo) {
+            todo.isDone = !todo.isDone;
+        }
+    }
+});
+```
+
+
 ### Router
 - npm, cdn 방식 모두 지원
 - npm 방식

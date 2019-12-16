@@ -39,6 +39,21 @@ npm run dev
 ```  
 ![vue seccess](https://user-images.githubusercontent.com/32935365/70500684-7bbc4300-1b5f-11ea-871e-528ce24bde0c.PNG)
 
+### vue-cli install command
+- vue init webpack {name}  
+고급 웹팩 기능을 활용한 프로젝트 구성 방식. 테스팅，문법 검사 등을 지원
+- vue init webpack-simple {name}  
+웹팩 최소 기능을 활용한 프로젝트 구성 방식. 빠른 화면 프로토타이핑용
+- vue init browserify {name}  
+고급 브라우저리파이 기능을 활용한 프로젝트 구성 방식. 테스팅，문법 검사 등을 지원
+- vue init browserify-simple {name}  
+브라우저리파이 최소 기능을 활용한 프로젝트 구성 방식. 빠른 화면 프로토타이핑용
+- vue init simple {name}  
+최소 뷰 기능만 들어간 HTML 파일 1개 생성
+- vue init pwa {name}  
+웹팩 기반의 프로그레시브 웹 앱(PWA, Progressive Web App) 기능을 지원하는 뷰 프로젝트
+
+
 ### 폴더 구조
 - src
     - **assets** : css, png와 같은 UI 관련 resources

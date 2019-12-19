@@ -150,6 +150,13 @@ server.listen(port, hostname, () => {
 ## Express 사용
 
 
+## Supervisor
+- **Node js를 자동으로 재시작**
+```
+npm install supervisor -g
+```
+
+
 ## Memroy Leak
 ![js_out_of_memory](https://user-images.githubusercontent.com/32935365/71154077-0e569380-227e-11ea-93f4-b8e420879fba.PNG)  
 

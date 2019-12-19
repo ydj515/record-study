@@ -148,4 +148,30 @@ server.listen(port, hostname, () => {
 
 
 ## Express 사용
- 
+
+
+## Memroy Leak
+![js_out_of_memory](https://user-images.githubusercontent.com/32935365/71154077-0e569380-227e-11ea-93f4-b8e420879fba.PNG)  
+
+### 메모리 누수 원인
+- node js는 v8엔진에서 **GC(Garbage Collector)를 주기적으로 수행**
+- node js는 **메모리 관리가 불완전하고 어렵다.** 왜냐하면 GC(Garbage Collector)역시 **메인스레드(이벤트루프)에서 실행되기 때문**
+- 따라서 메인스레드가 바쁜 작업(CPU인텐시브)을 돌릴 경우, 메모리는 급격히 증가하여 Memory Allocate Error 발생
+
+### 해결 방안
+- 1. **process.nextTick과 setTimeout**을 활용하여 GC가 수행될 수 있도록 시간틈을 만들어주는 법
+- 2. **closer와 stack의 빈번한 사용을 자제**
+- 3. **GC를 수동으로 event loop에 넣음**(일시적인 블록이 발생할 수 있어 성능이 저하된다는 단점)
+
+### heap memory 사이즈 늘리기
+기본적인 nodejs의 할당된 메모리양은 512MB  
+
+- 일반적인 경우(4GB로 늘림)
+```
+node --max-old-space-size=4096 app.js
+```
+
+- webpack 사용하는 경우(4GB로 늘림)
+```
+webpack --config webpack.build.config.js --max_old_space_size=4096
+```

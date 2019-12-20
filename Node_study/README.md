@@ -148,7 +148,84 @@ server.listen(port, hostname, () => {
 
 
 ## Express 사용
+- Node js에서 사용하는 **FrameWork**
+- Java에서 Spring을 주로 사용하듯이 Node 에서는 Express를 사용
 
+### 사용
+- ejs사용
+```
+express -e {dir_name}
+```
+
+### Middle ware
+- 경로를 마운트 하고 해당 경로로 들어올 경우 실행
+- 경로 지정이 안되어 있으므로 모든 경로에 바인드
+```js
+var app = express();
+
+app.use(function (req, res, next) {
+  console.log('Time:', Date.now());
+  next();
+});
+```
+
+- /user/:id 경로
+```js
+app.use('/user/:id', function (req, res, next) {
+  console.log('Request Type:', req.method);
+  next(); // next로 미들웨어 함수 표시
+});
+```
+```js
+app.get('/user/:id', function (req, res, next) {
+  res.send('USER');
+});
+```
+
+- 라우터 레벨 미들웨어
+```js
+var app = express();
+```
+
+```js
+var app = express();
+var router = express.Router();
+
+// a middleware function with no mount path. This code is executed for every request to the router
+router.use(function (req, res, next) {
+  console.log('Time:', Date.now());
+  next();
+});
+
+// a middleware sub-stack shows request info for any type of HTTP request to the /user/:id path
+router.use('/user/:id', function(req, res, next) {
+  console.log('Request URL:', req.originalUrl);
+  next();
+}, function (req, res, next) {
+  console.log('Request Type:', req.method);
+  next();
+});
+
+// a middleware sub-stack that handles GET requests to the /user/:id path
+router.get('/user/:id', function (req, res, next) {
+  // if the user ID is 0, skip to the next router
+  if (req.params.id == 0) next('route');
+  // otherwise pass control to the next middleware function in this stack
+  else next(); //
+}, function (req, res, next) {
+  // render a regular page
+  res.render('regular');
+});
+
+// handler for the /user/:id path, which renders a special page
+router.get('/user/:id', function (req, res, next) {
+  console.log(req.params.id);
+  res.render('special');
+});
+
+// mount the router on the app
+app.use('/', router);
+```
 
 ## Supervisor
 - **Node js를 자동으로 재시작**

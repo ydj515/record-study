@@ -227,6 +227,42 @@ router.get('/user/:id', function (req, res, next) {
 app.use('/', router);
 ```
 
+## Request Parameter
+- ejs와 js의 request parameter 주고 받는 법
+- js file
+
+```js
+router.get('/', function(req, res, next) {
+
+    console.log(req.query.name); // 아래 ejs 파일에서 /issuedetail?name= 값을 넘겨 받는다
+
+    mysqlDB.query('SELECT * FROM article a WHERE a.sub_cat_id IN( SELECT cat_id FROM category WHERE name=' + "'" + req.query.name + "') ORDER BY a.article_id DESC", function (err, rows, fields) {
+        if (!err) {
+            console.log(rows);
+            // console.log(fields);
+            res.render('issuedetail', { mylist: rows });
+        } else {
+            console.log('query error : ' + err);
+            res.send(err);
+        }
+    });
+});
+```
+
+- ejs file
+```html
+<tbody style="overflow-y: auto; overflow-x: hidden; float: left;height:70vh">
+  <tr>
+    <td colspan="3"><%=mylist.length%></a></td>
+  </tr>
+  <% for ( var i = 0; i < mylist.length; i++){ %>
+  <tr>
+    <td colspan="3"><a href="/issuedetail?name=<%=mylist[i].name%>"><%=mylist[i].name%></a></td>
+  </tr>
+  <% } %>
+</tbody>
+```
+
 ## Supervisor
 - **Node js를 자동으로 재시작**
 ```

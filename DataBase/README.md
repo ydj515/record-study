@@ -2,7 +2,7 @@
 
 - **7daySQL Challenge :** https://github.com/ydj515/record-study/tree/master/DataBase/7daySQL
 
-- **DB 멘토링 :** https://github.com/ydj515/record-study/tree/master/android_youtube_api/DB_Mentoring
+- **DB 멘토링 :** https://github.com/ydj515/record-study/tree/master/DataBase/DB_Mentoring
 
 
 

@@ -20,7 +20,7 @@
 
 - **Linux Command :** https://github.com/ydj515/record-study/tree/master/Linux_Command
 
-- **SQL :** https://github.com/ydj515/record-study/tree/master/SQL
+- **DataBase :** https://github.com/ydj515/record-study/tree/master/DataBase
 
 - **Design Pattern Java :** https://github.com/ydj515/DesignPattern-java
 

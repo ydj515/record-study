@@ -295,3 +295,28 @@ node --max-old-space-size=4096 app.js
 ```
 webpack --config webpack.build.config.js --max_old_space_size=4096
 ```
+
+## Datetime Formatting
+- ejs에서 사용하기 위해 DB안에 있는 Date형식을 원하는 방식대로 format
+
+### moment 모듈 설치
+```
+npm install moment
+npm install
+```
+
+### moment 모듈 사용
+- 해당 js 파일에 모듈 사용
+```js
+var moment = require('moment'); // npm install moment : 날짜 포맷 변경
+```
+
+- rendering 하는 부분에 moment를 붙혀서 넘겨줌
+```js
+res.render('ddetail', { mylist: rows, name: req.query.name, moment});
+```
+
+- 해당 ejs 에서 사용
+```html
+[<%=moment(mylist[mylist.length-1].reg_date).format('YYYY.MM.DD') %>]
+```

@@ -318,5 +318,5 @@ res.render('ddetail', { mylist: rows, name: req.query.name, moment});
 
 - 해당 ejs 에서 사용
 ```html
-[<%=moment(mylist[mylist.length-1].reg_date).format('YYYY.MM.DD') %>]
+<%=moment(mylist[mylist.length-1].reg_date).format('YYYY.MM.DD') %>
 ```

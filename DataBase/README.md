@@ -71,14 +71,12 @@ docker exec -it local_db bash -c "source /home/oracle/.bashrc; sqlplus sys/Orado
 ```
 ![sql 접속](https://user-images.githubusercontent.com/32935365/72321463-4f0fc400-36e7-11ea-855b-2f1ed8ce6829.png)  
 
-
-
-
-
 3. SQL Developer
 - https://www.oracle.com/tools/downloads/sqldev-v192-downloads.html
 - 설정 저장 후 테스트 후 접속
 ![sql developer 연동](https://user-images.githubusercontent.com/32935365/72321487-5c2cb300-36e7-11ea-8be1-f64dcc256b37.png)  
+
+- **실행계획으로 Join이 몇번 일어났는지 확인할 수 있다!**
 
 
 - Oracle 서버와 연동
@@ -95,6 +93,10 @@ docker exec -it local_db bash -c "source /home/oracle/.bashrc; sqlplus sys/Orado
     ```
     ALTER SESSION SET "_ORACLE_SCRIPT" = TRUE;
     ```
+
+### SQL Developer가 접속이 안되는 경우
+- Docker가 실행되어 있지 않은 경우 => 첫 부팅 시 WIFI가 없어서 실행이 안되어있을 수 있음
+- Docker는 실행되어 있지만 Oracle이 실행되어 있지 않은 경우 => 터미널에서 "docker ps" 명령어로 확인!
 
 
 [출처]  

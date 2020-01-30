@@ -1,3 +1,4 @@
+INSERT INTO TEST03.TBL_LT_HIS(
 WITH R AS (
     SELECT A.FA_ID      AS  FA_ID_M1,
            A.LT_ID      AS  LT_ID_M1,
@@ -69,18 +70,6 @@ SELECT * FROM (
 -- SELECT   SELECT  -> TEST01 insert
 -- LOADING  LOADING -> TEST01 insert
 -- RESERVE  RESERVE -> TEST01 insert
-    SELECT FA_ID_M1     AS FA_ID,
-           LT_ID_M1     AS LT_ID,
-           PROD_ID_M1   AS PROD_ID,
-           TIMEKEY_M1   AS TIMEKEY,
-           FL_ID_M1     AS FL_ID,
-           OP_ID_M1     AS OP_ID,
-           STAT_CD_M1   AS STAT_CD,
-           STAT_TYP_M1  AS STAT_TYP
-    FROM R
-    WHERE STAT_TYP_M1 = STAT_TYP_M2
-    
-    UNION ALL
     
 -- 조건2
 -- TEST01쪽 data insert
@@ -94,6 +83,7 @@ SELECT * FROM (
            STAT_TYP_M1  AS STAT_TYP
     FROM R
     WHERE (
+	    (STAT_TYP_M1 = STAT_TYP_M2) AND
         (STAT_TYP_M1 = 'RESERVE' AND STAT_TYP_M2 = 'LOADING') OR
         (STAT_TYP_M1 = 'SELECT' AND STAT_TYP_M2 = 'PROCESS') OR
         (STAT_TYP_M1 = 'PROCESS' AND STAT_TYP_M2 = 'RESERVE') OR
@@ -114,9 +104,10 @@ SELECT * FROM (
            STAT_TYP_M2  AS STAT_TYP
     FROM R
     WHERE (
+	    (STAT_TYP_M1 = STAT_TYP_M2) AND
         (STAT_TYP_M2 = 'RESERVE' AND STAT_TYP_M1 = 'LOADING') OR
         (STAT_TYP_M2 = 'SELECT' AND STAT_TYP_M1 = 'PROCESS') OR
         (STAT_TYP_M2 = 'PROCESS' AND STAT_TYP_M1 = 'RESERVE') OR
         (STAT_TYP_M2 = 'LOADING' AND STAT_TYP_M1 = 'SELECT')
     )
-)
+))

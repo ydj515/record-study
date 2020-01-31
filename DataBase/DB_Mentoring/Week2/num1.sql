@@ -1,4 +1,4 @@
-INSERT INTO TEST03.TBL_LT_HIS(
+INSERT INTO TEST03.TBL_LT_HIS
 WITH R AS (
     SELECT A.FA_ID      AS  FA_ID_M1,
            A.LT_ID      AS  LT_ID_M1,
@@ -27,42 +27,40 @@ WITH R AS (
         AND A.TIMEKEY = B.TIMEKEY
 ) --WITH END
 
-SELECT * FROM (
-
 -- TEST01 is NULL
-    SELECT FA_ID_M2     AS FA_ID,
-           LT_ID_M2     AS LT_ID,
-           PROD_ID_M2   AS PROD_ID,
-           TIMEKEY_M2   AS TIMEKEY,
-           FL_ID_M2     AS FL_ID,
-           OP_ID_M2     AS OP_ID,
-           STAT_CD_M2   AS STAT_CD,
-           STAT_TYP_M2  AS STAT_TYP
-    FROM R
-    WHERE FA_ID_M1 IS NULL AND
-          LT_ID_M1 IS NULL AND
-          PROD_ID_M1 IS NULL AND
-          TIMEKEY_M1 IS NULL -- PK가 NULL인 경우
-        
-    UNION ALL
+SELECT FA_ID_M2     AS FA_ID,
+       LT_ID_M2     AS LT_ID,
+       PROD_ID_M2   AS PROD_ID,
+       TIMEKEY_M2   AS TIMEKEY,
+       FL_ID_M2     AS FL_ID,
+       OP_ID_M2     AS OP_ID,
+       STAT_CD_M2   AS STAT_CD,
+       STAT_TYP_M2  AS STAT_TYP
+FROM R
+WHERE FA_ID_M1 IS NULL AND
+      LT_ID_M1 IS NULL AND
+      PROD_ID_M1 IS NULL AND
+      TIMEKEY_M1 IS NULL -- PK가 NULL인 경우
     
--- TEST02 is NULL
-    SELECT FA_ID_M1     AS FA_ID,
-           LT_ID_M1     AS LT_ID,
-           PROD_ID_M1   AS PROD_ID,
-           TIMEKEY_M1   AS TIMEKEY,
-           FL_ID_M1     AS FL_ID,
-           OP_ID_M1     AS OP_ID,
-           STAT_CD_M1   AS STAT_CD,
-           STAT_TYP_M1  AS STAT_TYP
-    FROM R
-    WHERE FA_ID_M2 IS NULL AND
-          LT_ID_M2 IS NULL AND
-          PROD_ID_M2 IS NULL AND
-          TIMEKEY_M2 IS NULL -- PK가 NULL인 경우
+UNION ALL
 
-    UNION ALL
-    
+-- TEST02 is NULL
+SELECT FA_ID_M1     AS FA_ID,
+       LT_ID_M1     AS LT_ID,
+       PROD_ID_M1   AS PROD_ID,
+       TIMEKEY_M1   AS TIMEKEY,
+       FL_ID_M1     AS FL_ID,
+       OP_ID_M1     AS OP_ID,
+       STAT_CD_M1   AS STAT_CD,
+       STAT_TYP_M1  AS STAT_TYP
+FROM R
+WHERE FA_ID_M2 IS NULL AND
+      LT_ID_M2 IS NULL AND
+      PROD_ID_M2 IS NULL AND
+      TIMEKEY_M2 IS NULL -- PK가 NULL인 경우
+
+UNION ALL
+
 -- TBL_LT_HIS -> PK 중복나는 경우에는 
 -- 조건1
 -- TEST01   TEST02
@@ -70,44 +68,43 @@ SELECT * FROM (
 -- SELECT   SELECT  -> TEST01 insert
 -- LOADING  LOADING -> TEST01 insert
 -- RESERVE  RESERVE -> TEST01 insert
-    
+
 -- 조건2
 -- TEST01쪽 data insert
-    SELECT FA_ID_M1     AS FA_ID,
-           LT_ID_M1     AS LT_ID,
-           PROD_ID_M1   AS PROD_ID,
-           TIMEKEY_M1   AS TIMEKEY,
-           FL_ID_M1     AS FL_ID,
-           OP_ID_M1     AS OP_ID,
-           STAT_CD_M1   AS STAT_CD,
-           STAT_TYP_M1  AS STAT_TYP
-    FROM R
-    WHERE (
-	    (STAT_TYP_M1 = STAT_TYP_M2) AND
-        (STAT_TYP_M1 = 'RESERVE' AND STAT_TYP_M2 = 'LOADING') OR
-        (STAT_TYP_M1 = 'SELECT' AND STAT_TYP_M2 = 'PROCESS') OR
-        (STAT_TYP_M1 = 'PROCESS' AND STAT_TYP_M2 = 'RESERVE') OR
-        (STAT_TYP_M1 = 'LOADING' AND STAT_TYP_M2 = 'SELECT')
-    )
-    
-    UNION ALL
-    
+SELECT FA_ID_M1     AS FA_ID,
+       LT_ID_M1     AS LT_ID,
+       PROD_ID_M1   AS PROD_ID,
+       TIMEKEY_M1   AS TIMEKEY,
+       FL_ID_M1     AS FL_ID,
+       OP_ID_M1     AS OP_ID,
+       STAT_CD_M1   AS STAT_CD,
+       STAT_TYP_M1  AS STAT_TYP
+FROM R
+WHERE (
+(STAT_TYP_M1 = STAT_TYP_M2) AND
+    (STAT_TYP_M1 = 'RESERVE' AND STAT_TYP_M2 = 'LOADING') OR
+    (STAT_TYP_M1 = 'SELECT' AND STAT_TYP_M2 = 'PROCESS') OR
+    (STAT_TYP_M1 = 'PROCESS' AND STAT_TYP_M2 = 'RESERVE') OR
+    (STAT_TYP_M1 = 'LOADING' AND STAT_TYP_M2 = 'SELECT')
+)
+
+UNION ALL
+
 -- 조건2
 -- TEST02쪽 data insert
-    SELECT FA_ID_M2     AS FA_ID,
-           LT_ID_M2     AS LT_ID,
-           PROD_ID_M2   AS PROD_ID,
-           TIMEKEY_M2   AS TIMEKEY,
-           FL_ID_M2     AS FL_ID,
-           OP_ID_M2     AS OP_ID,
-           STAT_CD_M2   AS STAT_CD,
-           STAT_TYP_M2  AS STAT_TYP
-    FROM R
-    WHERE (
-	    (STAT_TYP_M1 = STAT_TYP_M2) AND
-        (STAT_TYP_M2 = 'RESERVE' AND STAT_TYP_M1 = 'LOADING') OR
-        (STAT_TYP_M2 = 'SELECT' AND STAT_TYP_M1 = 'PROCESS') OR
-        (STAT_TYP_M2 = 'PROCESS' AND STAT_TYP_M1 = 'RESERVE') OR
-        (STAT_TYP_M2 = 'LOADING' AND STAT_TYP_M1 = 'SELECT')
-    )
-))
+SELECT FA_ID_M2     AS FA_ID,
+       LT_ID_M2     AS LT_ID,
+       PROD_ID_M2   AS PROD_ID,
+       TIMEKEY_M2   AS TIMEKEY,
+       FL_ID_M2     AS FL_ID,
+       OP_ID_M2     AS OP_ID,
+       STAT_CD_M2   AS STAT_CD,
+       STAT_TYP_M2  AS STAT_TYP
+FROM R
+WHERE (
+(STAT_TYP_M1 = STAT_TYP_M2) AND
+    (STAT_TYP_M2 = 'RESERVE' AND STAT_TYP_M1 = 'LOADING') OR
+    (STAT_TYP_M2 = 'SELECT' AND STAT_TYP_M1 = 'PROCESS') OR
+    (STAT_TYP_M2 = 'PROCESS' AND STAT_TYP_M1 = 'RESERVE') OR
+    (STAT_TYP_M2 = 'LOADING' AND STAT_TYP_M1 = 'SELECT')
+)

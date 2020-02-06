@@ -42,6 +42,25 @@ List<Object> list = new LinkedList();
 Set<String> set = new HashSet<>();
 ```
 
+- 로또 생성기및 숫자 중복해서 들어가면 안되는 곳에 사용
+```java
+private final int MAX_SIZE = 6;
+private final int MAX_RANDOM_NUMBER_LIMIT = 45;
+
+public List<Integer> createLottoNumbers() {
+
+    Set<Integer> randomNumberSet = new HashSet<Integer>();
+
+    while (randomNumberSet.size() != MAX_SIZE) {
+        int randomNumber = (int) (Math.random() * MAX_RANDOM_NUMBER_LIMIT + 1);
+        randomNumberSet.add(randomNumber);
+        randomNumberSet.remove(0);
+    }
+
+    return new ArrayList<>(randomNumberSet);
+}
+```
+
 ### TreeSet
 - **binary tree** 기반
 - 객체를 저장하면 **자동으로 정렬**. 부모보다 낮은 것은 왼쪽, 높은것은 오른쪽 자식에 저장

@@ -101,6 +101,25 @@ Map<String, String> map = new TreeMap<>();
 Map<Object, Object> map = new Properties();
 ```
 
+## String
+
+### String.Join
+- list 요소 중간 사이에  , 삽입등 중간에 넣을 수 있음
+```java
+String resultPrintString = String.join(", ", winnerList);
+```
+
+### String.split
+- 구분자로 string을 나눔
+```java
+String carName = scanner.nextLine();    
+String split[];
+split = carName.split(",");
+```
+- 바로 Arraylist로 변환도 가능
+```java
+new ArrayList<>(Arrays.asList(scanner.nextLine().split(","))); // List<String>
+```
 
 [이미지 출처]  
 https://postitforhooney.tistory.com/entry/JavaCollection-Java-Collection-Framework%EC%97%90-%EB%8C%80%ED%95%9C-%EC%9D%B4%ED%95%B4%EB%A5%BC-%ED%86%B5%ED%95%B4-Data-Structure-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0

@@ -98,8 +98,111 @@ docker exec -it local_db bash -c "source /home/oracle/.bashrc; sqlplus sys/Orado
 - Docker가 실행되어 있지 않은 경우 => 첫 부팅 시 WIFI가 없어서 실행이 안되어있을 수 있음
 - Docker는 실행되어 있지만 Oracle이 실행되어 있지 않은 경우 => 터미널에서 "docker ps" 명령어로 확인!
 
+## ORACLE 배운것
+
+### 논리적 저장 구조
+- http://www.gurubee.net/lecture/1480
+- table space > segment > extent > block
+- block : rowid(행을 나타내는 주소값. 속도가 제일 빠름) + data
+
+### 물리적 저장구조
+- data file
+
+### 3S
+- Syntax : 문법 검사
+- Semantic : 의미검사
+- Security : 접근권한
+
+### SQL 실행 순서
+- 예약어 실행 순서
+```sql 
+FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY
+```
+### 실행계획 
+syntax -> semantic -> security -> parse -> execute -> fetch(select만)  
+- 이미 수행한 SQL문의 경우 shared pool에 저장(처음부터 끝까지 토시하나 안틀리고 같아야함)
+``` sql
+SELECT *
+FROM A
+WHERE a=1 AND b=22;
+```
+
+``` sql
+SELECT *
+FROM A
+WHERE b=2 AND a=1;
+```
+- 위와 같이 극단적으로 같은 결과지만 WHERE 구문의 순서가 바뀌므로 hardparsing이 일어남. 심지어 대소문자도 같아야함.
+- 바인드 변수 처리를 통해 softparsing을 유도하여 syntax, semantic, security의 과정 생략 가능  
+
+parse 단계에서 2가지로 나뉨  
+- hardparsing  
+위의 전 과정을 모두 실행
+
+- softparsing  
+execute feth만 실행  
+shared pool에 sql 실행 된 정보를 토대로 
+```sql
+where aname = :a
+```
+와 같이 바인드 변수 처리면 처음 실행 1회시에만 hardparsing을 하고 그 다음부턴 softparsing.  
+jdbc 커넥션 할 때 server에서 값을 넣어주어 softparsing을 유도.
+
+### UNION ALL vs UNION
+- UNION은 조인은 정렬을 하기 때문에 느림
+- UNION ALL은 정렬을 하지 않으므로 빠름 => UNION ALL을 써야함
+
+### WITH
+- 임시 테이블
+- 동일한 SQL이 반복되어서 사용될 때 성능을 높이기 위해 사용
+- WITH 테이블이름 as (데이터)
+```sql
+WITH R AS (
+    SELECT A.FA_ID      AS  FA_ID_M1,
+           A.LT_ID      AS  LT_ID_M1,
+           A.PROD_ID    AS PROD_ID_M1,
+           A.TIMEKEY    AS TIMEKEY_M1,
+           A.FL_ID      AS FL_ID_M1,
+           A.OP_ID      AS OP_ID_M1,
+           A.STAT_CD    AS STAT_CD_M1,
+           A.STAT_TYP   AS STAT_TYP_M1,
+           
+           B.FA_ID      AS    FA_ID_M2,
+           B.LT_ID      AS  LT_ID_M2,
+           B.PROD_ID    AS PROD_ID_M2,
+           B.TIMEKEY    AS TIMEKEY_M2,
+           B.FL_ID      AS FL_ID_M2,
+           B.OP_ID      AS OP_ID_M2,
+           B.STAT_CD    AS STAT_CD_M2,
+           B.STAT_TYP   AS STAT_TYP_M2
+    FROM TEST01.TBL_LT_HIS A
+
+    FULL OUTER JOIN
+        TEST02.TBL_LT_HIS B
+    ON A.FA_ID = B.FA_ID
+        AND A.LT_ID = B.LT_ID
+        AND A.PROD_ID = B.PROD_ID
+        AND A.TIMEKEY = B.TIMEKEY
+)
+```
+
+## OUTER JOIN
+- 데이터가 없을 수도 있는 쪽 JOIN 컬럼에 (+)를 추가하여 OUTER JOIN이 가능  
+![outer join](https://user-images.githubusercontent.com/32935365/74147646-047e5a80-4c47-11ea-9ad7-1ea8162249b3.PNG)
+
+
+
+
+
+
+
+
+
+
+
 
 [출처]  
 https://blog.naver.com/qor3326/220934450444  
 https://wookoa.tistory.com/239 [Wookoa]  
-https://forgiveall.tistory.com/352 [하하하하하]
+https://forgiveall.tistory.com/352 [하하하하하]  
+http://www.gurubee.net/

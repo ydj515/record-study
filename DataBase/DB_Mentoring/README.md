@@ -34,6 +34,7 @@ LOADING	LOADING		-> TEST01 기준
 PROCESS	RESERVE		-> PROCESS 우선  
 RESERVE	RESERVE		-> TEST01 기준  
 LOADING	SELECT		-> LOADING 기준  
+
 ```sql
 WITH R AS (
     SELECT A.FA_ID      AS  FA_ID_M1,
@@ -66,6 +67,33 @@ WITH R AS (
 
 
 ## 3주차
+1. FA_ID 컬럼이 들어간 모든 테이블에 대해서 DISTINCT한 FA_ID 값과, 개수를 조사한다.
+
+2. 개수를 조사할때에는 Dictionary View를 활용하며, PL / SQL을 활용한 프로시저를 개발해서 조사를 수행한다 ( Dictionary View = ALL_TAB_COLUMNS 활용)
+
+3. 조사한 결과를 테이블에 담는다 (테이블명은 HOMEWK_01로 통일)
+CREATE TABLE HOMEWK_01
+(
+TABLE_NAME VARCHAR2(40),
+COLUMN_NAME VARCHAR2(40),
+VAL     VARCHAR2(40),
+CNT     NUMBER(10));
+
+4. 프로시저에서 바로 HOMEWK_01로 조사한 결과를 INSERT해 결과를 추출한다.
+
+```sql
+create or replace PROCEDURE SP_FA_IN AS 
+BEGIN
+  FOR REC1 IN  (
+            SELECT * FROM ALL_TAB_COLUMNS
+            ) 
+    LOOP
+   
+    DBMS_OUTPUT.PUT_LINE(REC1.TABLE_NAME);
+   
+    END LOOP;
+END SP_FA_IN;
+```
 
 ## 4주차
 

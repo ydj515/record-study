@@ -39,9 +39,9 @@
 `^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$`
 
 ## <a href="https://programmers.co.kr/learn/courses/11">프로그래머스 정규표현식</a>
-- <a href="https://programmers.co.kr/learn/courses/11">1_정규표현식</a>
-- <a href="https://programmers.co.kr/learn/courses/11">2_대표문자(Meta sequence)</a>
-- <a href="https://programmers.co.kr/learn/courses/11">3_횟수 정하기(Quantifier)</a>
-- <a href="https://programmers.co.kr/learn/courses/11">4_고르기</a>
-- <a href="https://programmers.co.kr/learn/courses/11">5_더 알아보기</a>
-- <a href="https://programmers.co.kr/learn/courses/11">6_프로그래밍 언어별 정규표현식</a>
+- <a href="https://github.com/ydj515/record-study/tree/master/RegularExpression/part1">1 정규표현식</a>
+- <a href="https://github.com/ydj515/record-study/tree/master/RegularExpression/part2">2 대표문자(Meta sequence)</a>
+- <a href="https://github.com/ydj515/record-study/tree/master/RegularExpression/part3">3 횟수 정하기(Quantifier)</a>
+- <a href="https://github.com/ydj515/record-study/tree/master/RegularExpression/part4">4 고르기</a>
+- <a href="https://github.com/ydj515/record-study/tree/master/RegularExpression/part5">5 더 알아보기</a>
+- <a href="https://github.com/ydj515/record-study/tree/master/RegularExpression/part6">6 프로그래밍 언어별 정규표현식</a>

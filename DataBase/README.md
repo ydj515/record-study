@@ -190,12 +190,31 @@ WITH R AS (
 - 데이터가 없을 수도 있는 쪽 JOIN 컬럼에 (+)를 추가하여 OUTER JOIN이 가능  
 ![outer join](https://user-images.githubusercontent.com/32935365/74147646-047e5a80-4c47-11ea-9ad7-1ea8162249b3.PNG)
 
+## PROCEDURE
+- 특정 로직만 처리하고 결과 값을 반환하지 않는 서브 프로그램
+- 함수 느낌
+- 프로시저만 실행해서 한번에 처리하게 끔 만듬
+- https://logical-code.tistory.com/48
 
+```sql
+CREATE OR REPLACE PROCEDURE 프로시저이름
+    ( 매개변수1 [IN|OUT|IN OUT] 데이터타입 [:= 디폴트값]
+      매개변수2 [IN|OUT|IN OUT] 데이터타입 [:= 디폴트값]
+    )
+    IS[AS]
+        -- 프로시저 내부에서 사용할 변수 선언
+        변수명 데이터타입
+    BEGIN
+        실행부
+END 프로시저이름;
+```
 
-
-
-
-
+- 프로시저 안엣 쿼리문을 동적으로 만들 수 있다.
+- || 로 연결
+```sql
+my_query := my_query || ' SELECT ' || '''' || P_TABLE_NAME || ''', ''' || P_COLUMN_NAME || ''', ' || 'FA_ID, '  || 'COUNT(*)';
+my_query := my_query || ' FROM ' || P_OWNER || '.' || P_TABLE_NAME;
+```
 
 
 
@@ -205,4 +224,7 @@ WITH R AS (
 https://blog.naver.com/qor3326/220934450444  
 https://wookoa.tistory.com/239 [Wookoa]  
 https://forgiveall.tistory.com/352 [하하하하하]  
-http://www.gurubee.net/
+http://www.gurubee.net/  
+https://jwchoi85.tistory.com/86  
+https://logical-code.tistory.com/48  
+https://gent.tistory.com/39

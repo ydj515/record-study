@@ -190,6 +190,61 @@ WITH R AS (
 - 데이터가 없을 수도 있는 쪽 JOIN 컬럼에 (+)를 추가하여 OUTER JOIN이 가능  
 ![outer join](https://user-images.githubusercontent.com/32935365/74147646-047e5a80-4c47-11ea-9ad7-1ea8162249b3.PNG)
 
+### Join
+1. NL(Nested Loops) Join
+- for loop 2개
+- 선행 테이블의 index가 필수
+- random data access를 하므로 데이터가 적을 때 유리
+- 온라인 프로그램에 적당
+
+2. Hash Join
+- equal join만 가능 (=)
+- 속도가 제일 빠름
+- Hash table이 oracle temporary영역(임시 테이블이 있는 곳)에 잡힘.
+- Hash table 생성하는 시간은 좀 오래 걸릴 수도 있음
+
+=> 데이터가 적은 경우에는 NL Join과 Hash Join 어떤 것을 쓰는것이 좋을까?
+=> NL Join을 쓴다. 이유는 데이터가 적은 경우 NL과 Hash 모두 빠르기 때문이다. 또한, temporary영역에 다른 임시 테이블이 많다면 Hash table 생성하고 수행하는 것 보다 NL Join 사용하는 편이 좋음
+=> 임시영역이 모두 차거나 많은 공간이 차 버리면 DB 자체가 뻗어 버릴 수 있는 위험이 있기 때문이기도 하다.
+
+3. Sort Merge
+- 데이터 양이 많을 때 사용
+
+
+
+### Index
+- 기존 테이블에 몇개의 필드만 가지고 있는 테이블
+- 조회(select)시간을 단축 시킬 수 있다.
+- index를 쓰면 조회가 빨라질 수 있지만, DML이 느려진다.
+- index를 여러개 만들면 기존 테이블보다 차지하는 공간이 많아 질 수 있다.
+- 예시
+A테이블의 필드가 a, b, c, d를 가지고 있다.  
+index A*의 필드를 a, b로 만든다면
+이 때, order by a, b로 진행 되기 때문에 index에서 select를 할 경우 a필드를 먼저 지정해주어야 한다.
+```sql
+select a
+from A*
+where a=1, b=2
+;
+```
+만약 아래와 같이 select를 한다면 결과는 동일하지만  
+a로 우선 정렬이 되있기 때문에 index를 사용하여 select하는 것이 더 느릴 뿐 아니라 의미 자체가 없어진다.
+```sql
+select a
+from A*
+where b=2, a=1
+;
+```
+따라서 항상 index를 사용할 경우 첫 필드를 지정을 해주어야 한다. 누락해도 select 성능이 떨어진다.
+
+그러나, 아래와 같이 * 을 조회할 경우 다시 A 테이블로 가서 rowid를 가지고 나머지 필드 c, d값을 조회하기 때문에 의미가 없다.
+```sql
+select *
+from A*
+where b=2, a=1
+;
+```
+
 ## PROCEDURE
 - 특정 로직만 처리하고 결과 값을 반환하지 않는 서브 프로그램
 - 함수 느낌

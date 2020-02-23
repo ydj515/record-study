@@ -269,6 +269,64 @@ router.get('/', function(req, res, next) {
 npm install supervisor -g
 ```
 
+## Node 버전 관리(업데이트 및 다운그레이드)
+
+### Node 버전 확인
+```
+node -v
+```
+
+### node cache 삭제
+- Node.js 의 패키지매니저인 npm 을 이용하여 대부분의 플러그인을 설치할 때 캐시가 남아있는 경우 에러가 날 수 있음
+- 캐시를 미리 삭제
+```
+sudo npm cache clean -f
+```
+
+### n 모듈 설치
+```
+sudo npm install -g n
+```
+
+### Node 버전 설치
+- 최신버전 설치
+```
+n latest
+```
+- Stable버전 설치
+```
+n stable
+```
+- LTS버전 설치
+```
+n lts
+```
+
+- 특정 버전 설치
+```
+n 12.13.1
+n 0.8.14
+n 0.8.17
+n 0.9.6
+```
+
+### 버전 변경하기
+- 화살표로 움직이면서 버전 변경 가능
+```
+n
+```
+
+### 현재 버전 외에 모든 버전 삭제
+```
+n prune
+```
+
+### npm 재설치
+```
+npm -V
+sudo npm install -g npm
+npm -V
+```
 
 ## Memroy Leak
 ![js_out_of_memory](https://user-images.githubusercontent.com/32935365/71154077-0e569380-227e-11ea-93f4-b8e420879fba.PNG)  
@@ -319,4 +377,79 @@ res.render('ddetail', { mylist: rows, name: req.query.name, moment});
 - 해당 ejs 에서 사용
 ```html
 <%=moment(mylist[mylist.length-1].reg_date).format('YYYY.MM.DD') %>
+```
+
+## DB관련 에러
+### {"code":"PROTOCOL_ENQUEUE_AFTER_FATAL_ERROR","fatal":false} DB 커넥션 에러
+- DB 커넥션. 즉, DB 요청이 없어서 timeout 현상발생하는 에러
+- 의미없는 쿼리를 지속적으로 보내주어 연결을 유지시킴
+- app.js
+```js
+setInterval( () => {
+  mysqlDB.query('SELECT 1');
+}, 5000);
+
+```
+
+## node 와 vue 연동
+- 기존 esj에서 vue로 front를 바꾼다.
+- ejs파일들이 있는 views 폴더를 기반으로 작업
+
+### vue 및 express-vue 모듈 설치
+```
+npm install vue -g
+npm install vue-cli -g
+npm install --save express-vue
+npm install
+```
+
+### express-vue 세팅
+- app.js
+```js
+var expressVue = require('express-vue');
+
+const vueOptions = {
+  VUE_DEV: true,
+  rootPath: path.join(__dirname, '/views') // 폴더 경로를 잘 맞춰준다
+};
+const expressVueMiddleware = expressVue.init(vueOptions);
+
+var app = express();
+app.use(expressVueMiddleware);
+```
+
+- index.js
+```js
+res.renderVue('index.vue',{ mylist: rows });
+```
+
+- index.vue
+``` vue
+<template>
+    <div>
+        <h1>{{mylist}}</h1>
+        <table>
+            <thead>
+            </thead>
+        <tbody>
+            <tr v-for="result in mylist" v-bind:key="result">
+                <td>{{result.name}}</td>
+                <td>{{result.cat_id}}</td>
+            </tr>
+        </tbody>
+    </table>
+    </div>
+
+</template>
+
+<script>
+    module.exports = {
+        data: function () {
+            return {
+                title: '',
+
+            }
+        },
+    }
+</script>
 ```

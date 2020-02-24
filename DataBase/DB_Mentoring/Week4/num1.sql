@@ -40,3 +40,25 @@ SELECT FA_ID
   
 COMMIT;
   
+
+-- 여기부터
+SELECT *
+FROM (
+  SELECT A.FA_ID,
+        A.LT_ID,
+        NVL(B.PROD_ID_MAIN, A.PROD_ID) PROD_ID,
+        A.FL_ID,
+        A.OP_ID,
+        A.TIMEKEY,
+        A.CHG_TM,
+        A.CRT_TM
+  FROM TEST01.TBL_LT_INF A
+      ,TEST01.TBL_PROD_INFMAPP B
+  WHERE A.FA_ID(+) = B.FA_ID 
+  AND A.LT_ID(+) = B.LT_ID 
+  AND A.PROD_ID(+) = B.PROD_ID
+  AND B.PROD_YN = 'Y';
+)
+
+UNION ALL
+-- 밑부터 모르겟어...ㅠ_ㅠ

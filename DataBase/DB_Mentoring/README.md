@@ -20,7 +20,7 @@ TBL_LT_DET -> PK 중복나는 경우에는 TEST01기준
 , SCRP인 경우 SCRAPPED로 변경, RELE인 경우 RELEASED로 변경해서 통합
 
 
-## 2주차(1.19 ~ )
+## 2주차(1.19 ~ 2.8)
 1. TBL_LT_HIS 통합 -> PK 중복안나는 경우는 그냥 해당 데이터넣기  
 
 2. PK 중복나는 경우 아래 기준 참고해서 작성
@@ -66,7 +66,7 @@ WITH R AS (
 ```
 
 
-## 3주차
+## 3주차(2.9 ~ 2.15)
 1. FA_ID 컬럼이 들어간 모든 테이블에 대해서 DISTINCT한 FA_ID 값과, 개수를 조사한다.
 
 2. 개수를 조사할때에는 Dictionary View를 활용하며, PL / SQL을 활용한 프로시저를 개발해서 조사를 수행한다 ( Dictionary View = ALL_TAB_COLUMNS 활용)
@@ -95,7 +95,7 @@ BEGIN
 END SP_FA_IN;
 ```
 
-## 4주차
+## 4주차(2.16 ~ 2.22)
 1. TEST01.TBL_LT_INF 테이블의 PROD_ID 중 일부 PROD_ID를 변환해 통합 요구사항 발생
 
 2. 테이블 조인을 통해 TBL_PROD_INFMAPP의 PROD_YN이 'Y'이고 FA_ID, LT_ID, PROD_ID가 TBL_LT_INF와 같은 경우 TBL_LT_INF의 PROD_ID를 TBL_PROD_INFMAPP의 MAIN_PROD_ID로 변환해서 통합
@@ -146,5 +146,3 @@ SELECT FA_ID
 COMMIT;
 ```
 
-
-## 5주차

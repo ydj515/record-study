@@ -134,6 +134,53 @@ public class Main{
 }
 ```
 
+## Map 정렬
+### key를 기준으로 정렬(TreeMap을 이용)
+```java
+System.out.println("------------sort 전 -------------");
+Iterator it1 = hashMap.keySet().iterator();
+while (it1.hasNext()) {
+	int temp = (int) it1.next();
+	System.out.println(temp + " = " + hashMap.get(temp));
+}
+TreeMap<Integer, String> tm = new TreeMap<Integer, String>(hashMap);
+System.out.println("------------sort 후 -------------");
+while (it1.hasNext()) {
+	int temp = (int) it1.next();
+	System.out.println(temp + " = " + hashMap.get(temp));
+}
+// Iterator<Integer> iteratorKey = tm.keySet().iterator(); // 키값 오름차순 정렬(기본)
+```
+
+### value를 기준으로 정렬
+```java
+Iterator it2 = sortByValue(hashSet).iterator();
+
+public static List sortByValue(final Map map) {
+
+		List<String> list = new ArrayList();
+
+		list.addAll(map.keySet());
+
+		Collections.sort(list, new Comparator() {
+
+			public int compare(Object o1, Object o2) {
+
+				Object v1 = map.get(o1);
+
+				Object v2 = map.get(o2);
+
+				return ((Comparable) v2).compareTo(v1);
+
+			}
+
+		});
+
+	// Collections.reverse(list); // 주석시 오름차순
+
+	return list;
+}
+```
 
 
 

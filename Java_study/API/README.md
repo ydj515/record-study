@@ -11,6 +11,25 @@
 
 ```
 
+## 배열 -> list
+```java
+ArrayList<String> list = new ArrayList<>(Arrays.asList(array));
+```
+
+```java
+ArrayList<String> list = new ArrayList<>();
+Collections.addAll(list, arr);
+```
+
+```java
+List list = Arrays.stream(arr).collect(Collectors.toList());
+```
+
+## list -> 배열
+```java
+String[] arr = list.toArray(new String[list.size()]);
+```
+
 ## Comparable vs Comparator
 ### Comparable
 - 클래스의 기본 정렬 기준을 설정하는 인터페이스
@@ -188,3 +207,4 @@ public static List sortByValue(final Map map) {
 [출처]  
 https://m.blog.naver.com/occidere/220918234464  
 https://gmlwjd9405.github.io/2018/09/06/java-comparable-and-comparator.html  
+https://gbsb.tistory.com/247  

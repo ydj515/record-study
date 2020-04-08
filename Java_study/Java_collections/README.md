@@ -2,8 +2,32 @@
 
 ![11](https://user-images.githubusercontent.com/32935365/67305920-19689e00-f531-11e9-92a3-ed4ac44c8395.PNG)
 
-## 특징
-![22](https://user-images.githubusercontent.com/32935365/67306651-48cbda80-f532-11e9-9b20-38c548cb03c3.PNG)
+## 특징  
+![22](https://user-images.githubusercontent.com/32935365/67306651-48cbda80-f532-11e9-9b20-38c548cb03c3.PNG)  
+
+|Collection             |Ordering   |Random Access   |Key-value  | 중복 허용 | Null 허용 | Thread safe |
+|-----------------------|-----------|----------------|-----------|----------|-----------|-------------|
+|`ArrayList`            |:O:        |:O:             |           |:O:       |:O:        |             |
+|`LinkedList`           |:O:        |                |           |:O:       |:O:        |             |
+|`Vector`         	    |:O:        |:O:             |           |:O:       |:O:        |:O:          |
+|`Stack`         	    |:O:        |                |           |:O:       |:O:        |:O:          |
+|`HashSet`         	    |           |                |           |          |:O:        |             |
+|`TreeSet`         	    |:O:        |                |           |          |           |             |
+|`HashMap`          	|           |:O:             |:O:        |          |:O:        |             |
+|`TreMap`          	    |:O:        |:O:             |:O:        |          |           |             |
+|`Hashtable`            |           |:O:             |:O:        |          |:O:        |             |
+|`Properties`           |           |:O:             |:O:        |          |:O:        |             |
+|`CopyOnWriteArrayList` |:O:        |:O:             |           |:O:       |:O:        |:O:          |
+|`CopyOnWriteArraySet`  |:O:        |                |           |          |:O:        |:O:          |
+|`ConcurrentHashMap`    |:O:        |:O:             |           |          |           |:O:          |
+
+
+
+## 접근 방법
+### Random Access vs. Sequential Access
+- Sequential Access는 LinkedList와 같이 무조건 순차 탐색으로 찾는다.
+- Random Access는 바로 그 값을 찾는다.  
+![KakaoTalk_20200408_153647850](https://user-images.githubusercontent.com/32935365/78808612-a8467580-7a00-11ea-9968-ad5e8d7e6604.png)  
 
 ## List
 - 객체 자체를 저장x, 해당 인덱스에 객체의 주소를 참조하여 저장

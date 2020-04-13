@@ -4,8 +4,6 @@
 
 - **DB 멘토링 :** https://github.com/ydj515/record-study/tree/master/DataBase/DB_Mentoring
 
-
-
 ## Oracle 설치
 ### Window
 1. Oracle Database 12c Release 1 (12.1.0.2.0) - Enterprise Edition
@@ -148,6 +146,14 @@ where aname = :a
 와 같이 바인드 변수 처리면 처음 실행 1회시에만 hardparsing을 하고 그 다음부턴 softparsing.  
 jdbc 커넥션 할 때 server에서 값을 넣어주어 softparsing을 유도.
 
+- 실행계획 확인
+- 밑의 쿼리문을 실행하면 몇번 째 파티션을 타는지 볼 수 있음.
+```sql
+explain partitions -- 파티션들에 대한 실행계획 확인
+select * from test
+where REG_DT between '2020-04-08 00:00' and '2020-04-08 23:59'; -- 하루치. 24:00으로 하면 절대 안나옴
+```
+
 ### UNION ALL vs UNION
 - UNION은 조인은 정렬을 하기 때문에 느림
 - UNION ALL은 정렬을 하지 않으므로 빠름 => UNION ALL을 써야함
@@ -210,9 +216,66 @@ WITH R AS (
 3. Sort Merge
 - 데이터 양이 많을 때 사용
 
+## partitioning
+- 큰 테이블이나 인덱스를 관리하기 쉬운 단위로 분리하는 방법을 의미
+- partition된 테이블은 fk를 지원 x
+- 테이블이 unique 또는 PK를 가지고 있다면, 파티션 키는 모든 unique 또는 PK의 일부 또는 모든 컬럼을 포함해야 함
+- 기준이 퇴는 컬럼은 반드시 PK로 지정되어 있어야 함
+- 장점 :  DML query(특히 insert, update, delete와 같은 write query)의 성능을 향상시킴. 특히 OLTP 시스템에서 insert작업들을 분리된 파티션을 분산시켜 경합을 줄임
+- 단점 : Table Join에 대한 비용이 증가. 테이블과 인덱스를 별도로 파티션 할 수 없음. 테이블과 인덱스를 같이 partitioning해야함
+- table의 컬럼이 DATETIME일 경우 DATE로 바꾸어서 insert해줘야하므로 TO_DAYS를 사용
+- 파티션이 포함할 수 없는 데이터(범위보다 작거나 큰 데이터)가 있다면 Table has no partition for value 788465 와 같은 데이터가 나옴
 
+### 예시
+- 파티션 생성
+```sql
+-- 날짜 별로 파티션 생성
+ALTER TABLE test PARTITION BY RANGE(TO_DAYS(REG_DT))( 
+  PARTITION p1 VALUES LESS THAN (TO_DAYS('2020-04-08')),
+  PARTITION p2 VALUES LESS THAN (TO_DAYS('2020-04-09')),
+  PARTITION p3 VALUES LESS THAN (TO_DAYS('2020-04-10')),
+  PARTITION p4 VALUES LESS THAN (TO_DAYS('2020-04-11'))
+ );
 
-### Index
+```
+- 파티션 내용 조회
+```sql
+-- 파티션p2의 내용 조회
+SELECT * FROM test PARTITION(p2);
+```
+
+- 해당 테이블 파티션 완전 삭제
+```sql
+-- test 테이블의 모든 파티션 삭제
+ALTER TABLE test REMOVE PARTITIONING;
+```
+
+- 해당 파티션 삭제
+```sql
+-- 해당 테이블에 대한 해당 파티션 삭제
+ALTER TABLE `테이블` DROP PARTITION `파티션명1`;
+```
+
+### range paritioning
+- 기간을 기준으로 하여 range를 나눔
+- 연도별
+```sql
+PARTITION BY RANGE (YEAR(`REG_DT`))
+```
+- 일(월)별
+```sql
+PARTITION BY RANGE (TO_DAYS(`REG_DT`))
+```
+
+### list paritioning
+
+### composite paritioning
+
+### Hash paritioning
+
+### Horizontal paritioning
+
+## Index
 - 기존 테이블에 몇개의 필드만 가지고 있는 테이블
 - 조회(select)시간을 단축 시킬 수 있다.
 - index를 쓰면 조회가 빨라질 수 있지만, DML이 느려진다.
@@ -245,6 +308,22 @@ where b=2, a=1
 ;
 ```
 
+### 예시
+- 파티션 인덱스하기
+```sql
+CREATE INDEX index01 ON test(REG_DT); // local index를 만드는 경우
+```
+
+- 해당 테이블 index 조회
+```sql
+SHOW INDEX FROM test
+```
+
+- 해당 인덱스 삭제
+```sql
+ALTER TABLE test DROP INDEX index01;
+```
+
 ## PROCEDURE
 - 특정 로직만 처리하고 결과 값을 반환하지 않는 서브 프로그램
 - 함수 느낌
@@ -271,6 +350,32 @@ my_query := my_query || ' SELECT ' || '''' || P_TABLE_NAME || ''', ''' || P_COLU
 my_query := my_query || ' FROM ' || P_OWNER || '.' || P_TABLE_NAME;
 ```
 
+## 참고
+### unique key 설정
+```sql
+ALTER TABLE MWS_COLT_NEWS ADDUNIQUE UK_AID (AID); // unique key 설정. varchar 191까지만 가능하다. 
+```
+### CASCADE
+- news table(부모) 컬럼 삭제하면 info table(자식, fk 설정되어 있는 곳) 해당 컬럼들도 삭제
+1. 기존 제약 조건 삭제
+```sql
+ALTER TABLE MWS_COLT_NEWS_INFO DROP CONSTRAINT MWS_COLT_NEWS_INFO_ibfk_1;
+ALTER TABLE MWS_COLT_NEWS_INFO DROP FOREIGN KEY MWS_COLT_NEWS_INFO_ibfk_1;
+```
+
+2. CASCADE 옵션 설정
+아래와 같이 DELETE 와 UPDATE를 모두 설정해 주어야 data insert가 된다.
+```sql
+-- 대부분의 경우 DELETE만 걸어준다. 
+ALTER TABLE MWS_COLT_NEWS_INFO ADD CONSTRAINT FOREIGN KEY (NEWS_ID) REFERENCES MWS_COLT_NEWS(ID) ON DELETE CASCADE;
+ALTER TABLE MWS_COLT_NEWS_INFO ADD CONSTRAINT FOREIGN KEY (NEWS_ID) REFERENCES MWS_COLT_NEWS(ID) ON UPDATE CASCADE;
+```
+
+### history table에 대한 PK 설정
+- history table의 id(auto_increment), log_date의 컬럼일 경우 pk는 id, id+log_date, log_date+id 의 3가지 경우이다.
+- 보통 select할 경우 날짜 범위로 검색을 하기 때문에(point query가 아닌 range query) index를 만들 경우 log_date+id의 선택이 효율이 좋다.
+- 즉 날짜 컬럼이 PK의 첫번째 컬럼인 것이 좋다.
+
 
 
 
@@ -282,4 +387,9 @@ https://forgiveall.tistory.com/352 [하하하하하]
 http://www.gurubee.net/  
 https://jwchoi85.tistory.com/86  
 https://logical-code.tistory.com/48  
-https://gent.tistory.com/39
+https://gent.tistory.com/39  
+https://nesoy.github.io/articles/2018-02/Database-Partitioning  
+https://purumae.tistory.com/211  
+https://coding-factory.tistory.com/422  
+http://www.gurubee.net/lecture/1914  
+https://jack-of-all-trades.tistory.com/79  

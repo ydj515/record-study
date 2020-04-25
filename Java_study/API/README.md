@@ -11,6 +11,31 @@
 
 ```
 
+## Collections.EMPTY_LIST vs Collections.emptyList()
+- 둘다 empty list를 반환
+
+### Collections.EMPTY_LIST
+```java
+List list = Collections.EMPTY_LIST;
+Set set = Collections.EMPTY_SET;
+Map map = Collections.EMPTY_MAP;
+```
+- 위의 3줄은 타입을 지정하려면 아래와 같이 캐스팅 해줘야함
+```java
+List<String> list = (List<String>) Collections.EMPTY_LIST;
+Set<Long> set = (Set<Long>) Collections.EMPTY_SET;
+Map<Date, String> map = (Map<Date, String>) Collections.EMPTY_MAP;
+```
+
+### Collections.emptyList()
+- emptyList()는 아래와 같이 바로 타입 지정 가능
+- **Collections.EMPTY_LIST보다 권장되는 방법**
+```java
+List<String> s = Collections.emptyList();
+Set<Long> l = Collections.emptySet();
+Map<Date, String> d = Collections.emptyMap();
+```
+
 ## 배열 -> list
 ```java
 ArrayList<String> list = new ArrayList<>(Arrays.asList(array));

@@ -6,8 +6,23 @@
 ### String.valueOf()
 - 파라미터가 null이면 문자열 "null"을 만들어서 반환
 
+```java
+String s = null;
+System.out.println((String) s); // 'null' text return
+System.out.println(String.valueOf(s)); // 'null' text return
+System.out.println(s.toString()); // NullPointException
 ```
 
+## Integer.parseInt() vs Integer.valueOf()
+### Integer.parseInt()
+- Integer 클래스로 리턴되어 산술 연산을 할 수 x => int 형변환 해줘야함
+- 음수 인식
+### Integer.valueOf()
+- int를 리턴하여 null값이 들어가서는 안됨
+- 음수 인식 x
+- 내부에서 parseInt()를 사용
+
+```java
 
 ```
 

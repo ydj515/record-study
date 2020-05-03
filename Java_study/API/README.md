@@ -36,16 +36,25 @@ Set<Long> l = Collections.emptySet();
 Map<Date, String> d = Collections.emptyMap();
 ```
 
+## Arrays.sort() vs Collections.sort()의 차이
+### Arrays.sort()
+- 배열 정렬의 경우
+Ex) byte[], char[], double[], int[], Object[], T[] 등 * Object Array에서는 TimSort(**Merge Sort + Insertion Sort**)를 사용
+- Object Array: 새로 정의한 클래스에 대한 배열 * Primitive Array에서는 Dual Pivot QuickSort(**Quick Sort + Insertion Sort**)를 사용
+- Primitive Array: 기본 자료형에 대한 배열
+
+### Collections.sort()
+- List Collection 정렬의 경우
+- Ex) ArrayList, LinkedList, Vector 등은 내부적으로 Arrays.sort()를 사용
+
 ## 배열 -> list
 ```java
 ArrayList<String> list = new ArrayList<>(Arrays.asList(array));
 ```
-
 ```java
 ArrayList<String> list = new ArrayList<>();
 Collections.addAll(list, arr);
 ```
-
 ```java
 List list = Arrays.stream(arr).collect(Collectors.toList());
 ```
@@ -98,7 +107,6 @@ public class Main{
 			System.out.println(student[i]);
 	}
 }
-
 ```
 
 - 이렇게 구현해도 무방(내림차순)
@@ -180,6 +188,7 @@ public class Main{
 
 ## Map 정렬
 ### key를 기준으로 정렬(TreeMap을 이용)
+- TreeMap을 대해 <a href="https://github.com/ydj515/record-study/blob/master/Java_study/Java_collections/README.md">여기</a>에 써 놓았음
 ```java
 System.out.println("------------sort 전 -------------");
 Iterator it1 = hashMap.keySet().iterator();
@@ -215,21 +224,42 @@ public static List sortByValue(final Map map) {
 				Object v2 = map.get(o2);
 
 				return ((Comparable) v2).compareTo(v1);
-
 			}
-
 		});
-
 	// Collections.reverse(list); // 주석시 오름차순
 
 	return list;
 }
 ```
 
+## Priority Queue vs. List sort
+- 알고리즘 문제를 풀다 보면 list sort를 사용하면 시간 초과가 나지만 Priority Queue를 사용하여 해결할 수 있다.
+- 그 이유는 **priority Queue는 heap상태로 정렬을 유지하기 때문에 시간이 훨씬 단축**된다.
+- Priority Queue TopN을 유지하지만, TopN에서 완전한 Sort가 이루어지지 않는 다.
+- 아래는 quick sort와 priority Queue의 시간차이다.(참고용)  
+![image](https://user-images.githubusercontent.com/32935365/80867701-88893100-8cd0-11ea-88b1-33eeb3ab0df8.png)  
 
+### Priority Queue
+```java
+PriorityQueue<Integer> priorityQueue = new PriorityQueue<>();
+PriorityQueue<Integer> priorityQueue2 = new PriorityQueue<>(Collections.reverseOrder()); // 내림차순
 
+priorityQueue.offer(123);
+priorityQueue.poll(123);
+```
+
+### List sort
+```java
+List<Integeer> list = new ArrayList<>();
+Collections.sort(list); // 오름차순
+
+List<Integeer> list2 = new ArrayList<>();
+list.sort(Collections.reverseOrder()); // 내림차순
+```
 
 [출처]  
 https://m.blog.naver.com/occidere/220918234464  
 https://gmlwjd9405.github.io/2018/09/06/java-comparable-and-comparator.html  
 https://gbsb.tistory.com/247  
+https://www.joinc.co.kr/w/Site/Test/PqueueVsQsort  
+ttps://gmlwjd9405.github.io/2018/09/06/java-comparable-and-comparator.html  

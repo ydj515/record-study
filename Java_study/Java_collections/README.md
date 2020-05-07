@@ -145,5 +145,22 @@ split = carName.split(",");
 new ArrayList<>(Arrays.asList(scanner.nextLine().split(","))); // List<String>
 ```
 
+### String.concat
+- 문자를 붙혀줌
+```java
+// list에 문자 한개씩 붙혀줌
+List<String> names = Arrays.asList("yoo", "dong", "jin", "jjang");
+names.parallelStream().map((x) -> { return x.concat("!");} ).forEach(x -> System.out.println(x)); // yoo!, dong!, jin!, jjang!
+```
+
+### String.contains
+- 해당 string을 포함하는 string인지 true / false를 return
+```java
+// carNames에서 A라는 string이 포함된 것만 !!!를 붙힘
+Stream<String> a = carNames.stream().filter(x -> x.contains("A")).map(x-> x.concat("!!!"));
+a.forEach(x -> System.out.println(x));
+```
+
+
 [이미지 출처]  
 https://postitforhooney.tistory.com/entry/JavaCollection-Java-Collection-Framework%EC%97%90-%EB%8C%80%ED%95%9C-%EC%9D%B4%ED%95%B4%EB%A5%BC-%ED%86%B5%ED%95%B4-Data-Structure-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0

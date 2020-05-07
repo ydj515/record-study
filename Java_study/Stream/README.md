@@ -134,7 +134,7 @@ List<String> lang = Arrays.asList("Java", "Scala", "Groovy", "Python", "Go", "Sw
 lang.stream().sorted().collect(Collectors.toList()); // [Go, Groovy, Java, Python, Scala, Swift]
 
 // 내림차순
-lang.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()); // [Swift, Scala, Python, Java, Groovy, Go]```
+lang.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList()); // [Swift, Scala, Python, Java, Groovy, Go]
 ```
 
 #### limit
@@ -271,8 +271,9 @@ a.forEach(x -> System.out.println(x));
 
 ## 실전연습
 ### <a href="https://github.com/ydj515/record-study/blob/master/Java_study/Stream/src/traderAndTransaction/Main.java">문제풀이</a>
-###  <a href="https://github.com/ydj515/record-study/blob/master/Java_study/Stream/src/stringcalculator/StringAddCalculator.java">예제</a>
+### <a href="https://github.com/ydj515/record-study/blob/master/Java_study/Stream/src/stringcalculator/StringAddCalculator.java">예제</a>
+### <a href="https://github.com/ydj515/record-study/blob/master/Java_study/Stream/src/example/Main.java">예제</a>
 
 [출처]  
 https://jeong-pro.tistory.com/165  
-https://futurecreator.github.io/2018/08/26/java-8-streams/
+https://futurecreator.github.io/2018/08/26/java-8-streams/  

@@ -63,6 +63,7 @@ Ex) byte[], char[], double[], int[], Object[], T[] 등 * Object Array에서는 T
 - Ex) ArrayList, LinkedList, Vector 등은 내부적으로 Arrays.sort()를 사용
 
 ## 배열 -> list
+### String arr -> String List
 ```java
 ArrayList<String> list = new ArrayList<>(Arrays.asList(array));
 ```
@@ -72,6 +73,11 @@ Collections.addAll(list, arr);
 ```
 ```java
 List list = Arrays.stream(arr).collect(Collectors.toList());
+```
+### int array -> Integer List
+```java
+int[] array = { 1, 2, 3, 4, 5 };
+List<Integer> list = Arrays.stream(array).boxed().collect(Collectors.toList());
 ```
 
 ## list -> 배열

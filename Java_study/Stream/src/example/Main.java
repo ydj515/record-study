@@ -36,6 +36,10 @@ public class Main {
 		//  list -> set
 		Set<Integer> set = list.stream().collect(Collectors.toSet());
 	
+		// String[] stockOneArray -> String list
+		// 이런식으로 map 여러번 쓸 수 있음
+		Arrays.stream(stockOneArray).map(i -> i.replace("'", "")).map(i -> i.replace("(", ""))
+									.map(i -> i.replace(")", "")).collect(Collectors.toList());
 	}
 
 	public static List<Car> parseCar(String fullString) {

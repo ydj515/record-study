@@ -72,7 +72,6 @@ class orderer {
 }
 ```
 
-
 ### Aggregate
 - 관련된 객체의 묶음
 - 도메인 모델이 복잡할 수록 Aggregate의 관점에서 보아야함
@@ -93,3 +92,46 @@ class orderer {
 - Domain 객체에 위치시키기 어려운 오퍼레이션을 가지는 객체 
 - Service Domain의 operation은 일반적으로 Stateless
 - 여러 도메인을 다룰 수도 있음
+
+## Domain Model Pattern  
+![3333](https://user-images.githubusercontent.com/32935365/81314451-1778bd80-90c4-11ea-8322-8d90d902923c.jpg)
+
+### 표현(Presentation)
+- 사용자의 요청을 처리하고 사용자에게 정보를 보여줌
+- 외부 시스템도 사용자가 될 수 있음
+- 사용자와 도메인을 연결해주는 매개체 역할
+- 사용자가 필수값, 값의 형식, 범위등을 잘 넣었는지 검증. ex) email형식, 전화번호 형식, 양수..
+
+
+### 응용(Application)
+- 사용자가 요청한 기능을 실행.
+- 업무 로직을 직접 구현하지 않으며 도메인 계층을 조합해서 기능을 실행
+- 도메인 영역과 표현 영역을 연결해주는 facade(창구) 역할
+- 도메인 객체간의 흐름제어
+- 도메인 로직을 구현하면 안됨. => 1. 코드의 응집성 떨어짐 2. 여러 응용 서비스에서 동일한 도메인 로직을 구현할 가능성 높아짐  
+**=> 도메인 로직은 도메인에서 구현해야함**
+- 도메인 영역에서 발생시킨 이벤트를 처리. ex) 사용자 암호 변경됨
+- 이벤트를 사용하면 코드가 복잡해지는 대신 도메인 간의 의존성이나 외부 시스템에 대한 의존을 낮출 수 있음
+- 데이터의 존재 유무와 같은 논리전 오류 검증. ex) null, empty, 스페이스 공백..
+- select만 하는 조회 전용이라면 굳이 추가로직이나 태랜잭션이 필요하지 않다. 따라서 표현영역에서 바로 조회 전용 기능을 사용해도 무방함.
+```java
+public class OrderController {
+    private OrderViewDao orderViewDao;
+
+    @RequestMapping("/myorders")
+    public String list(ModelMap model) {
+        String ordererId = SecurityContext.getAuthentication().getId();
+        List<OrderView> orders = orderViewDao.selectByOrderer(ordererId);
+        model.addAttribute("orders", orde`rs);
+        return "order/list";
+    }
+}
+```
+### 도메인(Domain)
+- 시스템이 제공할 도메인 규칙을 구현
+
+### 인프라스트럭처(Infrastructure)
+- DB나 메시징 시스템과 같은 외부 시스템과의 연동을 처리
+
+[출처]
+https://github.com/madvirus/ddd-start  

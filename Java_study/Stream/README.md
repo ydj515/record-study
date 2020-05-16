@@ -219,8 +219,12 @@ set.forEach(x-> System.out.println(x)); // 1,2,3
 #### collect(toMap, toSet, toList)
 - 스트림의 값들을 모아주는 기능
 - 각각 map, set, list 스트림으로 바꿔줌
-```java
+```java 
+Set<Integer> set = ages.stream().collect(Collectors.toList());
+Set<Integer> set = ages.stream().collect(Collectors.toSet());
 
+// String 요소에 대해 각 첫글자를 key로 가지는 map 만들기
+Map<Character, String> map = list.stream().collect(Collectors.toMap(i -> i.charAt(0), i -> i));
 ```
 
 #### iterator

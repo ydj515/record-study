@@ -135,6 +135,8 @@ String resultPrintString = String.join(", ", winnerList);
 
 ### String.split
 - 구분자로 string을 나눔
+- 배열 return
+
 ```java
 String carName = scanner.nextLine();    
 String split[];
@@ -147,6 +149,7 @@ new ArrayList<>(Arrays.asList(scanner.nextLine().split(","))); // List<String>
 
 ### String.concat
 - 문자를 붙혀줌
+- 인수로 추가되는 문자열의 길이가 0 이면 그냥 원래 문자열 그대로 return
 ```java
 // list에 문자 한개씩 붙혀줌
 List<String> names = Arrays.asList("yoo", "dong", "jin", "jjang");
@@ -161,6 +164,56 @@ Stream<String> a = carNames.stream().filter(x -> x.contains("A")).map(x-> x.conc
 a.forEach(x -> System.out.println(x));
 ```
 
+### String.substring
+- 문자열 자르기
+- index 0부터 시작
+```java
+String.substring(start) //문자열  start위치부터 끝까지 문자열 자르기
+String.substring(start,end) //문자열  start위치 부터 end전까지 문자열 발췌
+		
+String str = "ABCDEFG"; //대상 문자열
+str.substring(3);  // DEFG
+str.substring(3, 6); // DEF
+```
+
+```java
+// 마지막 3글자 자르기
+String str = "ABCDEFG"; 
+String result = str.substring(str.length()-3, str.length()); // EFG
+```
+
+```java
+// 특정문자 이후의 문자열 제거
+String str = "ABCD/DEFGH";
+String result = str.substring(str.lastIndexOf("/")+1); // DEFGH
+```
+```java
+// 특정단어(부분)만 자르기
+String str = "바나나 : 1000원, 사과 : 2000원, 배 : 3000원";
+String target = "사과";
+int tragetNum = str.indexOf(target); 
+String result = str.substring(tragetNum,(str.substring(tragetNum).indexOf("원")+tragetNum)); // 2000
+```
+
+### String.replace
+- 기존문자를 바꿀 문자로 치환
+- replace([기존문자],[바꿀문자])
+```java
+String a = "무궁화. 삼천리. 화려강산. 대한사람. 대한으로. 길이. 보전하세 ";
+a.replace(".", "/"); 무궁화/ 삼천리/ 화려강산/ 대한사람/ 대한으로/ 길이/ 보전하세
+```
+
+
+### Sring.replaceAll
+- 기존문자를 바꿀 문자로 치환
+- 정규식을 쓰기 때문에 특수문자 치환이 어려움
+- replaceAll([정규식],[바꿀문자])
+
+```java
+String a = "무궁화. 삼천리. 화려강산. 대한사람. 대한으로. 길이. 보전하세 ";
+a = a.replaceAll(".", "/"); // 결과 : /////////////////////////////////////
+```
 
 [이미지 출처]  
-https://postitforhooney.tistory.com/entry/JavaCollection-Java-Collection-Framework%EC%97%90-%EB%8C%80%ED%95%9C-%EC%9D%B4%ED%95%B4%EB%A5%BC-%ED%86%B5%ED%95%B4-Data-Structure-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0
+https://postitforhooney.tistory.com/entry/JavaCollection-Java-Collection-Framework%EC%97%90-%EB%8C%80%ED%95%9C-%EC%9D%B4%ED%95%B4%EB%A5%BC-%ED%86%B5%ED%95%B4-Data-Structure-%EC%9D%B4%ED%95%B4%ED%95%98%EA%B8%B0  
+https://coding-factory.tistory.com/126  

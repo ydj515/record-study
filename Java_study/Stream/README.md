@@ -120,9 +120,13 @@ list.stream().filter(i -> i > 10).MapToLong(i -> i).sum();
 ```
 
 #### peek
-- map 과 유사
+- 기본적으로 looping
+- 최종 처리 메소드가 실행되지 않으면 지연되기 때문에 최종 처리 메소드가 호출되어야만 동작
+- 이런 식으로 중간 값을 확인하고 싶을 때 사용하면 유용
 ```java
-int sum = IntStream.of(1, 3, 5, 7, 9).peek(System.out::println).sum();
+int sum = Arrays.stream(new int[] { 5, 3, 2, 1, 4, }).filter(a -> a % 2 == 0).peek(i -> System.out.println(i)).sum(); // 2  4
+
+System.out.println(sum); // 6
 ```
 
 #### sorted
@@ -180,6 +184,7 @@ long sum = LongStream.of(1, 3, 5, 7, 9).sum();
 
 ### ifPresent
 - 중개연산 말고도 최종연산에서도 if문식으로 걸를 수 있다
+- 앞의 함수가 처리한 결과 값에 대해 결과 처리를 하고 종료
 ```java
 DoubleStream.of(1.1, 2.2, 3.3, 4.4, 5.5).average().ifPresent(System.out::println);
 ```
@@ -239,6 +244,37 @@ while(iter.hasNext()) {
 
 #### noneMatch, anyMatch, allMatch
 - boolean을 표현하는 람다식 필요
+- true가 리턴되면 작업 종료
+
+- allMatch() : 모든 요소들이 매개값으로 주어진 Predicate의 조건을 만족하는지 조사
+```java
+		Stream.of("d2", "a2", "b1", "a3", "c").map(i -> i.toUpperCase()).allMatch(i -> {
+			System.out.println("allMatch: " + i);
+			return i.startsWith("A");
+		});
+// allMatch: D2
+```
+
+- anyMatch() :  최소 한 개의 요소가 매개값으로 주어진 Predicate의 조건을 만족하는지 조사
+```java
+Stream.of("d2", "a2", "b1", "a3", "c").map(i -> i.toUpperCase()).anyMatch(i -> {
+			System.out.println("anyMatch: " + i);
+			return i.startsWith("A");
+		});
+// anyMatch: D2
+// anyMatch: A2
+```
+
+- noneMatch() : 모든 요소들이 매개값으로 주어진 Predicate의 조건을 만족하지 않는지 조사
+```java
+		Stream.of("d2", "a2", "b1", "a3", "c").map(i -> i.toUpperCase()).noneMatch(i -> {
+			System.out.println("noneMatch: " + i);
+			return i.startsWith("A");
+		});
+// noneMatch: D2
+// noneMatch: A2
+```
+
 ```java
 List<Integer> ages = new ArrayList<Integer>();
 ages.add(1);
@@ -273,6 +309,73 @@ a.forEach(x -> System.out.println(x));
 ### filter와 map의 차이
 - filter는 boolean을 처리하는 람다식이 필요, map은 입력 컬렉션을 mapping 하거나 변경
 
+### filter와 map, sorted(중개연산) 사용시 유의점
+- filter를 먼저 걸고 map을 사용하면 연산 횟수를 줄일 수 있음
+- sorted는 마지막이 제일 좋은거 같다.(난ㅋ)
+```java
+Stream.of("d2", "a2", "b1", "b3", "c")
+    .map(i -> {
+        System.out.println("map: " + i);
+        return i.toUpperCase();
+    })
+    .filter(i -> {
+        System.out.println("filter: " + i);
+        return i.startsWith("A");
+    })
+    .forEach(i -> System.out.println("forEach: " + i));
+
+// map:     d2
+// filter:  D2
+// map:     a2
+// filter:  A2
+// forEach: A2
+// map:     b1
+// filter:  B1
+// map:     b3
+// filter:  B3
+// map:     c
+// filter:  C
+```
+
+```java
+Stream.of("d2", "a2", "b1", "b3", "c")
+    .filter(i -> {
+        System.out.println("filter: " + i);
+        return i.startsWith("a");
+    })
+    .map(i -> {
+        System.out.println("map: " + i);
+        return i.toUpperCase();
+    })
+    .forEach(i -> System.out.println("forEach: " + i));
+
+// filter:  d2
+// filter:  a2
+// map:     a2
+// forEach: A2
+// filter:  b1
+// filter:  b3
+// filter:  c
+```
+
+```java
+Stream.of("d2", "a2", "b1", "b3", "c")
+    .filter(i -> {
+        System.out.println("filter: " + i);
+        return i.startsWith("a");
+    })
+    .sorted((s1, s2) -> {
+        System.out.printf("sort: %s; %s\n", s1, s2);
+        return s1.compareTo(s2);
+    })
+    .map(i -> {
+        System.out.println("map: " + i);
+        return i.toUpperCase();
+    })
+    .forEach(i -> System.out.println("forEach: " + i));
+```
+
+
 ## 실전연습
 ### <a href="https://github.com/ydj515/record-study/blob/master/Java_study/Stream/src/traderAndTransaction/Main.java">문제풀이</a>
 ### <a href="https://github.com/ydj515/record-study/blob/master/Java_study/Stream/src/stringcalculator/StringAddCalculator.java">예제</a>
@@ -281,3 +384,4 @@ a.forEach(x -> System.out.println(x));
 [출처]  
 https://jeong-pro.tistory.com/165  
 https://futurecreator.github.io/2018/08/26/java-8-streams/  
+https://wraithkim.wordpress.com/2017/04/13/java-8-%EC%8A%A4%ED%8A%B8%EB%A6%BC-%ED%8A%9C%ED%86%A0%EB%A6%AC%EC%96%BC/  

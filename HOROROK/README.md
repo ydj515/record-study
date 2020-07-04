@@ -34,7 +34,6 @@
 - 일반적으로 HTTP/1.1을 사용하며 Connection은 기본적으로 keep-alive
 - ex) Connection: keep-alive
 
-
 ### Content-Length
 - 요청과 응답 메시지의 본문 크기를 바이트 단위로 표시
 - 메시지 크기에 따라 자동으로 만들어짐
@@ -49,14 +48,13 @@
 - ex) Content-Encoding: gzip, deflate
 
 ### Host
-- 서버의 도메인 네임 
+- 서버의 도메인 네임
 - Host 헤더는 반드시 하나가 존재해야 한다.
 - ex) host: www.akmall.com
 
 ### User-Agent
 - 현재 사용자가 어떤 클라이언트(운영체제, 앱, 브라우저 등)를 통해 요청을 보냈는지 알 수 있음
 - ex) User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36
-
 
 ### Accept
 - 클라이언트가 허용할 수 있는 파일 형식(MIME TYPE)
@@ -93,7 +91,29 @@ Host: www.akmall.com
 Content-Length: 91
 ```
 
+## 동기 비동기
+### 동기
+- 요청과 그 결과가 동시에 일어남
+- 함수의 결과를 호출한 쪽에서 처리
+
+### 비동기
+- 함수를 호출한 쪽에서 콜백함수를 통해 결과 처리
+
+### 스레드 기반 동기 vs 이벤트 기반 비동기
+- 스레드 기반 동기 방식은 여러개의 스레드를 만들어 동시에 일을 처리하지만 일이 많아질 수록 스레드를 더 많이 나눠야하므로 메모리 사용량이 증가함
+- 이벤트 기반 동기 방식은 스레드는 단 하나지만 각 함수를 호출하고 이벤트가 발생하는 순간 콜백을 받아서 메모리 사용량에 변화가 거의 없다.
+- 대표적인 이벤트 기반 비동기 방식인 node는 이런 장점을 가지고 있지만, 단점으로는 프로그램이 진행에 문제가 발생하면 프로그램 전체가 영향을 받음.
+
+## 블록킹 논블록킹
+### 블록킹
+- 수행결과가 끝날 때까지 제어 소유
+
+### 논블록킹
+- 자신이 호출되었을 때 제어권을 자신을 호출한 쪽으로 넘김
+
+
+
 
 [출처]  
 https://jeong-pro.tistory.com/84  
-https://goddaehee.tistory.com/169  
+https://goddaehee.tistory.com/169

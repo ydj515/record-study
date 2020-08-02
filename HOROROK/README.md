@@ -121,7 +121,65 @@ select NOW(), SLEEP(2), NOW(); -- 2020-08-02 18:14:15 / 0 / 2020-08-02 18:14:15
 select SYSDATE(), SLEEP(2), SYSDATE(); -- 2020-08-02 18:14:15 / 0 / 2020-08-02 18:14:17
 ```
 
+## OAuth
+- 인증을 위한 오픈 스탠더드 프로토콜
+- 사용자가 Facebook, kakao, naver등과 같은 인터넷 서비스의 기능을 다른 어플리케이션에서도 사용할 수 있게한다.
+- 위의 사이트들에 대해 사용자 아이디와 암호를 대신 인증해달라고 요청하고 사용자 인증을 받는 형식
+- 간단히 말해 소셜 로그인등 과 같은 것
+- 각 제공 사이트 마다 요구하는 객체(Response 형식)이 다름
+![123](https://user-images.githubusercontent.com/32935365/89119988-55cc2000-d4ed-11ea-8f85-51bac98d2bcc.PNG)
+
+### 인증 종류
+#### Authorization Code Grant
+- 서버 사이드 코드로 인증하는 방식
+- 권한서버가 클라이언트와 리소스 서버 간의 중재 역할
+- access token을 바로 클라이언트로 전달하지 않아 잠재적 유출 방지
+- 로그인시에 페이지 **URL**에 **response_type=code** 라고 넘김
+
+#### Implicit Grant
+- token과 scope에 대한 스펙 등은 다르지만 OAuth 1.0a과 가장 비슷한 인증방식
+- Public Client인 브라우저 기반의 어플리케이션(Javascript application)이나 모바일 어플리케이션에서 이 방식을 사용하면 됨
+- OAuth 2.0에서 가장 많이 사용되는 방식
+- 권한코드 없이 바로 발급되서 보안에 취약
+- 주로 Read only인 서비스에 사용
+- 로그인시에 페이지 **URL**에 **response_type=token** 라고 넘김
+
+#### Password Credentials Grant
+- 클라이언트에 ID/PW를 저장해 놓고 ID/PW로 직접 access token을 받아오는 방식
+- 클라이언트를 믿을 수 없을 때에는 사용하기에 위험
+- 로그인시에 API에 **POST**로 **grant_type=password** 라고 넘김
+
+#### Client Credentials Grant
+- 어플리케이션이 Confidential Client일 때 id와 secret을 가지고 인증하는 방식
+- 로그인시에 API에 **POST**로 **grant_type=client_credentials** 라고 넘김
+
+### Token
+### Access Token
+- 위의 4가지 권한 요청 방식 모두, 요청 절차를 정상적으로 마치면 클라이언트에게 Access Token이 발급됨
+- access token은 보호된 리소스에 접근할 때 권한 확인용으로 사용
+- 문자열 형태이며 클라이언트에 발급된 권한을 대신함
+- 계정 아이디와 비밀번호 등 계정 인증에 필요한 형태들을 이 access token 하나로 표현함으로써, 리소스 서버는 여러 가지 인증 방식에 각각 대응 하지 않아도 권한을 확인 할 수 있게 됨
+
+### Refresh Token
+- 한번 발급받은 access token 은 사용할 수 있는 시간이 제한되어 있음
+- 사용하고 있던 access token 이 유효기간로 만료되면, 새로운 액세스 토큰을 얻어야 하는데 그때 이 refresh token을 사용
+- 권한 서버가 access token 을 발급해주는 시점에 refresh token 도 함께 발급하여 클라이언트에게 알려주기 때문에, 전용 발급 절차 없이 refresh token을 미리 가지고 있을 수 있음
+- 문자열 형태. 단 권한 서버에서만 활용되며 리소스 서버에는 전송되지 않음
+
+### 토큰의 갱신 과정
+1. 클라이언트가 권한 증서를 가지고 권한서버에 access token 을 요청
+2. 권한 서버는 access token과 refresh token 을 함께 클라이언트에 알려줌
+3. 클라이언트는 access token을 사용하여 리소스 서버에 각종 필요한 리소스들을 요청하는 과정을 반복
+4. 3의 과정을 반복하다가 일정한 시간이 흐른 후 access token이 만료되면, 리소스 서버는 이후 요청들에 대해 정상 결과 대신 오류를 응답
+5. 오류 등으로 액세스 토큰이 만료됨을 통보 받은 클라이언트는, 전에 받아 두었던 refresh token을 권한 서버에 보내어 새로운 access token을 요청
+6. 갱신 요청을 받은 권한 서버는 refresh token 의 유효성을 검증한 후, 문제가 없다면 새로운 액세스 토큰을 발급해줌
+7. 6번에서 옵션에 따라 refresh token 도 새롭게 발급 될 수 있음
 
 [출처]  
 https://jeong-pro.tistory.com/84  
-https://goddaehee.tistory.com/169
+https://goddaehee.tistory.com/169  
+
+https://developers.kakao.com/docs/latest/ko/kakaologin/rest-api#before-you-begin  
+https://developers.naver.com/docs/common/openapiguide/apilist.md  
+https://developers.payco.com/guide/development/start  
+https://showerbugs.github.io/2017-11-16/OAuth-%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%BC%EA%B9%8C  

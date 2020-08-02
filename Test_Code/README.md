@@ -1,6 +1,6 @@
 # Test Code
 
-## JUnit
+## JUnit4
 ### 단위 테스트 도구
 - 단위 테스트 FrameWork 중 한가지
 - 외부 테스트 프로그램(케이스)를 작성하여 번거롭게 디버깅 하지 않아도 됨
@@ -25,6 +25,16 @@
 </dependencies>
 ```
 - Compile Dependencies가 있는 JUnit은 hamcrest를 같이 추가해 주어야함
+
+### IntelliJ Configuration
+1. 해당 모듈에 [new] - [directory]로 test 폴더 생성  
+![11](https://user-images.githubusercontent.com/32935365/89126457-c476a100-d520-11ea-8369-e682f7b35343.PNG)  
+
+2. 해당 모듈 우클릭 후 [open module setting] 후 mark as 에 test 누르고 test 폴더 누르면 오른쪽에 test 추가된거 확인하고 ok. 하면 test 폴더가 초록색으로 변함  
+![2](https://user-images.githubusercontent.com/32935365/89126467-d5bfad80-d520-11ea-9c5a-3df4adef7160.PNG)  
+
+3. test할 메소드에 가서 우클릭 [go to] - [test] 한 후 JUnit4로 바꾼 후 테스트 하고 싶은 메소드 클릭하면 생김  
+![33](https://user-images.githubusercontent.com/32935365/89126471-dce6bb80-d520-11ea-8a55-42335de250f8.PNG)  
 
 ### Annotation
 - @BeforeClass  

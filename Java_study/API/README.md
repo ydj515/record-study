@@ -26,6 +26,21 @@ System.out.println(s.toString()); // NullPointException
 
 ```
 
+## Math.random() vs Random.nextInt()
+### Math.random()
+- 내부적으로 Random.nextDouble()을 사용
+
+```java
+int randomNumber = (int) (Math.random() * 10 + 1); // 1 ~ 10
+```
+### Random.nextInt()
+- Random.next()로 구한 2개의 값의 평균을 랜덤으로 사용
+
+```java
+Random random = new Random();
+int randomNumber = random.nextInt(10); // 0 ~ 9
+```
+
 ## Collections.EMPTY_LIST vs Collections.emptyList()
 - 둘다 empty list를 반환
 

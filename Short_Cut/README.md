@@ -16,6 +16,7 @@
 |`자동완성`                  |`ctrl⌃ + space`      |ctrl + space      |
 |`getter, setter, Constructor`|`cmd⌘ + n`        |alt + insert      |
 |`전체 찾기`                 |`cmd⌘ + shift⇧ + F` |ctrl + shift⇧ + f |
+|`파일 찾기`                 |`cmd⌘ + shift⇧ + o` |ctrl + shift⇧ + n |
 |`이전 커서`         	     |`cmd⌘ + [`          |ctrl + alt + ⭠   |
 |`다음 커서`         	     |`cmd⌘ + ]`          |ctrl + alt + ⭢   |
 |`탭 이동(왼쪽)`             |`cmd⌘ + shift⇧ + [` |alt + ⭠          |

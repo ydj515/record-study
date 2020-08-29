@@ -17,11 +17,13 @@
 |`getter, setter, Constructor`|`cmd⌘ + n`        |alt + insert      |
 |`전체 찾기`                 |`cmd⌘ + shift⇧ + F` |ctrl + shift⇧ + f |
 |`파일 찾기`                 |`cmd⌘ + shift⇧ + o` |ctrl + shift⇧ + n |
+|`파일 및 여러가지 찾기(class,action...)`  |`shift⇧ + shift⇧`    |shift⇧ + shift⇧   |
 |`이전 커서`         	     |`cmd⌘ + [`          |ctrl + alt + ⭠   |
 |`다음 커서`         	     |`cmd⌘ + ]`          |ctrl + alt + ⭢   |
 |`탭 이동(왼쪽)`             |`cmd⌘ + shift⇧ + [` |alt + ⭠          |
 |`탭 이동(오른쪽)`           |`cmd⌘ + shift⇧ + ]` |alt + ⭢          |
 |`라인검색`                  |`cmd⌘ + l`          |ctrl + g         |
+|`창 닫기`                  |`cmd⌘ + w`          |ctrl + f4         |
 |`한줄 삭제`          	     |`cmd⌘ + backspace`  |ctrl + y         |
 |`한줄 복사`                 |`cmd⌘ + d`          |ctrl + d         |
 |`실행`                      |`ctrl⌃ + r`          |shift⇧ + f10    |

@@ -38,3 +38,18 @@
 ### Eclipse(아직 안함)
 |기능                        |Mac                 |Window            |
 |---------------------------|---------------------|------------------|
+|`자동정렬`                  |`cmd⌘ + shift⇧ + f` |ctrl + shift⇧ + f|
+|`자동완성`                  |`ctrl⌃ + space`      |ctrl + space      |
+|`getter, setter, Constructor`|`opt⌥ + cmd⌘ + s` |alt + shift + s   |
+|`전체 찾기`                 |`cmd⌘ + shift⇧ + l` |ctrl + shift⇧ + l |
+|`파일 찾기`                 |`cmd⌘ + shift⇧ + r` |ctrl + shift⇧ + r |
+|`이전 커서`         	     |`cmd⌘ + [`          |alt + ⭠   |
+|`다음 커서`         	     |`cmd⌘ + ]`          |alt + ⭢   |
+|`탭 이동(왼쪽)`             |`cmd⌘ + shift⇧ + [` |alt + ⭠          |
+|`탭 이동(오른쪽)`           |`cmd⌘ + shift⇧ + ]` |alt + ⭢          |
+|`라인검색`                  |`cmd⌘ + l`          |ctrl + l         |
+|`창 닫기`                  |`cmd⌘ + w`          |ctrl + w         |
+|`한줄 삭제`          	     |`cmd⌘ + d`          |ctrl + d         |
+|`실행`                      |`f11`                |f11    |
+
+

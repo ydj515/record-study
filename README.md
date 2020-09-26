@@ -59,3 +59,5 @@
 - **단축키 :** https://github.com/ydj515/record-study/tree/master/Short_Cut
 
 - **SASS :** https://github.com/ydj515/record-study/tree/master/SASS
+
+- **SimpleCaptcha :** https://github.com/ydj515/record-study/tree/master/SimpleCaptcha

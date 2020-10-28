@@ -154,6 +154,26 @@ select * from test
 where REG_DT between '2020-04-08 00:00' and '2020-04-08 23:59'; -- 하루치. 24:00으로 하면 절대 안나옴
 ```
 
+### Merge
+- table에 row를 조건적으로 insert또는 update(update와 insert를 결합문)
+- MERGE를 실행하는 user는 해당 table에 insert와 update를 할 수 있는 권한이 있어야함.
+- **INTO** : data가 update되거나 insert될 table name (emp_history는 target table)
+- **USING** : 대상 table의 data와 비교한 후 update또는 insert할 때 사용할 data의 source (emp는 source table)
+- **ON** : update나 insert할 condition으로, 해당 condition을 만족하는 row가 있으면 WHEN MATCHED 이하를 실행, 없으면 WHEN NOT METCHED 이하를 실행
+- **WHEN MATCHED** : ON의 조건이 TRUE인 row에 수행할 내용
+- **WHEN NOT MATCHED** : ON의 조건에 맞는 row가 없을 때 수행할 내용
+
+- 예시 
+```sql
+MERGE INTO emp_history eh
+USING emp 
+ON (e.empno = eh.empno)  
+WHEN MATCHED THEN
+    UPDATE SET eh.salary = e.sal
+WHEN NOT MATCHED THEN
+    INSERT VALUES (e.empno, sysdate, sal);
+```
+
 ### UNION ALL vs UNION
 - UNION은 조인은 정렬을 하기 때문에 느림
 - UNION ALL은 정렬을 하지 않으므로 빠름 => UNION ALL을 써야함

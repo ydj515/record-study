@@ -53,6 +53,140 @@ http://localhost:9200
 ## Kibana
 http://localhost:5601
 
+## 설치 방법
+### java 설치
+- java 설치
+```
+sudo yum install java-1.8.0-openjdk-devel.x86_64
+```
+
+- /etc/profile(맨밑에 아래 내용 추가)
+```
+sudo vi /etc/profile
+```
+```
+JAVA_HOME=/usr/local/java
+CLASSPATH=.:$JAVA_HOME/lib/tools.jar
+PATH=$PATH:$JAVA_HOME/bin
+export JAVA_HOME CLASSPATH PATH
+```
+
+- java 설치 확인
+```
+source /etc/profile
+echo $JAVA_HOME
+javac -version
+```
+
+### yum 설치 repo 추가
+- 아래 내용을 추가
+- elasticsearch
+```
+sudo vi /etc/yum.repos.d/elasticsearch.repo
+```
+```
+[elasticsearch-7.x]
+name=Elasticsearch repository for 7.x packages
+baseurl=https://artifacts.elastic.co/packages/7.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+```
+
+- kibana
+```
+sudo vi /etc/yum.repos.d/kibana.repo
+```
+```
+[elasticsearch-7.x]
+name=Kibana repository for 7.x packages
+baseurl=https://artifacts.elastic.co/packages/7.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+```
+
+- logstash
+```
+sudo vi /etc/yum.repos.d/logstash.repo
+```
+```
+[logstash-7.x]
+name=Elastic repository for 7.x packages
+baseurl=https://artifacts.elastic.co/packages/7.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
+```
+
+### 방화벽 허용
+```
+sudo yum install firewalld
+sudo systemctl start firewalld
+sudo systemctl enable firewalld
+
+sudo firewall-cmd --permanent --add-port=9200/tcp
+sudo firewall-cmd --permanent --add-port=9300/tcp
+sudo firewall-cmd --permanent --add-port=5601/tcp
+sudo firewall-cmd --reload
+```
+
+### curl
+```
+sudo yum install curl
+sudo yum install curl-devel
+```
+
+### 실행
+```
+sudo systemctl start elasticsearch
+sudo systemctl start logstash
+sudo systemctl start kibana
+```
+
+### 서비스 등록
+```
+sudo systemctl enable elasticsearch
+sudo systemctl enable logstash
+sudo systemctl enable kibana
+```
+
+### 외부 접속을 허용하기 위한 yml 수정
+- elasticsearch.yml
+```
+sudo vi /etc/elasticsearch/elasticsearch.yml
+```
+
+```
+network.host: 0.0.0.0
+discovery.seed_hosts: ["0.0.0.0"]
+```
+
+- kibana.yml
+```
+sudo vi /etc/kibana/kibana.yml
+```
+
+```
+server.host: "0.0.0.0"
+elasticsearch.hosts: ["http://{엘라스틱ip}:9200"]
+```
+
+- yml 변경 후 재시작
+```
+sudo systemctl restart elasticsearch
+sudo systemctl restart kibana
+```
+
+
+
+
 [출처]  
 https://m.blog.naver.com/PostView.nhn?blogId=wideeyed&logNo=221179410434&proxyReferer=https%3A%2F%2Fwww.google.com%2F  
 

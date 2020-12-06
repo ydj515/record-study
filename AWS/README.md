@@ -320,7 +320,27 @@ https://github.com/elastic/elasticsearch-py
 http://jason-heo.github.io/elasticsearch/2016/07/16/elasticsearch-with-python.html  
 https://blog.nerdfactory.ai/2019/04/29/django-elasticsearch-restframework.html  
 https://victorydntmd.tistory.com/310  
-https://github.com/wikibook/elasticsearch  
+https://github.com/wikibook/elasticsearch
+
+## EC2 용량 늘리기
+### 1. 서비스 중인 ec2 용량 늘리기
+- 원하는 용량을 늘린다.
+![ec2 1](https://user-images.githubusercontent.com/32935365/101285504-e19de200-3828-11eb-8404-ab9e3e542958.PNG)
+
+- 루트 디바이스 이름 기억
+![ec2 2](https://user-images.githubusercontent.com/32935365/101285508-ea8eb380-3828-11eb-89ec-4c2ba5808dc5.PNG)
+
+### 2. 남은 용량 확인 후 작업
+- 남은 용량 확인
+```
+$ df -h
+$ lsblk
+$ sudo growpart /dev/xvda 1
+$ sudo resize2fs /dev/xvda1
+$ df -h
+```
+
+- **만약 nospace 에러가 난다면 ec2 재부팅하면 된다!!**
 
 
 

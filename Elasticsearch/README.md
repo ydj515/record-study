@@ -184,6 +184,16 @@ sudo systemctl restart elasticsearch
 sudo systemctl restart kibana
 ```
 
+## Directory Description
+- **/usr/share/elasticsearch** : 홈디렉토리
+    - **bin** : 실행 파일 디렉토리
+    - **plugins** : 플러그인
+- **/etc/elasticsearch** : 설정 파일 디렉토리
+    - **elasticsearch.yml** : 주 설정 파일
+    - **jvm.options** : java 설정 파일
+    - **log4j2.properties** : 로그 설정 파일
+- **/var/lib/elasticsearch** : 데이터 저장 디렉토리
+- **/var/log/elasticsearch** : 로그 저장 디렉토리
 
 
 

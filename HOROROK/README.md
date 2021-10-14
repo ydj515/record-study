@@ -175,6 +175,16 @@ select SYSDATE(), SLEEP(2), SYSDATE(); -- 2020-08-02 18:14:15 / 0 / 2020-08-02 1
 6. 갱신 요청을 받은 권한 서버는 refresh token 의 유효성을 검증한 후, 문제가 없다면 새로운 액세스 토큰을 발급해줌
 7. 6번에서 옵션에 따라 refresh token 도 새롭게 발급 될 수 있음
 
+### yum
+1. yum update를 할 경우 yum으로 설치된 파일들이 모두 update된다. profile에 자바 경로등 버전명시로 지정되어있는 경우가 있기 때문에 주의해야함.
+2. 명령어
+```
+yum history list
+yum history info 31
+yum history undo 31
+yum history redo 31
+```
+
 [출처]  
 https://jeong-pro.tistory.com/84  
 https://goddaehee.tistory.com/169  

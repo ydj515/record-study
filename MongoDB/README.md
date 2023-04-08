@@ -19,6 +19,7 @@
 
 ## 특징
 - Document-oriented storage : database > collections > documents 구조로 document는 key-value형태의 BSON(Binary JSON)
+- 데이터 입ㅜ력 시는 JSON 형식 사용, 데이터 저장시에는 BJSON형시 사용
 - Full Index Support : 다양한 인덱싱을 제공
 - Replication& High Availability : 간단한 설정만으로도 데이터 복제를 지원. 가용성 향상.
 - Auto-Sharding : MongoDB는 처음부터 자동으로 데이터를 분산하여 저장하며, 하나의 컬렉션처럼 사용할 수 있게 해줌. 수평적 확장 가능

@@ -291,6 +291,33 @@ Collections.sort(list); // 오름차순
 
 List<Integeer> list2 = new ArrayList<>();
 list.sort(Collections.reverseOrder()); // 내림차순
+
+list.sort(Comparator.comparing(Student::getAge));
+
+// multi sort
+Collections.sort(list, Comparator
+		.comparing(Student::getName) // Ascending order by name
+		.thenComparing(Student::getId, Comparator.reverseOrder()) // Descending order by ID
+		.thenComparing(Student::getScore) // Ascending order by grade
+);
+
+List<Map.Entry<Integer, Integer>> entries = new LinkedList<>(map.entrySet());
+Collections.sort(entries, (o1, o2) -> o2.getKey().compareTo(o1.getKey()));
+
+// multi sort
+Collections.sort(entries, new Comparator<Map.Entry<Integer, Integer>>() { //compare 인자에 대한 타입 지정 해줘야 함
+	@Override
+	public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+		return o2.getKey().compareTo(o1.getKey());
+	}
+}.thenComparing( new Comparator<Map.Entry<Integer, Integer>>() { //compare 인자에 대한 타입 지정 해줘야 함
+	@Override
+	public int compare(Map.Entry<Integer, Integer> o1, Map.Entry<Integer, Integer> o2) {
+		return o2.getValue().compareTo(o1.getValue());
+	}
+}));
+
+
 ```
 
 [출처]  

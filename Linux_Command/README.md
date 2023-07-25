@@ -36,7 +36,20 @@ $ bash --version
 $ top
 ```
 
-### 메모리 사용량
+### free
+- 메모리 사용량
+- option
+```
+[total] : 설치된 총 메모리 크기 / 설정된 스왑 총 크기
+[used] : total에서 free, buff/cache를 뺀 사용중인 메모리. / 사용중인 스왑 크기
+[free] : total에서 used와 buff/cahce를 뺀 실제 사용 가능한 여유 있는 메모리량 / 사용되지 않은 스왑 크기
+[shared] : tmpfs(메모리 파일 시스템), ramfs 등으로 사용되는 메모리. 여러 프로세스에서 사용할 수 있는 공유 메모리
+[buffers] : 커널 버퍼로 사용중인 메모리
+[cache] : 페이지 캐시와 slab으로 사용중인 메모리
+[buff/cache] : 버퍼와 캐시를 더한 사용중인 메모리
+[available] : swapping 없이 새로운 프로세스에서 할당 가능한 메모리의 예상 크기. (예전의 -/+ buffers/cache이 사라지고 새로 생긴 컬럼)
+```
+
 ```sh
 $ free -mh
 $ watch -d -n 0.1 free -mh
@@ -75,16 +88,45 @@ $ nc localhost 8080
 $ nc -u <호스트명> <포트>
 ```
 
-### 포트 겹치면 누가 사용하고 있는지 확인
+### lsof
+- 시스템에서 열린 파일 목록을 알려주고 사용하는 프로세스, 디바이스 정보, 파일의 종류등 상세한 정보를 출력
+- 포트 겹치면 누가 사용하고 있는지 확인
+
 ```sh
 $ lsof -i TCP:80
 $ lsof -c <ps이름>
 ```
 
-### 서버 응답이 느려졌을 때
+### netstat
+- 네트워크 접속, 라우팅 테이블, 네트워크 인터페이스의 통계 정보를 보여주는 도구
+
 ```sh
 $ netstat -nap | grep ESTABLISH | wc
 $ netstat -nap | grep TIME_WAIT | wc
+$ netstat -nap | grep :3306
+```
+
+### uptime
+- 리눅스 시스템의 현재 접속중인 사용자수나 시스템의 부하상태 시스템이 재기동 후 지난 시간 등을 나타냄
+- 현재시간, 지속시간, 접속중인 user 수, cpu 평균 부하율(1분, 5분, 15분)
+```sh
+$ uptime
+```
+
+### dmesg
+- 시스템 부팅 메시지 확인
+```sh
+$ dmesg -H
+```
+
+- 실시간 로그
+```sh
+$ dmesg -W
+```
+
+- 로그 위험도 수준으로 출력
+```sh
+$ dmesg -l
 ```
 
 ### tcpdump
@@ -99,7 +141,6 @@ $ netstat -nap | grep TIME_WAIT | wc
 -A : ASCII로 패킷 내용을 출력. 이는 패킷의 페이로드를 가독성있게 확인
 -l : 버퍼를 사용하지 않고 즉시 출력. 실시간으로 패킷을 모니터링하는 용도로 사용
 ```
-
 
 - 1024 byte로 패킷 크기를 제한하여 버퍼를 사용하지 않고 즉시 출력
 ```sh

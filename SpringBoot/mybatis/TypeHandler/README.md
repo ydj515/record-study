@@ -1,4 +1,4 @@
-# SpringBoot - TypeHandler
+# SpringBoot - mybatis TypeHandler
 
 - application.yml
 ```yml
@@ -9,6 +9,7 @@ spring:
         config-location: classpath:mybatis-config.xml
         type-handlers-package: molitapi.apiserver.handler.typehandler
 ```
+
 ### BooleanTypeHandler
 ```java
 @MappedJdbcTypes(JdbcType.CHAR)

@@ -1,6 +1,6 @@
 # SpringBoot - mybatis TypeHandler
 
-- application.yml
+#### application.yml
 ```yml
 spring:
     mybatis:
@@ -8,6 +8,20 @@ spring:
         mapper-locations: classpath:mapper/*/*.xml
         config-location: classpath:mybatis-config.xml
         type-handlers-package: molitapi.apiserver.handler.typehandler
+```
+
+#### Member
+```java
+public class Member {
+	private Boolean isIndividualMember;
+}
+```
+
+#### mapper.xml
+```xml
+<resultMap id="MemberMap" type="Member">
+	<result column="INDVDL_MEMBER_YN" property="isIndividualMember" typeHandler="kr.go.test.handler.BooleanTypeHandler" />
+</resultMap>
 ```
 
 ### BooleanTypeHandler
@@ -57,21 +71,7 @@ public class BooleanTypeHandler extends BaseTypeHandler<Boolean> {
 }
 ```
 
-- Member
-```java
-public class Member {
-	private Boolean isIndividualMember;
-}
-```
-
-- mybatis
-```xml
-<resultMap id="MemberMap" type="Member">
-	<result column="INDVDL_MEMBER_YN" property="isIndividualMember" typeHandler="kr.go.test.handler.BooleanTypeHandler" />
-</resultMap>
-```
-
-### LocalDateTimeTypeHandler
+#### LocalDateTimeTypeHandler
 ```java
 @MappedTypes(LocalDateTime.class)
 public class LocalDateTimeTypeHandler extends BaseTypeHandler<LocalDateTime> {

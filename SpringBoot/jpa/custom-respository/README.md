@@ -2,7 +2,7 @@
 
 
 ## custom repository
-jpa repository를 사용하면서 기능 추가 및 override 가능
+jpa repository를 사용하면서 기능 추가 및 override 가능, 공통적으로 repository 기능 추가
 
 #### post entity
 ```java

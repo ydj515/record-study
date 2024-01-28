@@ -1,10 +1,6 @@
 # SpringBoot - jpa domain event
-ApplicationContext 는 BeanFactory 인터페이스를 상속받았고, ApplicationEventPublisher 인터페이스도 상속받은 인터페이스이다.
-
-이벤트는 ApplicationEvent 를 상속받아 만들면 되고,
-
-리스너는 ApplicationListener를 구현하여 만들면 된다. 또는 스프링부트가 제공하는 어노테이션 @EventListener를 사용해도 된다.
-
+ApplicationContext 는 BeanFactory 인터페이스를 상속받았고, ApplicationEventPublisher 인터페이스도 상속받은 인터페이스<br/>
+이벤트는 ApplicationEvent 를 상속받아 만들면 되고, 리스너는 ApplicationListener를 구현하여 만들면 된다. 또는 스프링부트가 제공하는 어노테이션 @EventListener를 사용해도 된다.<br/>
 
 1. event 구현
 #### post entity
@@ -127,7 +123,7 @@ public class Post extends AbstractAggregateRoot<Post> {
 #### test code
 ```java
 @DataJpaTest
-@Import(PostRepositoryTestConfig.class)
+// @Import(PostRepositoryTestConfig.class)
 class PostRepositoryTest {
 
     @Autowired

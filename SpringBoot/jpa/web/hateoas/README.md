@@ -8,6 +8,25 @@
 </dependency>
 ```
 
+#### post
+```java
+@Entity
+@Getter
+@Setter
+public class Post {
+
+    @Id
+    @GeneratedValue
+    private Long id;
+
+    private String title;
+    @Lob
+    private String content;
+    @Temporal(TemporalType.TIMESTAMP)
+    LocalDateTime created;
+}
+```
+
 #### PostController
 ```java
 @RestController

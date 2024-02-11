@@ -1,5 +1,6 @@
 # MSA
 
+## MSA & Monolithic & SOA
 #### Monolithic Architecture
 - 싱글모듈
 > 모든 소스가 단일 모듈 내에 존재
@@ -68,11 +69,23 @@ saga(보상 트랜잭션)
 > 강제로 문제를 만들어보고 미리 실패해보고 테스트를 진행 ex) 복구하는 방법 등
 > 미리 실패하는 테스트를 진행해보면 실패하는 루트를 찾아 미리 방지
 
-
-
-
-
 ![111](https://github.com/ydj515/record-study/assets/32935365/a543df58-78bd-492a-9098-642de33e6812)
+
+
+## MSA 패턴들
+
+#### API Aggregation 패턴
+
+#### CQRS 패턴
+
+#### 테스트 패턴
+
+#### 외부 API 패턴
+
+#### 디스커버리 패턴
+
+ex) 쿠버네티스의 redisness probe, liveness probe
+
 
 
 

@@ -12,17 +12,17 @@ Service Discovery는 서비스의 위치와 가용 상태 등을 관리하여 �
 - `Server Side Discovery`
 서비스를 사용할 클라이언트와 Service Registry 사이에 Load Balancer를 두는 방식<br/>
 클라이언트는 Load Balancer에 서비스를 요청하고 Load Balancer가 Service Registry에 호출할 서비스의 위치를 질의하는 방식<br/>
-eurka server가 faile over 및 load balnacer를 담당.
+eurka server가 faile over 및 load balnacer를 담당.<br/>
 ![server-side](https://github.com/ydj515/record-study/assets/32935365/b1b791e4-ad83-4da9-b534-4cc46adefac1)
 
 
 #### Eureka
 라우드 환경의 다수의 서비스(예: API 서버)들의 로드 밸런싱 및 장애 조치 목적을 가진 미들웨어서버.<br/>
 rest 기반으로 작동하며 각 client의 ip, port, instnace id를 가지고 있다.<br/>
-서비스가 Eureka Server에 등록될 때 자신이 살아있다는 상태값을 보낸다.
-그리고 Eureka Server는 다른 Eureka Client의 정보들을 제공하고 서비스는 Local Cache에 저장
+서비스가 Eureka Server에 등록될 때 자신이 살아있다는 상태값을 보낸다.<br/>
+그리고 Eureka Server는 다른 Eureka Client의 정보들을 제공하고 서비스는 Local Cache에 저장<br/>
 이후 30초(Default)마다 Eureka Server에 Heartbeats 요청을 보내고 Eureka Server는 90초 안에 Headerbeats가 도착하지 않으면 해당 Eureka Client를 제거<br/>
-<strong>discovery service로 eureka를 사용한다.</strong>
+<strong>discovery service로 eureka를 사용한다.</strong><br/>
 
 ![eureka](https://github.com/ydj515/record-study/assets/32935365/5f5ad08c-1055-4ff9-9160-1349631cbbf6)
 

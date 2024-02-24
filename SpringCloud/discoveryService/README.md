@@ -5,7 +5,7 @@ IP와 Port정보가 Auto-scaling 등으로 인해 동적으로 바뀌게 되는 
 Service Discovery는 서비스의 위치와 가용 상태 등을 관리하여 클라이언트 서비스가 요청할 서비스를 식별 가능하게 함.<br/>
 
 - `Client Side Discovery`
-생성된 서비스는 Service Registry에 서비스를 등록되고, 서비스를 사용할 클라이언트는 Service Registry에서 서비스의 위치를 찾아 호출하는 방식
+생성된 서비스는 Service Registry에 서비스를 등록되고, 서비스를 사용할 클라이언트는 Service Registry에서 서비스의 위치를 찾아 호출하는 방식<br/>
 ![client-side](https://github.com/ydj515/record-study/assets/32935365/82649696-b4ed-44ee-b73e-65284165efce)
 
 
@@ -107,5 +107,5 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka #Eureka Server
 ```
-[참조]
+[참조]<br/>
 https://github.com/Netflix/eureka/wiki/Eureka-at-a-glance

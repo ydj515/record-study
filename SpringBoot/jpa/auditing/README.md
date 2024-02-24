@@ -86,5 +86,5 @@ class SpringSecurityAuditorAware implements AuditorAware<User> { // spring secur
 ```
 
 
-[참조]
+[참조]<br/>
 https://www.baeldung.com/jpa-entity-lifecycle-events

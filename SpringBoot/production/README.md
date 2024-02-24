@@ -248,5 +248,5 @@ n개의 client server들의 정보를 확인할 수 있다.
 
 
 
-[출처]
+[출처]<br/>
 https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#actuator.endpoints

@@ -146,5 +146,5 @@ public class GenericTest {
 매개변수화 타입T가 생산자라면 <? extends T>를 사용한다. List<? extends Drink> drinks는 get등오로 생산만 가능하기 때문이다. 하지만, 소비자라면 <? super T>로 사용한다. 사실상 get은 무의미하며, add, remove 등을 사용가능(소비)하기 때문이다.  
 ```
 
-[출처]
+[출처]<br/>
 https://vvshinevv.tistory.com/54

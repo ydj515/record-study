@@ -252,5 +252,5 @@ public class CustomEntityModel<T> extends EntityModel<T> {
     }
 }
 ```
-[출처]
+[출처]<br/>
 https://docs.spring.io/spring-hateoas/docs/current/reference/html/

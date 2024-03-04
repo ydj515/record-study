@@ -69,7 +69,7 @@ management:
       enabled: true
 ```
 
-d아래와 같이 설정하면 file system에서 읽어오는 것 또한 가능하다.
+아래와 같이 설정하면 file system에서 읽어오는 것 또한 가능하다.
 ```yml
 spring:
   application:
@@ -81,6 +81,26 @@ spring:
       server:
         native:
           search-locations: file://${user.home}/dev/project/native-file-repo
+```
+
+private repository ssh로 접근도 가능하다.
+```yml
+spring:
+  application:
+    name: config-service
+  profiles:
+    active: dev
+  cloud:
+    config:
+      server:
+        git:
+          uri: file://dev/project/local-repo
+          default-label: main
+          try-master-branch: false
+          ignore-local-ssh-settings: true
+          host-key: {someHostKey}
+          host-key-algorithm: {ssh-rsa}
+          private-key: {private key}
 ```
 
 #### client setup

@@ -18,7 +18,7 @@
 
 - **Hibernate :** https://github.com/ydj515/record-study/tree/master/Hibernate
 
-- **Linux Command :** https://github.com/ydj515/record-study/tree/master/Linux_Command
+- **Linux Command :** https://github.com/ydj515/record-study/tree/master/Linux
 
 - **DataBase :** https://github.com/ydj515/record-study/tree/master/DataBase
 

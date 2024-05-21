@@ -75,8 +75,10 @@ junit을 구성한 클래스를 구성으로 `@Test`를 수행하는 기준으�
 - annotaion 형태로 나타내면 아래와 같이 수행<br/>
 <strong> start -> @BeforeAll -> @BeforEach -> @Test A -> @AfterEach -> @BeforeEach -> @Test B -> @AfterEach -> @AfterAll -> End </strong>
 
-### Given-when-then 패턴
-테스트 케이스를 더 가독성 있고 유지보수하기 쉽게 구조화
+### BDD(behavior driven development) Given-when-then 패턴
+테스트 케이스를 더 가독성 있고 유지보수하기 쉽게 구조화<br/>
+`@DisplayName`에 명확히 작성할 수 있음<br/>
+
 - `Given` : 설정<br/>
 테스트의 초기 상태 또는 사전 조건을 설정<br/>
 입력 데이터나 테스트가 실행될 문맥을 지정<br/>
@@ -136,6 +138,9 @@ JUnit 5 에 추가된 annotation을 정리<br/>
 
 - `@DisplayName`<br/>
 테스트 클래스 또는 테스트 메소드의 사용자 정의 표시 이름을 정의<br/>
+명사의 나열보다 테스트 행위에 대한 서술 `ex) 음료를 1개 추가하면 주문 목록에 담긴다`<br/>
+도메인 용어를 사용하여 한층 추상화된 내용 서술 `ex) 특정 시간 이전에 주문을 생성하면 실패한다 -> 영업 시작 시간 이전에는 주문을 생성할 수 없다.`<br/>
+
 ```java
 @DisplayName("title")
 public class Tests {

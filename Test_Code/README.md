@@ -224,7 +224,7 @@ public class MyControllerTest {
 ```
 
 - 단순 ExtendWith를 사용하는 예시
-filter, interceptor, controlleradvice등의 기능이 필요없는 단순 request/response 테스트에 적합. spring mvc 기능이 로드가 안
+filter, interceptor, controlleradvice등의 기능이 필요없는 단순 request/response 테스트에 적합. spring mvc 기능이 로드가 안됨
 ```java
 @ExtendWith({MockitoExtension.class})
 class AuthControllerTest {

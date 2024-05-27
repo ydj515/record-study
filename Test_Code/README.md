@@ -53,6 +53,7 @@ public class FakeAccountRepository implements AccountRepository {
 ```
 
 - Stub<br/>
+<strong>상태 검증</strong><br/>
 Stub은 Dummy가 마치 실제로 동작하는 것 처럼 보이게 만든 객체<br/>
 미리 반환할 데이터가 정의되어 있으며, 메소드를 호출하였을 경우 그것을 그대로 반환하는 역할만 수행<br/>
 
@@ -95,6 +96,7 @@ public class GradesServiceTest {
 <br/>
 
 - Mock<br/>
+<strong>헹위 검증</strong><br/>
 호출에 대한 기대를 명세할 수 있고, 그 명세 내용에 따라 동작하도록 설계된 객체<br/>
 Mock 외의 것은 개발자가 임의로 코드를 사용하여 생성할 수 있지만, Mock은 Mocking 라이브러리에 의해 동적으로 생성됨<br/>
 또한 설정에 따라 Mock은 충분히 Dummy, Stub, Spy 처럼 동작할 수 있게할 수 있음<br/>
@@ -326,3 +328,4 @@ class MyRestClientTests {
 [참조]<br/>
 https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.testing.spring-boot-applications.autoconfigured-tests<br/>
 https://blog.pragmatists.com/test-doubles-fakes-mocks-and-stubs-1a7491dfa3da<br/>
+https://martinfowler.com/articles/mocksArentStubs.html<br/>

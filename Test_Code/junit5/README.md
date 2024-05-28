@@ -310,9 +310,62 @@ class ParameterizedTestExample {
     void testWithStrings(String fruit) {
         log.info(fruit);
     }
+
+    @ParameterizedTest
+    @CsvSource({"HANDMADE,false", "BOTTLE,true", "BAKERY,true"})
+    void testWithEnumAndBoolean(ProductType productType, boolean expected) {
+        log.info(productType)
+    }
+
+
+    private static Stream<Arguments> testFunc() {
+        return Stream.of(
+            Arguments.of(ProductType.HANDMADE, false),
+            Arguments.of(ProductType.BOTTLE, true),
+            Arguments.of(ProductType.BAKERY, true)
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("testFunc") // testFunc이라는 함수 이름의 반환값을 사용
+    void testWithEnumAndBooleanWithMethod(ProductType productType, boolean expected) {
+        log.info(productType)
+    }
 }
 ```
 
+- DynamicTest <br/>
+공통의 환경에서 시작하여 연쇄되는 시나리오를 테스트. 물론 단위 테스트를 사용하여 나눠서 진행이 가능하지만 시나리고 기반으로 작성 가능<br/>
+```java
+@DisplayName("재고 차감 시나리오")
+@TestFactory
+Collection<DynamicTest> stockDeductionDynamicTest() {
+    // given -> 공통의 환경
+    Stock stock = Stock.create("001", 1);
+
+    return List.of(
+        DynamicTest.dynamicTest("재고를 주어진 개수만큼 차감할 수 있다.", () -> {
+            // given
+            int quantity = 1;
+
+            // when
+            stock.deductQuantity(quantity);
+
+            // then
+            assertThat(stock.getQuantity()).isZero();
+        }),
+        DynamicTest.dynamicTest("재고보다 많은 수의 수량으로 차감 시도하는 경우 예외가 발생한다.", () -> {
+            // given
+            int quantity = 1;
+
+            // when // then
+            assertThatThrownBy(() -> stock.deductQuantity(quantity))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("차감할 재고 수량이 없습니다.");
+        })
+    );
+}
+```
 ### assertion
 `org.junit.jupiter.api.Assertions` 클래스에 포함되어 있음<br/>
 테스트가 예상대로 동작하는지 검증하는데 사용<br/>

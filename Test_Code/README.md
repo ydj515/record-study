@@ -325,6 +325,253 @@ class MyRestClientTests {
 }
 ```
 
+## test 코드 작성 방법
+
+### 완벽하게 제어
+제어 가능하게 코드를 작성하여야한다. 예를 들어 `LocalDateTime.now()` 등은 상위에서 주입받아 사용하게 작성하여야한다.<br/>
+아래의 코드를 보면 `Order.create`의 입장에서는 `LocalDateTime.now()`을 인자로 받아와서 함수호출을 진행한다.<br/>
+그러나 test code의 `registeredDateTime`메소드 입장에서는 이미 given절에 제어가 불가능한 `LocalDateTime.now()`가 사용되었다.<br/>
+즉. 테스트를 수행하는 시점마다 계속 바뀌는 것이다. 따라서 고정값으로 test code를 작성하여야한다.<br/>
+제어 불가능한 `현재시간`같은 경우는 test code에서 지양한다.<br/>
+
+- as is
+```java
+@DisplayName("주문 생성 시 주문 등록 시간을 기록한다.")
+@Test
+void registeredDateTime() {
+    // given
+    LocalDateTime registeredDateTime = LocalDateTime.now();
+    List<Product> products = List.of(
+            createProduct("001", 1000),
+            createProduct("002", 2000)
+    );
+
+    // when
+    Order order = Order.create(products, registeredDateTime);
+
+    // then
+    assertThat(order.getRegisteredDateTime()).isEqualTo(registeredDateTime);
+}
+```
+
+- to be
+```java
+@DisplayName("주문 생성 시 주문 등록 시간을 기록한다.")
+@Test
+void registeredDateTime() {
+    // given
+    LocalDateTime registeredDateTime = LocalDateTime.of(2024, 5, 15, 12, 9, 25);
+    List<Product> products = List.of(
+            createProduct("001", 1000),
+            createProduct("002", 2000)
+    );
+
+    // when
+    Order order = Order.create(products, registeredDateTime);
+
+    // then
+    assertThat(order.getRegisteredDateTime()).isEqualTo(registeredDateTime);
+}
+```
+
+### 테스트 환경 독립성 보장
+stock이라는 entity가 있다고 가정하자. `deductQuantity`는 재고의 수량을 차감하는 기능을 수행한다.<br/>
+```java
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Entity
+public class Stock extends BaseEntity {
+    public void deductQuantity(int quantity) {
+        if (isQuantityLessThan(quantity)) {
+            throw new IllegalArgumentException("차감할 재고 수량이 없습니다.");
+        }
+    this.quantity -= quantity;
+    }
+}
+```
+
+아래의 테스트 코드에서 given 절에 수량을 감소하는 로직이 들어가 있음을 확인할 수 있다. 이는 given절에서 충분히 test가 깨질 수 있음을 야기한다.<br/>
+예를 들어서 `stock1.deductQuantity(5);`로 바꾸면 `IllegalArgumentException`이 given절에서 터지게될 것이다.<br/>
+이는 지금 현재 테스트 코드에서 테스트 하고자 하는 관심사는  `orderService.createOrder` 이지만 `stock1.deductQuantity(1);`라는 재고 차감이라는 다른 행위가 혼합되어있다.<br/>
+또한 given절에 로직이 추가되면서 given절을 이해하기 위해서는 맥락을 이해해야하는 허들이 생김.<br/>
+given 절에는 builder or constructor로만 작성하자.(팩토리 메소드도 지양한다. - 목적을 가지고 팩토리 메소드를 만들었을 것이기 때문. => 이것 또한 맥락을 이해해야하는 허들이 생길 가능성이 있다.)<br/>
+
+- as is
+```java
+@DisplayName("재고가 부족한 상품으로 주문을 생성하려는 경우 예외가 발생한다.")
+@Test
+void createOrderWithNoStock() {
+    // given
+    LocalDateTime registeredDateTime = LocalDateTime.now();
+
+    Product product1 = createProduct(BOTTLE, "001", 1000);
+    Product product2 = createProduct(BAKERY, "002", 3000);
+    Product product3 = createProduct(HANDMADE, "003", 5000);
+    productRepository.saveAll(List.of(product1, product2, product3));
+
+    Stock stock1 = Stock.create("001", 2);
+    Stock stock2 = Stock.create("002", 2);
+    stock1.deductQuantity(1); // 재고차감 로직이 추가되면서 생각을 하게함.
+    stockRepository.saveAll(List.of(stock1, stock2));
+
+    OrderCreateServiceRequest request = OrderCreateServiceRequest.builder()
+            .productNumbers(List.of("001", "001", "002", "003"))
+            .build();
+
+    // when // then
+    assertThatThrownBy(() -> orderService.createOrder(request, registeredDateTime)) // 이 테스트의 관심사
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("재고가 부족한 상품이 있습니다.");
+}
+
+private Product createProduct(ProductType type, String productNumber, int price) {
+    return Product.builder()
+            .type(type)
+            .productNumber(productNumber)
+            .price(price)
+            .sellingStatus(SELLING)
+            .name("메뉴 이름")
+            .build();
+}
+```
+
+- to be
+```java
+@DisplayName("재고가 부족한 상품으로 주문을 생성하려는 경우 예외가 발생한다.")
+@Test
+void createOrderWithNoStock() {
+    // given
+    LocalDateTime registeredDateTime = LocalDateTime.now();
+
+    Product product1 = createProduct(BOTTLE, "001", 1000);
+    Product product2 = createProduct(BAKERY, "002", 3000);
+    Product product3 = createProduct(HANDMADE, "003", 5000);
+    productRepository.saveAll(List.of(product1, product2, product3));
+
+    Stock stock1 = Stock.create("001", 1);
+    Stock stock2 = Stock.create("002", 2);
+    stockRepository.saveAll(List.of(stock1, stock2));
+
+    OrderCreateServiceRequest request = OrderCreateServiceRequest.builder()
+            .productNumbers(List.of("001", "001", "002", "003"))
+            .build();
+
+    // when // then
+    assertThatThrownBy(() -> orderService.createOrder(request, registeredDateTime)) // 이 테스트의 관심사
+            .isInstanceOf(IllegalArgumentException.class)
+            .hasMessage("재고가 부족한 상품이 있습니다.");
+}
+
+private Product createProduct(ProductType type, String productNumber, int price) {
+    return Product.builder()
+            .type(type)
+            .productNumber(productNumber)
+            .price(price)
+            .sellingStatus(SELLING)
+            .name("메뉴 이름")
+            .build();
+}
+```
+### 테스트 간 동립성 보장
+하나 이상의 테스트가 공유자원을 쓰지않게 해라.<br/>
+공유자원을 사용하면 테스트가 수행되어야하는 순서가 생길 수 있다.<br/>
+
+- as is
+```java
+private static final Stock stock = Stock.create("001", 1);
+
+@DisplayName("재고의 수량이 제공된 수량보다 작은지 확인한다.")
+@Test
+void createOrderWithNoStock() {
+    // given
+    int quantity = 2;
+
+    // when
+
+    boolean result = stock.isQuantityLessThan(quantity);
+
+    // then
+    assertThat(result).isTrue();
+}
+
+@DisplayName("재고를 주어진 개수만큼 차감할 수 있다.")
+@Test
+void createOrderWithNoStock() {
+    // given
+    int quantity = 1;
+
+    // when
+
+    stock.deductQuantity(quantity);
+    
+    // then
+    assertThat(result).isTrue();
+}
+```
+
+- to be
+```java
+@DisplayName("재고의 수량이 제공된 수량보다 작은지 확인한다.")
+@Test
+void createOrderWithNoStock() {
+    // given
+    Stock stock = Stock.create("001", 1);
+    int quantity = 2;
+
+    // when
+
+    boolean result = stock.isQuantityLessThan(quantity);
+
+    // then
+    assertThat(result).isTrue();
+}
+
+@DisplayName("재고를 주어진 개수만큼 차감할 수 있다.")
+@Test
+void createOrderWithNoStock() {
+    // given
+    Stock stock = Stock.create("001", 1);
+    int quantity = 1;
+
+    // when
+
+    stock.deductQuantity(quantity);
+    
+    // then
+    assertThat(result).isTrue();
+}
+```
+
+### test fixture
+테스트를 위해 원하는 상태로 고정시킨 `given` 또는 `@BeforeEach`로 표현할 수 있는 일련의 객체를 의미<br/>
+다음과 같은 사항을 고려해야함.
+
+- 각 테스트 입장에서 아예 몰라도 테스트 내용을 이해하는데 문제가 없는가
+- 수정해도 모든 테스트에 영향을 주지 않는가
+
+### test fixture cleansing
+test fixture에서 정한 룰 대로 테스트가 끝나면 초기화 해주는 과정을 의미<br/>
+`@AfterEach`문에서 사용시에 fk 제약 조건을 확인하면서 순서대로 삭제 처리하여야함.<br/>
+
+```java
+@AfterEach
+void tearDown() {
+    orderProductRepository.deleteAllInBatch();
+    productRepository.deleteAllInBatch();
+    orderRepository.deleteAllInBatch();
+    stockRepository.deleteAllInBatch();
+}
+```
+=> 여기서 `deleteAll()`을 사용하지 않은 이유는 `deleteAll()`은 `findAll()`한 결과로 얻은 결과값을 한 row씩 삭제하여서 `deleteAllInBatch()`를 사용. <br/>
+
+* 여기서 `@Trasactional`을 사용하면 위의 코드의 과정을 사용하지 않아도 된다. 그러나 이는 test code에서 트랜잭션 보장일 뿐, production 코드에서는 트랙잭션 보장이 아님을 유의해서 사용해야함.<br/>
+* `@DataJpaTest`의 경우는 `@Trasactional`을 내장
+
+
+
+
+
+
 [참조]<br/>
 https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.testing.spring-boot-applications.autoconfigured-tests<br/>
 https://blog.pragmatists.com/test-doubles-fakes-mocks-and-stubs-1a7491dfa3da<br/>

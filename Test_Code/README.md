@@ -544,6 +544,7 @@ void createOrderWithNoStock() {
 
 ### test fixture
 테스트를 위해 원하는 상태로 고정시킨 `given` 또는 `@BeforeEach`로 표현할 수 있는 일련의 객체를 의미<br/>
+<strong>반드시 given절에서 충분히 given절을 활용하자</strong>
 다음과 같은 사항을 고려해야함.
 
 - 각 테스트 입장에서 아예 몰라도 테스트 내용을 이해하는데 문제가 없는가

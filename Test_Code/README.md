@@ -569,9 +569,45 @@ void tearDown() {
 * `@DataJpaTest`의 경우는 `@Trasactional`을 내장
 
 
+### Classicist vs Mockist
 
+- Classicist
+대부분 실제 객체 사용을 선호, 실체 객체만 사용하므로 `상태 검증` <br/>
+복잡한 검증 데이터일 경우 이런 상태검증될 데이터를 만들기 힘듦 <br/>
 
+```java
+@DisplayName("회원 정보 조회")
+@Test
+void getMemberInfo() {
+    // given
+    Member saveMember = memberRepository.save(createMember());
+    String email = "test@test.com";
 
+    // when
+    Member member = memberService.findByEmail(email);
+
+    // then
+    assertThat(member).isEqualTo(saveMember);
+}
+```
+- Mockist
+대부분 가짜 객체를 사용하여 의존성을 제거, 가짜 객체를 사용하기 때문에 내부 구현을 커스텀한 응답으로 응답(`행위 검증`)<br/>
+행위만 검증하기에 실제 production에서 레이어간 호출하면서 문제가 발생할 수 있음을 테스트 불가능 <br/>
+
+```java
+@DisplayName("회원 정보 조회")
+@Test
+void 내_회원_정보_조회() {
+    // given
+    when(memberRepository.findByEmail(anyString())).thenReturn(createMember());
+
+    // when
+    Member foundMember = memberService.findByEmail(new LoginMember(createMember()));
+
+    // then
+    verify(memberRepository).findByEmail(anyString());
+}
+```
 
 [참조]<br/>
 https://docs.spring.io/spring-boot/docs/current/reference/html/features.html#features.testing.spring-boot-applications.autoconfigured-tests<br/>

@@ -1,5 +1,66 @@
 # SpringBoot - jpa annotation
 
+### @Embedded, @Embeddable
+
+entity안의 값을 더 의미있게 표현하는 방법
+
+```java
+@Table(name = "shipments")
+@Entity
+public class Shipment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Embedded
+    private Address address;
+}
+
+@Embeddable
+public class Address {
+    @Comment("도시")
+    private String city;
+
+    @Comment("로")
+    private String street;
+
+    @Comment("우편번호")
+    private String zipcode;
+}
+```
+
+### @Enumerated
+
+enum값을 엔티티값과 매칭 시켜주는 역할.<br/>
+`EnumType.ORDINAL` : default값으로 enum의 선언된 순서(int)를 저장( 1부터 시작) <br/>
+`EnumType.STRING` : enum의 name값으로 저장 <br/>
+
+```java
+@Entity
+public class Order {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Enumerated(EnumType.STRING) // enum name값으로 db에 저장. ex) INIT, CANCELED...
+    // @Enumerated(EnumType.ORDINAL) // enum의 순서를 db에 저장. ex) INIT : 1, CANCELED : 2
+    @Comment("주문 상태")
+    private OrderStatus orderStatus;
+}
+
+public enum OrderStatus {
+    INIT("주문생성"),
+    CANCELED("주문취소"),
+    PAYMENT_COMPLETED("결제완료"),
+    PAYMENT_FAILED("결제실패"),
+    RECEIVED("판매자 주문접수"),
+    COMPLETED("처리완료");
+
+    public final String displayName;
+}
+```
+
 @ManyToOne
 fetch : eager
 주인

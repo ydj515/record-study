@@ -470,7 +470,7 @@ Docker 컨테이너를 활용하여 kafka 명령어를 실행하는 전제조건
 - **예시** <br/>
   CartAbandonedEvent 발행 후 마케팅 시스템에서 이메일 발송.
 
-[출처]
+[출처]<br/>
 https://docs.confluent.io/platform/current/installation/docker/config-reference.html<br/>
 https://devocean.sk.com/blog/techBoardDetail.do?page=&boardType=undefined&query=&ID=165711&searchData=&subIndex=&searchText=&techType=&searchDataSub=&searchDataMain= <br/>
 https://velog.io/@holicme7/Apache-Kafka-%EC%B9%B4%ED%94%84%EC%B9%B4%EB%9E%80-%EB%AC%B4%EC%97%87%EC%9D%B8%EA%B0%80<br/>

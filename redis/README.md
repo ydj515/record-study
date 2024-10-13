@@ -38,7 +38,6 @@ $ redis-cli
 ```
 
 
-
 ### redis 문법
 key-value 구조로 가지고 있고 value에는 string, hash, list, set, zset, bitmap등이 올 수 있다.
 

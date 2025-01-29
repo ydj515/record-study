@@ -80,6 +80,117 @@ https://www.digitalocean.com/community/tutorials/jpa-hibernate-annotations#jpa-a
 N+1
 https://velog.io/@jinyoungchoi95/JPA-%EB%AA%A8%EB%93%A0-N1-%EB%B0%9C%EC%83%9D-%EC%BC%80%EC%9D%B4%EC%8A%A4%EA%B3%BC-%ED%95%B4%EA%B2%B0%EC%B1%85
 
+### Converter
+JPA 엔티티 필드를 `변환기(AttributeConverter<T, R>)`를 통해 데이터베이스 컬럼과 매핑할 수 있음
+
+```java
+
+@Embeddable
+public class Money {
+    private BigDecimal amount;
+    private String currency;
+
+    protected Money() {
+    }
+
+    public Money(BigDecimal amount, String currency) {
+        this.amount = amount;
+        this.currency = currency;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Money money = (Money) o;
+        return Objects.equals(amount, money.amount) && Objects.equals(currency, money.currency);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(amount, currency);
+    }
+
+    @Override
+    public String toString() {
+        return "Money{" + "amount=" + amount + ", currency='" + currency + '\'' + '}';
+    }
+}
+
+@Converter(autoApply = true)
+public class MoneyConverter implements AttributeConverter<Money, String> {
+    @Override
+    public String convertToDatabaseColumn(Money attribute) {
+        return attribute.getAmount() + ":" + attribute.getCurrency();
+    }
+
+    @Override
+    public Money convertToEntityAttribute(String dbData) {
+        String[] parts = dbData.split(":");
+        return new Money(new BigDecimal(parts[0]), parts[1]);
+    }
+}
+
+@Entity
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Convert(converter = MoneyConverter.class)
+    private Money price;
+
+    protected Order() {
+    }
+
+    public Order(Money price) {
+        this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Money getPrice() {
+        return price;
+    }
+
+    public void setPrice(Money price) {
+        this.price = price;
+    }
+}
+```
+
+- **주의사항**
+`equals`를 구현하지 않으면 의도하지않은 동작이 발생할 수 있음을 유의
+
+아래의 경우 Money 객체가 equals를 구현하지않으면 JPA는 price 필드의 변경을 감지할 수 없음
+
+```java
+Order order = orderRepository.findById(1L).orElseThrow();
+order.setPrice(new Money(new BigDecimal(100), "USD"));
+```
+
+그 이유는 JPA 내부에서는 아래와 같은 방식으로 변경 여부를 확인하기 때문
+
+```java
+if (snapshot.price != current.price) {
+    markAsDirty()
+}
+```
+- snapshot.price와 current.price가 다른 객체로 간주되면 UPDATE 수행
+- `equals()`가 없으면, 같은 값이어도 다른 객체로 인식하여 불필요한 업데이트가 발생하거나 반대로 변경을 감지하지 못해 업데이트가 누락될 수 있음
+
+
+
 ### Join Table, Join Column
 
 join table은 아래와 같이 구성되어있음.<br/>
